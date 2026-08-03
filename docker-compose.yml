@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: match-immo-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: DB_Cours
+    ports:
+      - "5433:5432"
+    volumes:
+      - match-immo-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  match-immo-postgres-data:
