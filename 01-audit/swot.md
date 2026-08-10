@@ -17,6 +17,7 @@
 - Plusieurs mandats restent `actif` alors que leur durée théorique de six mois est dépassée.
 - Critères de recherche stockés en texte libre, difficiles à exploiter pour le filtrage et l'analyse.
 - Couverture fonctionnelle limitée à trois tables.
+- Présence d'une incohérence temporelle confirmée : un mandat débute avant la date de création du chasseur associé.
 
 ## Opportunités
 
@@ -30,6 +31,6 @@
 
 - Risque de décisions basées sur des données incohérentes.
 - Risque de mauvais suivi des mandats arrivés à échéance.
-- Difficulté à faire évoluer le système sans refonte du modèle.
+- Difficulté à faire évoluer le système sans évolution structurante du modèle de données.
 - Risque d'erreurs métier si les contrôles restent principalement manuels.
 - Limitation des futurs traitements décisionnels ou IA si les données restent peu structurées.

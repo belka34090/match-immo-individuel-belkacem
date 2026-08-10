@@ -136,7 +136,7 @@ Les principaux points signalés sont les suivants :
 - présence possible d'une incohérence métier concernant un `client_id` ;
 - présence possible de mandats encore marqués `actif` alors que leur durée de six mois serait dépassée.
 
-Ces éléments devront être confirmés par des requêtes SQL.
+Ces éléments doivent être vérifiés selon leur nature : par l'analyse du schéma pour les risques structurels et par des requêtes SQL pour les incohérences présentes dans les données.
 
 ---
 
@@ -198,32 +198,14 @@ Cette absence n'est pas considérée ici comme une erreur de données : elle mon
 
 ---
 
-## 6. Conclusion de l'audit
-
-L'audit de l'existant confirme que la base héritée repose sur une structure simple composée de trois tables principales : `secteurs`, `utilisateurs` et `mandats`.
-
-Les contrôles réalisés ont permis de valider l'import des données et les volumes attendus.
-
-L'audit a également confirmé plusieurs limites du modèle actuel :
-
-- les rôles métier ne sont pas suffisamment garantis par les relations existantes ;
-- une incohérence de rôle a été détectée sur le mandat `13` ;
-- six mandats sont encore marqués `actif` alors que leur durée théorique de six mois est dépassée au 25/07/2026 ;
-- le modèle ne permet pas de représenter explicitement la date de fin ou le renouvellement d'un mandat ;
-- les critères de recherche sont principalement stockés sous forme de texte libre ;
-- la couverture fonctionnelle reste limitée par rapport au besoin métier décrit.
-
-Ces constats sont documentés dans le registre des anomalies et appuyés par les preuves SQL conservées dans le dossier `preuves/`.
-
-La cartographie de l'existant et la synthèse SWOT complètent cette analyse et permettent de disposer d'une vision structurée de la situation initiale avant la définition du modèle cible.
-## 7. Validation de l'import
+## 6. Validation de l'import
 
 La fixture PostgreSQL a été exécutée avec succès dans un environnement local Docker.
 
 Les contrôles confirment les volumes attendus :
 
 | Table | Nombre |
-|---|---:|
+| --- | ---: |
 | `secteurs` | 10 |
 | `utilisateurs` | 24 |
 | `mandats` | 18 |
@@ -235,3 +217,29 @@ Les preuves détaillées sont disponibles dans :
 
 L'import est donc validé pour poursuivre l'audit.
 
+---
+
+## 7. Conclusion de l'audit
+
+L'audit de l'existant confirme que la base héritée repose sur une structure simple composée de trois tables principales : `secteurs`, `utilisateurs` et `mandats`.
+
+Les contrôles réalisés ont permis de valider l'import des données et les volumes attendus.
+
+L'audit a également confirmé plusieurs anomalies de données :
+
+- une incohérence de rôle a été détectée sur le mandat `13` : un utilisateur ayant le rôle `chasseur` est référencé comme client ;
+- six mandats sont encore marqués `actif` alors que leur durée théorique de six mois est dépassée au 25/07/2026 ;
+- une incohérence temporelle a été détectée sur le mandat `9` : sa date de début est antérieure à la date de création du chasseur associé.
+
+Plusieurs risques structurels ont également été identifiés :
+
+- les rôles métier ne sont pas suffisamment garantis par les relations existantes ;
+- les clients et chasseurs sont regroupés dans une même table ;
+- le modèle ne permet pas de représenter explicitement la date de fin, le mode de signature ou le renouvellement d'un mandat ;
+- les critères de recherche sont principalement stockés sous forme de texte libre ;
+- certaines contraintes de qualité et de cohérence métier ne sont pas garanties par le schéma ;
+- la couverture fonctionnelle reste limitée par rapport au besoin métier décrit.
+
+Les anomalies de données et les risques structurels identifiés sont documentés séparément dans le registre des anomalies et risques, et appuyés par les preuves conservées dans le dossier `preuves/`.
+
+La cartographie de l'existant et la synthèse SWOT complètent cette analyse et permettent de disposer d'une vision structurée de la situation initiale avant la définition du modèle cible.
