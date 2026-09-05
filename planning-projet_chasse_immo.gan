@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Chasse immobilière — Belkacem" company="" webLink="http://" view-date="2026-07-27" view-index="0" gantt-divider-location="492" resource-divider-location="300" version="3.3.3322" locale="fr_FR">
+    <description><![CDATA[Planning de référence actualisé au 05/09/2026. Les tâches réalisées avant cette date sont positionnées rétrospectivement à partir des livrables et validations effectivement produits. Les dépendances souples sur la partie historique matérialisent l'ordre logique sans déplacer les dates constatées. À partir du 07/09/2026, les tâches non réalisées sont planifiées dans le futur avec des dépendances fortes. Rendu final prévu le 31/12/2026.]]></description>
+    <view zooming-state="default:5" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="269" order="0"/>
+        <field id="tpd4" name="Date de début" width="90" order="1"/>
+        <field id="tpd5" name="Date de fin" width="117" order="2"/>
+        <field id="tpd15" name="Notes" width="20" order="3"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#00ff00 #0099cc #0066ff #6699ff #99ccff #ccffff]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="210" order="0"/>
+        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" uid="c19b3664bdf743e18190da70041fe89e" name="Phase 1 — Audit de l’existant" meeting="false" start="2026-07-27" duration="2" complete="100" expand="true">
+            <task id="1" uid="8d664b1469284cc8bc6411992e07929f" name="Analyser les consignes et l’existant" meeting="false" start="2026-07-27" duration="1" complete="100" expand="true">
+                <depend id="4" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="2" uid="10c658682c4146738a4ff117ed01fc0b" name="Cartographier le système d’information existant" meeting="false" start="2026-07-27" duration="1" complete="100" expand="true"/>
+            <task id="3" uid="8f2d1e6f021d47a0ab94a3345ff2994e" name="Analyser la base de données et identifier les anomalies" meeting="false" start="2026-07-27" duration="1" complete="100" expand="true">
+                <depend id="4" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="4" uid="f6f26f27d2f74f339f54d100f1cfcca0" name="Rédiger l’analyse et le registre des anomalies" meeting="false" start="2026-07-28" duration="1" complete="100" expand="true">
+                <depend id="6" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="5" uid="df52b7a5256d4d49aae3d44002c75193" name="Réaliser l’analyse SWOT" meeting="false" start="2026-07-28" duration="1" complete="100" expand="true">
+                <depend id="6" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="6" uid="be51781f1ccc4e07b530158e88103c9f" name="Validation de la phase 1" meeting="true" start="2026-07-29" duration="0" complete="100" expand="true"/>
+        </task>
+        <task id="7" uid="cc9387b2c2394922a0632e44f305b09d" name="Phase 2 — Modèle cible et reprise des données" meeting="false" start="2026-07-29" duration="50" complete="73" expand="true">
+            <task id="8" uid="c412052c851e4bef96b92caa9691f3f2" name="Cadrer les besoins métier et les règles de gestion" meeting="false" start="2026-07-29" duration="5" complete="100" expand="true">
+                <depend id="9" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="9" uid="ab854821d7094f3cbbeab7a6cf69c033" name="Concevoir et valider le MCD cible" meeting="false" start="2026-08-05" duration="6" complete="100" expand="true">
+                <depend id="10" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="10" uid="aa72a6277e5a42dbb797c03d5d8e8aba" name="Concevoir et valider le MLD cible" meeting="false" start="2026-08-13" duration="4" complete="100" expand="true">
+                <depend id="11" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="11" uid="0ea6449cbbbc4ca6b81f921969ffb88e" name="Construire et exécuter migration-final.sql" meeting="false" start="2026-08-19" duration="3" complete="100" expand="true">
+                <depend id="12" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="12" uid="5ab88853a493441c84a9865a43d3316c" name="Construire et exécuter reprise-donnees-final.sql" meeting="false" start="2026-08-24" duration="5" complete="100" expand="true">
+                <depend id="13" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="13" uid="6ccb6446332b4768821b8935dac902ea" name="Produire la preuve de validation de la reprise" meeting="false" start="2026-08-31" duration="2" complete="100" expand="true">
+                <depend id="14" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="14" uid="8158b466095941de8287e30ce8fee0ab" name="Finaliser et valider le cahier des charges technique" meeting="false" start="2026-09-02" duration="3" complete="100" expand="true">
+                <notes><![CDATA[Dernier livrable technique de Phase 2 considéré réalisé au 05/09/2026.]]></notes>
+                <depend id="15" type="2" difference="0" hardness="Rubber"/>
+            </task>
+            <task id="15" uid="317ff9e6db3d427a84e9665aa1b34ec2" name="Réaliser l’étude d’opportunité" meeting="false" start="2026-09-05" duration="1" complete="100" expand="true">
+                <notes><![CDATA[Étude d’opportunité produite, contrôlée et validée le 05/09/2026. Preuve : 02-modele-cible/etude-opportunite.md, commit 19f674e.]]></notes>
+                <depend id="16" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="16" uid="eac9797c55334d5f945c71a923bb70a6" name="Prioriser le backlog fonctionnel" meeting="false" start="2026-09-10" duration="2" complete="0" expand="true">
+                <depend id="17" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="17" uid="a31805f5b66e4720ae2093f546a645db" name="Formaliser BPMN et RACI" meeting="false" start="2026-09-12" duration="2" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="18" uid="edc0ffe3495944f7911acbe200f12b86" name="Consolider RGPD, éco-conception et traçabilité" meeting="false" start="2026-09-14" duration="3" complete="0" expand="true">
+                <depend id="19" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="19" uid="4f7ced68a3ab4128958a5c22b8fccfe7" name="Validation de la phase 2" meeting="true" start="2026-09-17" duration="0" complete="0" expand="true">
+                <notes><![CDATA[Jalon futur : validation complète de la Phase 2 après les livrables complémentaires.]]></notes>
+                <depend id="21" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-17" duration="23" complete="0" expand="true">
+            <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-17" duration="4" complete="0" expand="true">
+                <depend id="22" type="2" difference="0" hardness="Strong"/>
+                <depend id="23" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="22" uid="484ce62c88844fd8b011bc40c7e7566d" name="Concevoir la séparation OLTP / OLAP" meeting="false" start="2026-09-21" duration="5" complete="0" expand="true">
+                <depend id="25" type="2" difference="0" hardness="Strong"/>
+                <depend id="27" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="23" uid="71c9184b5fde40ab87f5c94781f028d4" name="Étudier l’architecture PostgreSQL distribuée / Citus" meeting="false" start="2026-09-21" duration="5" complete="0" expand="true">
+                <depend id="24" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="24" uid="9e9689ef86ec480eb866ed0ea09cf5df" name="Prototyper Citus avec k3d" meeting="false" start="2026-09-26" duration="5" complete="0" expand="true">
+                <depend id="25" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="25" uid="f0759d37629d453498c9307bc404a0ea" name="Définir indexation, partitionnement et stratégie de performance" meeting="false" start="2026-10-01" duration="4" complete="0" expand="true">
+                <depend id="26" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="26" uid="4c4ac8ae19234e86abd175cb9bcf45fc" name="Formaliser PCA, PRA et stratégie de migration" meeting="false" start="2026-10-05" duration="5" complete="0" expand="true">
+                <depend id="28" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="27" uid="0e6b3149e2824a14b63353a8953c2c31" name="Concevoir le modèle décisionnel et les indicateurs" meeting="false" start="2026-09-26" duration="5" complete="0" expand="true">
+                <depend id="28" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="28" uid="46f4e3aed3aa468aa15f409e758e26e9" name="Validation de la phase 3" meeting="true" start="2026-10-10" duration="0" complete="0" expand="true">
+                <depend id="30" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="29" uid="8127ee6a243541a48a35d77fe36c3871" name="Phase 4 — Backend, API et IA" meeting="false" start="2026-10-10" duration="27" complete="0" expand="true">
+            <task id="30" uid="99b4ea5ae32744488fd7d13eb6331fdd" name="Concevoir l’architecture applicative du backend" meeting="false" start="2026-10-10" duration="4" complete="0" expand="true">
+                <depend id="31" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" uid="e3cc69e6bca34188b3c5eb4a967adff9" name="Développer l’API et les accès aux données" meeting="false" start="2026-10-14" duration="8" complete="0" expand="true">
+                <depend id="32" type="2" difference="0" hardness="Strong"/>
+                <depend id="33" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="32" uid="edb6b4bd6fe8437eb937b9a4ac5f7a05" name="Implémenter les règles métier et contrôles d’accès" meeting="false" start="2026-10-22" duration="5" complete="0" expand="true">
+                <depend id="34" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="33" uid="0f28aad91605404b97246cb7780b686f" name="Préparer le pipeline de matching et les traitements IA" meeting="false" start="2026-10-22" duration="6" complete="0" expand="true">
+                <depend id="34" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="34" uid="fe5d3da32202458a82be59b711754b03" name="Réaliser les tests fonctionnels, techniques et sécurité" meeting="false" start="2026-10-28" duration="5" complete="0" expand="true">
+                <depend id="35" type="2" difference="0" hardness="Strong"/>
+                <depend id="38" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="35" uid="39d595dc6ad446638f789440980cd414" name="Documenter API, accessibilité et exploitation" meeting="false" start="2026-11-02" duration="4" complete="0" expand="true">
+                <depend id="36" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="36" uid="2266f13f25a449c98b8100915d01fd21" name="Validation de la phase 4" meeting="true" start="2026-11-06" duration="0" complete="0" expand="true">
+                <depend id="42" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="37" uid="5ec211f2481c4f36b94d34249c35f0c7" name="Finalisation du dossier et préparation de la soutenance" meeting="false" start="2026-11-02" duration="5" complete="0" expand="true">
+            <task id="38" uid="0f7c8b98d13049d5912d0ed6b619329d" name="Consolider les preuves et la traçabilité des compétences" meeting="false" start="2026-11-02" duration="2" complete="0" expand="true">
+                <depend id="39" type="2" difference="0" hardness="Strong"/>
+                <depend id="40" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="39" uid="0ba485ba6bf447259716dc76840c97ed" name="Finaliser l’auto-évaluation" meeting="false" start="2026-11-04" duration="1" complete="0" expand="true">
+                <depend id="41" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="40" uid="d488a47ffea04bdebe7a3f157479cb1d" name="Préparer le support de soutenance" meeting="false" start="2026-11-04" duration="2" complete="0" expand="true">
+                <depend id="41" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="41" uid="378f8beabef14806a428ad902986f042" name="Répéter la soutenance et contrôler le dépôt final" meeting="false" start="2026-11-06" duration="1" complete="0" expand="true">
+                <depend id="42" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="42" uid="80865016d56449ceb9e80cc79bbb0ac2" name="Rendu final" meeting="true" start="2026-11-07" duration="0" complete="0" expand="true"/>
+        </task>
+        <task id="43" uid="051d6d0ad1594574936c8c774841d112" name="Pilotage transversal" meeting="false" start="2026-07-27" duration="113" complete="47" expand="true">
+            <task id="44" uid="aa4904a468b3492790f354d6d6e2a177" name="Maintenir le journal de décisions" meeting="false" start="2026-07-27" duration="113" complete="60" expand="true"/>
+            <task id="45" uid="257348de7fe14d698bfab738170d9a4c" name="Mettre à jour le Gantt aux jalons" meeting="false" start="2026-07-27" duration="113" complete="55" expand="true"/>
+            <task id="46" uid="cb2911e010d54507abeadb2c7a19d824" name="Maintenir l’auto-évaluation RNCP" meeting="false" start="2026-07-27" duration="113" complete="40" expand="true"/>
+            <task id="47" uid="5694a0617bf54de592ba25f4d9d85cdf" name="Maintenir la traçabilité des compétences" meeting="false" start="2026-07-27" duration="113" complete="35" expand="true"/>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
