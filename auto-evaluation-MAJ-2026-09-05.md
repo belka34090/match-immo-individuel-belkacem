@@ -257,17 +257,12 @@ Ce document a deux fonctions :
                                       sont pas encore   
                                       finalisées.       
 
-  Modéliser les     **EC**            Le processus      Reste : BPMN formalisé.
-  processus métier                    métier est déjà   
-                                      traduit dans les  
-                                      besoins, règles   
-                                      de gestion et     
-                                      modèle cible,     
-                                      mais le schéma    
-                                      BPMN demandé      
-                                      comme preuve      
-                                      n'est pas encore  
-                                      produit.          
+  Modéliser les     **A**             Le processus      `02-modele-cible/processus-metier.bpmn`
+  processus métier                    métier a été      + `02-modele-cible/processus-metier.png`.
+                                      formalisé en      BPMN produit, contrôlé dans Camunda
+                                      BPMN à partir     et figé dans Git le 05/09/2026
+                                      du parcours       (commit `5752e97`).
+                                      métier validé.
 
   Note de cadrage   **EC**            Le cadrage a été  `02-modele-cible/note-cadrage.md` à contrôler/finaliser.
                                       travaillé en      
@@ -326,13 +321,11 @@ Ce document a deux fonctions :
   maquettes                                               conception +
                                                           maquettes.
 
-  Schématiser les   **EC**            Le processus métier Reste : schémas
-  processus métier                    est déjà structuré  de
-                                      conceptuellement,   processus/BPMN.
-                                      mais les schémas de 
-                                      processus attendus  
-                                      ne sont pas encore  
-                                      produits.           
+  Schématiser les   **A**             Le processus métier `02-modele-cible/processus-metier.bpmn`
+  processus métier                    est représenté     + `02-modele-cible/processus-metier.png`.
+                                      dans un schéma     BPMN contrôlé dans Camunda et figé
+                                      BPMN complet.      dans Git le 05/09/2026
+                                                         (commit `5752e97`).
 
   Environnement +   **NA**            L'environnement     À produire en
   réduction                           cible et son volet  Phase 3-4.
@@ -434,14 +427,14 @@ officielle manque encore.
                                                                     de croissance
                                                                     à poursuivre.
 
-  **BC02**                        3               3               2 Gantt acquis ;
+  **BC02**                        4               2               2 Gantt acquis ;
                                                                     plusieurs
                                                                     livrables de
                                                                     pilotage
                                                                     restent à
                                                                     formaliser.
 
-  **BC03**                        0               2               5 Phase
+  **BC03**                        1               1               5 Phase
                                                                     applicative
                                                                     non commencée
                                                                     ; quelques
@@ -457,7 +450,7 @@ officielle manque encore.
                                                                     consolidées.
   --------------------------------------------------------------------------------
 
-**Total : 4 compétences/exigences classées A, 9 EC et 17 NA.**
+**Total : 6 compétences/exigences classées A, 7 EC et 17 NA.**
 
 Ce résultat ne signifie pas que le projet est « faible ». Il indique
 simplement que l'auto-évaluation mesure les **preuves finales déjà

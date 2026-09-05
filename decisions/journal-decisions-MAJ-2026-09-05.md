@@ -290,6 +290,7 @@ Cette section trace uniquement les changements de niveau significatifs.\
 `NA` = non abordé · `EC` = en cours · `A` = acquis avec preuve produite
 et défendable.
 
+
   -------------------------------------------------------------------------------------------------------------------------------
   Date         Bloc         Compétence        Évolution   Pourquoi            Preuve
   ------------ ------------ ----------------- ----------- ------------------- ---------------------------------------------------
@@ -395,6 +396,30 @@ et défendable.
                                                             repoussées. Le backlog
                                                             a été produit,
                                                             contrôlé et validé.
+
+
+  05/09/2026   BC02         Modéliser les      EC → **A** Le parcours métier   `02-modele-cible/processus-metier.bpmn`
+                            processus métier                 était déjà décrit    + `02-modele-cible/processus-metier.png`
+                                                             dans les besoins,    commit `5752e97`
+                                                             règles de gestion
+                                                             et modèle cible,
+                                                             mais la preuve BPMN
+                                                             demandée n'était
+                                                             pas encore produite.
+                                                             Le processus a été
+                                                             formalisé, contrôlé
+                                                             dans Camunda et
+                                                             exporté en PNG.
+
+  05/09/2026   BC03         Schématiser les     EC → **A** Le schéma de         `02-modele-cible/processus-metier.bpmn`
+                            processus métier                 processus attendu     + `02-modele-cible/processus-metier.png`
+                                                             comme preuve n'était  commit `5752e97`
+                                                             pas disponible.
+                                                             Le BPMN complet
+                                                             représente maintenant
+                                                             le parcours métier
+                                                             cible et ses
+                                                             principaux acteurs.
 
   -------------------------------------------------------------------------------------------------------------------------------
 
