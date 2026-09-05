@@ -82,7 +82,8 @@
                 <notes><![CDATA[Étude d’opportunité produite, contrôlée et validée le 05/09/2026. Preuve : 02-modele-cible/etude-opportunite.md, commit 19f674e.]]></notes>
                 <depend id="16" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="16" uid="eac9797c55334d5f945c71a923bb70a6" name="Prioriser le backlog fonctionnel" meeting="false" start="2026-09-10" duration="2" complete="0" expand="true">
+            <task id="16" uid="eac9797c55334d5f945c71a923bb70a6" name="Prioriser le backlog fonctionnel" meeting="false" start="2026-09-05" duration="1" complete="100" expand="true">
+                <notes>Backlog fonctionnel priorisé produit, contrôlé et validé le 05/09/2026. Preuve : 02-modele-cible/backlog-priorise.md, commit 7380d91.</notes>
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="17" uid="a31805f5b66e4720ae2093f546a645db" name="Formaliser BPMN et RACI" meeting="false" start="2026-09-12" duration="2" complete="0" expand="true">

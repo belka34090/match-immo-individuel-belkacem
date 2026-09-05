@@ -379,6 +379,23 @@ et défendable.
                                                             les critères de
                                                             réussite.
 
+
+  05/09/2026   BC02         Prioriser les      NA → **A**  Aucun backlog       `02-modele-cible/backlog-priorise.md`
+                            fonctionnalités                  priorisé n'était     commit `7380d91`
+                                                            encore produit.
+                                                            Les fonctionnalités
+                                                            ont été classées
+                                                            avec la méthode
+                                                            MoSCoW afin de
+                                                            distinguer le socle
+                                                            indispensable, les
+                                                            fonctions importantes,
+                                                            les fonctions
+                                                            optionnelles et celles
+                                                            repoussées. Le backlog
+                                                            a été produit,
+                                                            contrôlé et validé.
+
   -------------------------------------------------------------------------------------------------------------------------------
 
 ### Règle de mise à jour

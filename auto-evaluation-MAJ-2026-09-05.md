@@ -237,10 +237,11 @@ Ce document a deux fonctions :
                                       contrôlée le
                                       05/09/2026.
 
-  Prioriser les     **NA**            Le backlog        À produire après l'étude d'opportunité.
-  fonctionnalités                     priorisé n'est    
-                                      pas encore        
-                                      produit.          
+  Prioriser les     **A**             Backlog           `02-modele-cible/backlog-priorise.md`.
+  fonctionnalités                     fonctionnel       Document produit, contrôlé et figé dans Git
+                                      priorisé produit  le 05/09/2026 (commit `7380d91`).
+                                      et contrôlé le
+                                      05/09/2026.
 
   CDC technique     **EC**            Le cahier des     `02-modele-cible/cahier-des-charges-technique.md`. Reste :
   (RGPD + PSH)                        charges technique registre RGPD + accessibilité PSH.
@@ -433,7 +434,7 @@ officielle manque encore.
                                                                     de croissance
                                                                     à poursuivre.
 
-  **BC02**                        2               3               3 Gantt acquis ;
+  **BC02**                        3               3               2 Gantt acquis ;
                                                                     plusieurs
                                                                     livrables de
                                                                     pilotage
@@ -456,7 +457,7 @@ officielle manque encore.
                                                                     consolidées.
   --------------------------------------------------------------------------------
 
-**Total : 3 compétences/exigences classées A, 9 EC et 18 NA.**
+**Total : 4 compétences/exigences classées A, 9 EC et 17 NA.**
 
 Ce résultat ne signifie pas que le projet est « faible ». Il indique
 simplement que l'auto-évaluation mesure les **preuves finales déjà
