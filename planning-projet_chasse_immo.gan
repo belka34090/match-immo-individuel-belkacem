@@ -86,8 +86,8 @@
                 <notes>Backlog fonctionnel priorisé produit, contrôlé et validé le 05/09/2026. Preuve : 02-modele-cible/backlog-priorise.md, commit 7380d91.</notes>
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="17" uid="a31805f5b66e4720ae2093f546a645db" name="Formaliser BPMN et RACI" meeting="false" start="2026-09-05" duration="2" complete="50" expand="true">
-                <notes>BPMN métier produit, contrôlé dans Camunda, exporté en PNG et validé le 05/09/2026. Preuves : 02-modele-cible/processus-metier.bpmn et processus-metier.png, commit 5752e97. RACI restant à produire et contrôler.</notes>
+            <task id="17" uid="a31805f5b66e4720ae2093f546a645db" name="Formaliser BPMN et RACI" meeting="false" start="2026-09-05" duration="2" complete="100" expand="true">
+                <notes>BPMN métier produit, contrôlé dans Camunda, exporté en PNG et validé le 05/09/2026. Preuves : 02-modele-cible/processus-metier.bpmn et processus-metier.png, commit 5752e97. RACI adapté au projet solo produit, contrôlé et validé le 05/09/2026. Preuve : 02-modele-cible/RACI.md, commit 54cd765.</notes>
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="18" uid="edc0ffe3495944f7911acbe200f12b86" name="Consolider RGPD, éco-conception et traçabilité" meeting="false" start="2026-09-14" duration="3" complete="0" expand="true">

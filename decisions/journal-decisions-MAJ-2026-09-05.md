@@ -421,6 +421,21 @@ et défendable.
                                                              cible et ses
                                                              principaux acteurs.
 
+
+  05/09/2026   BC02         Engagement des     NA → **EC** Aucun RACI adapté    `02-modele-cible/RACI.md`
+                            parties prenantes                au projet solo        commit `54cd765`
+                                                             n'était disponible.
+                                                             La matrice RACI
+                                                             formalise désormais
+                                                             les responsabilités
+                                                             du porteur du projet,
+                                                             de l'encadrement et
+                                                             du jury. Des traces
+                                                             réelles d'échanges
+                                                             ou de validations
+                                                             restent à consolider
+                                                             avant un passage à A.
+
   -------------------------------------------------------------------------------------------------------------------------------
 
 ### Règle de mise à jour

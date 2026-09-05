@@ -293,21 +293,18 @@ Ce document a deux fonctions :
                                       pas encore        
                                       produits.         
 
-  Engagement des    **NA**            Le RACI projet et À produire : RACI adapté + traces de décisions/échanges
-  parties prenantes                   les traces        pertinentes.
-                                      d'ateliers ne     
-                                      sont pas encore   
-                                      finalisés comme   
-                                      preuves. Le       
-                                      travail étant     
-                                      réalisé en solo,  
-                                      le RACI devra     
-                                      être adapté au    
-                                      contexte tout en  
-                                      représentant les  
-                                      parties prenantes 
-                                      externes          
-                                      pertinentes.      
+  Engagement des    **EC**            Le RACI projet   `02-modele-cible/RACI.md`
+  parties prenantes                   adapté au projet  produit, contrôlé et figé
+                                      solo est          dans Git le 05/09/2026
+                                      maintenant        (commit `54cd765`).
+                                      produit. Les
+                                      responsabilités
+                                      sont identifiées.
+                                      Des traces réelles
+                                      d'échanges ou de
+                                      validations restent
+                                      à consolider pour
+                                      un passage à A.
   ------------------------------------------------------------------------------------------------------------------
 
 ### BC03 --- Concevoir & développer
@@ -427,7 +424,7 @@ officielle manque encore.
                                                                     de croissance
                                                                     à poursuivre.
 
-  **BC02**                        4               2               2 Gantt acquis ;
+  **BC02**                        4               3               1 Gantt acquis ;
                                                                     plusieurs
                                                                     livrables de
                                                                     pilotage
@@ -450,7 +447,7 @@ officielle manque encore.
                                                                     consolidées.
   --------------------------------------------------------------------------------
 
-**Total : 6 compétences/exigences classées A, 7 EC et 17 NA.**
+**Total : 6 compétences/exigences classées A, 8 EC et 16 NA.**
 
 Ce résultat ne signifie pas que le projet est « faible ». Il indique
 simplement que l'auto-évaluation mesure les **preuves finales déjà
