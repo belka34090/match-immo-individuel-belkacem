@@ -453,3 +453,95 @@ et défendable.
 L'objectif est de conserver un historique compréhensible par le porteur
 du projet, le formateur, le jury et toute personne qui reprend le
 dossier.
+
+---
+
+## ADR-008 — Consolidation du cadrage, de la traçabilité et de l'auto-évaluation
+
+**Date :** 06/09/2026
+
+### Contexte
+
+La Phase 2 disposait déjà de plusieurs livrables validés : étude d'opportunité, backlog priorisé, BPMN, RACI, registre RGPD et note d'éco-conception.
+
+Cependant, trois points restaient à consolider :
+
+- la note de cadrage était encore trop courte par rapport au modèle attendu ;
+- la traçabilité détaillée entre compétences RNCP et preuves du projet n'était pas encore formalisée ;
+- l'auto-évaluation contenait plusieurs statuts et chemins devenus obsolètes.
+
+### Décision
+
+La note de cadrage a été complétée pour couvrir explicitement :
+
+- le contexte ;
+- les objectifs ;
+- le périmètre et le hors-périmètre ;
+- les livrables ;
+- les parties prenantes ;
+- le planning et les jalons ;
+- les ressources ;
+- les risques ;
+- les critères de réussite.
+
+Une matrice dédiée de traçabilité des compétences a également été produite :
+
+`02-modele-cible/TRACABILITE-COMPETENCES.md`
+
+Elle relie les compétences BC05, BC01, BC02 et BC03 aux preuves réellement présentes dans le dépôt et distingue clairement :
+
+- les compétences démontrées ;
+- les compétences partiellement démontrées ;
+- les compétences encore à produire.
+
+L'auto-évaluation a ensuite été mise à jour au 06/09/2026.
+
+### Justification
+
+Le projet doit rester défendable devant le formateur et le jury.
+
+Une compétence ne doit pas être déclarée acquise uniquement parce qu'un travail proche existe : une preuve identifiable et suffisamment complète doit pouvoir être présentée.
+
+La mise à jour permet donc d'éviter :
+
+- les chemins de fichiers obsolètes ;
+- les compétences surévaluées ;
+- les preuves annoncées mais absentes ;
+- les incohérences entre les différents documents de pilotage.
+
+### Résultat
+
+Les évolutions principales de l'auto-évaluation sont :
+
+- BC02 — Note de cadrage : `EC` → `A` ;
+- transverse RGPD : `EC` → `A` ;
+- transverse Éco-conception : `NA` → `A` ;
+- BC01 — solutions écoresponsables : `NA` → `EC` ;
+- BC03 — environnement et réduction d'impact : `NA` → `EC`.
+
+Les éléments suivants restent volontairement incomplets tant que leurs preuves ne sont pas produites :
+
+- accessibilité PSH ;
+- architecture cible ;
+- dimensionnement 3V ;
+- OLAP ;
+- indexation avec `EXPLAIN` ;
+- PCA/PRA ;
+- matching IA ;
+- souveraineté et sécurité IA ;
+- développement applicatif ;
+- tests applicatifs et CI.
+
+La synthèse de l'auto-évaluation passe à :
+
+- 9 compétences/exigences acquises ;
+- 8 en cours ;
+- 13 non abordées.
+
+### Preuves
+
+- `02-modele-cible/note-cadrage.md`
+- `02-modele-cible/TRACABILITE-COMPETENCES.md`
+- `02-modele-cible/registre-rgpd.md`
+- `02-modele-cible/note-eco-conception.md`
+- `auto-evaluation-MAJ-2026-09-05.md`

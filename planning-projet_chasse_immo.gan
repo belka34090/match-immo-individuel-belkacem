@@ -55,7 +55,7 @@
             </task>
             <task id="6" uid="be51781f1ccc4e07b530158e88103c9f" name="Validation de la phase 1" meeting="true" start="2026-07-29" duration="0" complete="100" expand="true"/>
         </task>
-        <task id="7" uid="cc9387b2c2394922a0632e44f305b09d" name="Phase 2 — Modèle cible et reprise des données" meeting="false" start="2026-07-29" duration="50" complete="73" expand="true">
+        <task id="7" uid="cc9387b2c2394922a0632e44f305b09d" name="Phase 2 — Modèle cible et reprise des données" meeting="false" start="2026-07-29" duration="50" complete="100" expand="true">
             <task id="8" uid="c412052c851e4bef96b92caa9691f3f2" name="Cadrer les besoins métier et les règles de gestion" meeting="false" start="2026-07-29" duration="5" complete="100" expand="true">
                 <depend id="9" type="2" difference="0" hardness="Rubber"/>
             </task>
@@ -90,7 +90,8 @@
                 <notes>BPMN métier produit, contrôlé dans Camunda, exporté en PNG et validé le 05/09/2026. Preuves : 02-modele-cible/processus-metier.bpmn et processus-metier.png, commit 5752e97. RACI adapté au projet solo produit, contrôlé et validé le 05/09/2026. Preuve : 02-modele-cible/RACI.md, commit 54cd765.</notes>
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="18" uid="edc0ffe3495944f7911acbe200f12b86" name="Consolider RGPD, éco-conception et traçabilité" meeting="false" start="2026-09-14" duration="3" complete="0" expand="true">
+            <task id="18" uid="edc0ffe3495944f7911acbe200f12b86" name="Consolider RGPD, éco-conception et traçabilité" meeting="false" start="2026-09-06" duration="1" complete="100" expand="true">
+                <notes><![CDATA[RGPD, éco-conception et traçabilité des compétences consolidés et contrôlés le 06/09/2026. Preuves : 02-modele-cible/registre-rgpd.md, 02-modele-cible/note-eco-conception.md et 02-modele-cible/TRACABILITE-COMPETENCES.md. L'auto-évaluation a également été synchronisée avec les preuves réellement disponibles.]]></notes>
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="19" uid="4f7ced68a3ab4128958a5c22b8fccfe7" name="Validation de la phase 2" meeting="true" start="2026-09-17" duration="0" complete="0" expand="true">
