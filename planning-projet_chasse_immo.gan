@@ -94,8 +94,8 @@
                 <notes><![CDATA[RGPD, éco-conception et traçabilité des compétences consolidés et contrôlés le 06/09/2026. Preuves : 02-modele-cible/registre-rgpd.md, 02-modele-cible/note-eco-conception.md et 02-modele-cible/TRACABILITE-COMPETENCES.md. L'auto-évaluation a également été synchronisée avec les preuves réellement disponibles.]]></notes>
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="19" uid="4f7ced68a3ab4128958a5c22b8fccfe7" name="Validation de la phase 2" meeting="true" start="2026-09-17" duration="0" complete="0" expand="true">
-                <notes><![CDATA[Jalon futur : validation complète de la Phase 2 après les livrables complémentaires.]]></notes>
+            <task id="19" uid="4f7ced68a3ab4128958a5c22b8fccfe7" name="Validation de la phase 2" meeting="true" start="2026-09-06" duration="0" complete="100" expand="true">
+                <notes><![CDATA[Phase 2 terminée et validée le 06/09/2026 après contrôle des livrables du modèle cible, de la migration, de la reprise des données et des preuves associées.]]></notes>
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
