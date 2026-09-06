@@ -1,245 +1,393 @@
-# Analyse de l'existant
+# Analyse de l’existant
 
-## 1. Périmètre de l'audit
+## 1. Objectif de l’audit
 
-L'audit porte sur la base de données héritée fournie dans les fixtures du projet.
+Avant de concevoir une nouvelle solution, il est nécessaire de comprendre le système actuellement utilisé par l’entreprise.
 
-Deux scripts sont disponibles :
+L’audit a pour objectifs de :
 
-- `sources/fixtures/MySQL.sql`
-- `sources/fixtures/PgSQL.sql`
+- comprendre le fonctionnement général du système d’information existant ;
+- examiner la structure de la base de données historique ;
+- vérifier que les données fournies peuvent être exploitées ;
+- rechercher les anomalies présentes dans ces données ;
+- identifier les limites du modèle actuel ;
+- disposer d’un état de référence avant la conception de la solution cible.
 
-Ils représentent le même jeu de données, adapté respectivement à MariaDB/MySQL et PostgreSQL.
-
-Ces fichiers constituent l'existant du système d'information et ne sont pas modifiés pendant l'audit.
-
-La date de référence métier du projet est le **25 juillet 2026**.
+La date de référence métier utilisée pour les contrôles est le **25 juillet 2026**.
 
 ---
 
-## 2. Structure de la base héritée
+## 2. Sources utilisées
 
-La base existante contient uniquement trois tables :
+L’analyse repose sur :
 
-- `secteurs`
-- `utilisateurs`
-- `mandats`
+- l’énoncé et les besoins métier fournis avec le projet ;
+- les fixtures MySQL et PostgreSQL du Starter Pack ;
+- les contrôles réalisés sur les données après leur import.
 
-Cette structure limitée est volontaire : les autres objets métier décrits dans le parcours de l'entreprise, comme les biens, visites, offres, paiements ou barèmes de commission, ne sont pas représentés dans l'existant.
+Une **fixture** est ici un fichier SQL contenant la structure et les données historiques fournies comme point de départ du projet.
 
-### Table `secteurs`
+Les versions MySQL et PostgreSQL représentent le même système historique, adaptées à deux systèmes de gestion de base de données différents.
 
-La table `secteurs` contient les zones géographiques utilisées par les mandats.
+Ces données constituent l’existant à auditer. Elles ne sont donc pas corrigées directement pendant cette phase.
 
-Principales colonnes :
+Les anomalies sont d’abord identifiées et documentées. Leur traitement éventuel intervient lors de la reprise des données vers la solution cible.
 
-- `id`
-- `ville`
-- `quartier`
-- `code_postal`
+---
 
-Un secteur peut être associé à plusieurs mandats.
+## 3. Acteurs et système d’information existant
 
-### Table `utilisateurs`
+Trois acteurs principaux interviennent dans l’activité :
 
-La table `utilisateurs` regroupe deux catégories de personnes :
+- le particulier, qui recherche un bien immobilier ;
+- le chasseur immobilier, qui accompagne le particulier ;
+- l’entreprise, qui organise et supervise l’activité.
+
+Le système d’information existant comprend notamment :
+
+- un site web utilisé par les particuliers ;
+- un logiciel métier utilisé par l’entreprise et les chasseurs ;
+- un backend exposant une API ;
+- une base de données historique ;
+- des dossiers papier dont l’utilisation précise reste à déterminer.
+
+Le **backend** correspond à la partie du système qui réalise les traitements nécessaires aux applications et communique notamment avec la base de données.
+
+Une **API** est un moyen standardisé permettant à plusieurs applications de communiquer.
+
+Le site web et le logiciel métier existants doivent pouvoir être conservés. En revanche, le code source du backend existant est considéré comme inexploitable dans le contexte du projet. Son remplacement devra donc être étudié dans la conception de la solution cible.
+
+La vue générale de cet environnement est représentée dans :
+
+`mermaid_carto_existante_SI.png`
+
+---
+
+## 4. Structure de la base de données historique
+
+La base historique est relativement simple. Elle contient trois tables principales :
+
+- `utilisateurs` ;
+- `secteurs` ;
+- `mandats`.
+
+Le schéma correspondant est disponible dans :
+
+`mermaid_bdd_existante.png`
+
+### 4.1 Table `utilisateurs`
+
+Cette table regroupe deux catégories de personnes :
 
 - les clients ;
-- les chasseurs.
+- les chasseurs immobiliers.
 
 Le champ `role` permet de les distinguer.
 
-Principales colonnes :
+Les principales informations enregistrées sont :
 
-- `id`
-- `role`
-- `nom`
-- `prenom`
-- `email`
-- `telephone`
-- `ville`
-- `taux_commission`
-- `budget_max`
-- `date_creation`
+- l’identité ;
+- l’adresse email ;
+- le téléphone ;
+- la ville ;
+- la date de création du compte.
 
-Certaines colonnes ne concernent qu'un seul rôle :
+Deux informations dépendent directement du rôle :
 
-- `taux_commission` concerne les chasseurs ;
-- `budget_max` concerne les clients.
+- `budget_max` concerne les clients ;
+- `taux_commission` concerne les chasseurs.
 
-La table contient donc des valeurs `NULL` dues directement à cette organisation.
+Cette organisation permet de regrouper les informations communes dans une seule table, mais elle présente également une limite : des informations propres à deux métiers différents sont stockées au même endroit.
 
-### Table `mandats`
+Cela rend certaines règles métier plus difficiles à garantir directement dans la base.
 
-La table `mandats` représente les mandats de recherche confiés aux chasseurs.
+### 4.2 Table `secteurs`
 
-Principales colonnes :
+Cette table représente les zones géographiques utilisées pour les recherches immobilières.
 
-- `id`
-- `client_id`
-- `chasseur_id`
-- `secteur_id`
-- `exclusif`
-- `date_debut`
-- `statut`
-- `description_recherche`
+Elle contient notamment :
 
-Les relations principales sont :
+- la ville ;
+- le quartier ;
+- le code postal.
 
-- `mandats.client_id` → `utilisateurs.id`
-- `mandats.chasseur_id` → `utilisateurs.id`
-- `mandats.secteur_id` → `secteurs.id`
+Un secteur peut être associé à plusieurs mandats.
 
----
+### 4.3 Table `mandats`
 
-## 3. Contraintes présentes dans le schéma
+Cette table représente les mandats de recherche confiés aux chasseurs.
 
-Le schéma comporte plusieurs mécanismes assurant un premier niveau d'intégrité :
+Elle contient notamment :
 
-- clés primaires pour identifier les lignes ;
-- contraintes `NOT NULL` sur certaines colonnes obligatoires ;
-- contrainte `UNIQUE` sur l'adresse email ;
-- clés étrangères entre les mandats, utilisateurs et secteurs ;
-- valeurs autorisées limitées pour les rôles et statuts ;
-- valeurs par défaut pour certains champs.
+- `client_id` ;
+- `chasseur_id` ;
+- `secteur_id` ;
+- `exclusif` ;
+- `date_debut` ;
+- `statut` ;
+- `description_recherche`.
 
-Ces contraintes garantissent principalement l'intégrité technique des références.
+Les colonnes se terminant par `_id` permettent ici de relier un mandat à d’autres données.
 
-Par exemple, une clé étrangère garantit que l'identifiant d'un utilisateur utilisé dans un mandat existe réellement dans la table `utilisateurs`.
+Par exemple :
 
-En revanche, elle ne garantit pas que cet utilisateur possède le bon rôle métier.
+- `client_id` référence un utilisateur ;
+- `chasseur_id` référence également un utilisateur ;
+- `secteur_id` référence un secteur.
 
-Ainsi :
-
-- `client_id` peut techniquement référencer un utilisateur ayant le rôle `chasseur` ;
-- `chasseur_id` peut techniquement référencer un utilisateur ayant le rôle `client`.
-
-Cette limite constitue un point important à vérifier pendant l'audit.
+`secteur_id` peut être absent dans le modèle historique.
 
 ---
 
-## 4. Observations signalées dans les fixtures
+## 5. Contraintes déjà présentes
 
-Les scripts contiennent plusieurs commentaires préfixés par `-- [consultant]`.
+La base historique ne présente pas uniquement des défauts. Elle contient déjà plusieurs mécanismes permettant de protéger les données.
 
-Ces remarques ne sont pas considérées automatiquement comme des anomalies confirmées. Elles constituent des pistes d'audit qui doivent être vérifiées.
+On trouve notamment :
 
-Les principaux points signalés sont les suivants :
+- des clés primaires ;
+- des clés étrangères ;
+- des contraintes `NOT NULL` sur certaines données obligatoires ;
+- une contrainte d’unicité sur l’adresse email ;
+- des valeurs autorisées pour certains rôles et statuts.
 
-- clients et chasseurs regroupés dans une seule table ;
-- colonnes spécifiques à certains rôles entraînant des valeurs `NULL` ;
-- absence de contrôle suffisant sur certaines données ;
-- absence de `date_fin` dans les mandats ;
-- absence de mode de signature ;
-- critères de recherche stockés dans un champ texte libre ;
-- absence de garantie sur le rôle des utilisateurs référencés par les mandats ;
-- présence possible d'une incohérence métier concernant un `client_id` ;
-- présence possible de mandats encore marqués `actif` alors que leur durée de six mois serait dépassée.
+Une **clé primaire** identifie de manière unique une ligne d’une table.
 
-Ces éléments doivent être vérifiés selon leur nature : par l'analyse du schéma pour les risques structurels et par des requêtes SQL pour les incohérences présentes dans les données.
+Une **clé étrangère** permet de créer une relation avec une ligne d’une autre table.
 
----
+Par exemple, la base peut vérifier qu’un identifiant présent dans `client_id` correspond bien à un utilisateur existant.
 
-## 5. Premiers constats sur le modèle existant
+Cependant, cette vérification technique ne suffit pas à garantir la règle métier.
 
-La base actuelle permet de représenter une partie minimale du fonctionnement de l'entreprise :
+La base peut vérifier :
 
-- les utilisateurs ;
-- les secteurs ;
-- les mandats de recherche.
+> « Cet utilisateur existe-t-il ? »
 
-Cependant, plusieurs informations décrites dans le besoin métier ne sont pas représentées ou sont difficilement exploitables.
+mais elle ne garantit pas nécessairement :
 
-### Gestion des rôles
+> « Cet utilisateur est-il réellement un client ? »
 
-Les clients et chasseurs sont regroupés dans une même table.
-
-Cette organisation simplifie le nombre de tables mais rend plus difficile la garantie des règles métier liées aux rôles.
-
-La base sait vérifier qu'un utilisateur existe, mais elle ne sait pas vérifier automatiquement qu'il est utilisé dans le bon rôle dans un mandat.
-
-### Durée des mandats
-
-Le besoin métier précise qu'un mandat est valable six mois et peut être renouvelé.
-
-Le schéma contient une `date_debut`, mais aucune `date_fin`.
-
-La cohérence entre la durée réelle du mandat et son statut dépend donc d'un traitement extérieur ou d'une vérification manuelle.
-
-### Critères de recherche
-
-Les critères du client sont stockés dans `description_recherche`, sous forme de texte libre.
-
-Cette organisation est lisible par un humain mais peu adaptée aux traitements structurés.
-
-Elle rend plus difficile :
-
-- le filtrage ;
-- la comparaison des demandes ;
-- l'analyse statistique ;
-- l'exploitation future par des traitements automatisés.
-
-### Couverture fonctionnelle
-
-Le modèle existant ne couvre qu'une petite partie du parcours métier décrit dans le sujet.
-
-Il ne contient notamment pas de structures dédiées pour :
-
-- les biens ;
-- les visites ;
-- les offres ;
-- les actes authentiques ;
-- les honoraires ;
-- les paiements ;
-- les barèmes de commission ;
-- l'historique des évolutions d'une demande.
-
-Cette absence n'est pas considérée ici comme une erreur de données : elle montre surtout que le modèle existant ne couvre pas l'ensemble des besoins métier décrits.
+Cette différence entre **intégrité technique** et **cohérence métier** constitue l’un des points importants de l’audit.
 
 ---
 
-## 6. Validation de l'import
+## 6. Méthode de vérification
 
-La fixture PostgreSQL a été exécutée avec succès dans un environnement local Docker.
+Les fichiers SQL fournis contiennent certaines remarques du consultant sur des problèmes potentiels.
 
-Les contrôles confirment les volumes attendus :
+Ces remarques ont été utilisées comme pistes de contrôle, mais elles n’ont pas été considérées automatiquement comme des anomalies confirmées.
 
-| Table | Nombre |
+Le principe appliqué est le suivant :
+
+**une remarque signale quelque chose à vérifier ; une anomalie n’est confirmée qu’après contrôle des données.**
+
+Pour rendre cette vérification reproductible, des requêtes SQL ont été exécutées sur la base historique.
+
+Une **requête SQL** est une instruction permettant d’interroger une base de données.
+
+Les requêtes utilisées sont conservées dans :
+
+`preuves/03-anomalies/requetes-audit.sql`
+
+Les résultats obtenus sont conservés dans :
+
+`preuves/03-anomalies/resultats-anomalies.md`
+
+Ainsi, une autre personne peut refaire les contrôles et comparer les résultats.
+
+---
+
+## 7. Validation de l’import et des volumes
+
+Avant d’analyser les anomalies, il fallait vérifier que la base historique avait été correctement chargée.
+
+La fixture PostgreSQL a donc été importée dans un environnement local.
+
+L’import a réussi sans erreur bloquante.
+
+Les contrôles ont ensuite confirmé les principaux volumes :
+
+| Élément | Nombre |
 | --- | ---: |
-| `secteurs` | 10 |
-| `utilisateurs` | 24 |
-| `mandats` | 18 |
+| Secteurs | 10 |
+| Utilisateurs | 24 |
+| Clients | 18 |
+| Chasseurs | 6 |
+| Mandats | 18 |
+| Mandats actifs | 11 |
 
-Les preuves détaillées sont disponibles dans :
+Les preuves correspondantes sont conservées dans :
 
-- `preuves/01-import/import-postgresql.md`
-- `preuves/02-controles/comptages-initiaux.md`
+- `preuves/01-import/import-postgresql.md` ;
+- `preuves/02-controles/comptages-initiaux.md`.
 
-L'import est donc validé pour poursuivre l'audit.
+Cette étape est importante : rechercher des anomalies dans une base mal importée aurait pu produire des conclusions incorrectes.
 
 ---
 
-## 7. Conclusion de l'audit
+## 8. Anomalies de données confirmées
 
-L'audit de l'existant confirme que la base héritée repose sur une structure simple composée de trois tables principales : `secteurs`, `utilisateurs` et `mandats`.
+Les contrôles ont permis de confirmer trois catégories d’anomalies.
 
-Les contrôles réalisés ont permis de valider l'import des données et les volumes attendus.
+### A-01 — Rôle incorrect dans un mandat
 
-L'audit a également confirmé plusieurs anomalies de données :
+Le mandat `13` référence l’utilisateur `3` comme client alors que cet utilisateur possède le rôle `chasseur`.
 
-- une incohérence de rôle a été détectée sur le mandat `13` : un utilisateur ayant le rôle `chasseur` est référencé comme client ;
-- six mandats sont encore marqués `actif` alors que leur durée théorique de six mois est dépassée au 25/07/2026 ;
-- une incohérence temporelle a été détectée sur le mandat `9` : sa date de début est antérieure à la date de création du chasseur associé.
+Le problème n’est donc pas l’absence de l’utilisateur : il existe bien dans la base.
 
-Plusieurs risques structurels ont également été identifiés :
+Le problème est son **rôle métier**.
 
-- les rôles métier ne sont pas suffisamment garantis par les relations existantes ;
-- les clients et chasseurs sont regroupés dans une même table ;
-- le modèle ne permet pas de représenter explicitement la date de fin, le mode de signature ou le renouvellement d'un mandat ;
-- les critères de recherche sont principalement stockés sous forme de texte libre ;
-- certaines contraintes de qualité et de cohérence métier ne sont pas garanties par le schéma ;
-- la couverture fonctionnelle reste limitée par rapport au besoin métier décrit.
+Cette anomalie démontre concrètement la limite identifiée précédemment : une relation peut être techniquement valide tout en étant incorrecte du point de vue métier.
 
-Les anomalies de données et les risques structurels identifiés sont documentés séparément dans le registre des anomalies et risques, et appuyés par les preuves conservées dans le dossier `preuves/`.
+### A-02 — Mandats toujours actifs après six mois
 
-La cartographie de l'existant et la synthèse SWOT complètent cette analyse et permettent de disposer d'une vision structurée de la situation initiale avant la définition du modèle cible.
+Au **25 juillet 2026**, six mandats sont encore enregistrés avec le statut `actif` alors que leur durée théorique de six mois est dépassée :
+
+- mandat `4` ;
+- mandat `7` ;
+- mandat `9` ;
+- mandat `10` ;
+- mandat `11` ;
+- mandat `12`.
+
+Un renouvellement pourrait éventuellement expliquer certains cas.
+
+Cependant, la base historique ne contient pas les informations nécessaires pour démontrer l’existence de ces renouvellements.
+
+Ces six cas sont donc signalés afin d’éviter de considérer automatiquement leur statut comme fiable.
+
+### A-03 — Incohérence chronologique
+
+Le mandat `9` commence le **2 octobre 2025** alors que le compte du chasseur associé a été créé le **3 novembre 2025**.
+
+Selon les données disponibles, le mandat existe donc avant la création du compte du chasseur auquel il est associé.
+
+Cette incohérence doit être traitée avec prudence lors de la reprise des données.
+
+Le détail de ces anomalies et les actions proposées sont présentés dans :
+
+`registre-anomalies.md`
+
+Les résultats techniques permettant de les vérifier sont conservés dans :
+
+`preuves/03-anomalies/resultats-anomalies.md`
+
+---
+
+## 9. Risques structurels identifiés
+
+L’audit ne recherche pas uniquement les données actuellement incorrectes.
+
+Il identifie également les caractéristiques du système susceptibles de provoquer des difficultés futures.
+
+### 9.1 Gestion des clients et des chasseurs
+
+Clients et chasseurs sont regroupés dans `utilisateurs`.
+
+Cette organisation rend plus difficile l’application de règles différentes selon le rôle et a notamment permis l’incohérence observée sur le mandat `13`.
+
+### 9.2 Cycle de vie des mandats
+
+La base historique ne représente pas suffisamment certaines informations nécessaires au suivi complet d’un mandat, notamment sa fin, son mode de signature et son éventuel renouvellement.
+
+Cela rend difficile la détermination automatique de sa validité réelle.
+
+### 9.3 Critères de recherche en texte libre
+
+Les critères immobiliers sont principalement enregistrés dans `description_recherche`.
+
+Un texte libre est facile à lire pour une personne, mais beaucoup plus difficile à exploiter automatiquement.
+
+Cela complique notamment :
+
+- les recherches ;
+- les comparaisons ;
+- les statistiques ;
+- les futurs traitements automatisés.
+
+### 9.4 Historisation insuffisante
+
+Le modèle historique ne permet pas de retracer correctement les différentes évolutions des critères d’une recherche.
+
+Or un particulier peut modifier sa demande au cours du temps.
+
+Sans historique, il devient difficile de savoir :
+
+- ce qui a changé ;
+- quand le changement a eu lieu ;
+- quelle version était utilisée à un moment donné.
+
+### 9.5 Couverture métier limitée
+
+La base historique ne représente qu’une partie du parcours métier.
+
+Elle ne possède pas de structures dédiées permettant de suivre complètement des éléments tels que :
+
+- les demandes et leurs évolutions ;
+- les biens proposés ;
+- les visites ;
+- les commentaires et avis ;
+- les offres ;
+- les ventes ;
+- les honoraires ;
+- les commissions ;
+- les paiements.
+
+Cette situation n’est pas une anomalie de donnée.
+
+Il s’agit d’une **limite fonctionnelle** : le modèle existant ne couvre pas l’ensemble du fonctionnement décrit dans le besoin métier.
+
+### 9.6 Autres risques de qualité
+
+D’autres risques ont été identifiés concernant notamment :
+
+- le contrôle de certains formats ;
+- certaines valeurs métier ;
+- l’unicité de certaines informations géographiques ;
+- le caractère facultatif du secteur d’un mandat.
+
+Ces risques sont détaillés et priorisés dans `registre-anomalies.md`.
+
+---
+
+## 10. Ce que l’audit implique pour la suite
+
+L’objectif de cette phase n’est pas encore de concevoir la nouvelle base.
+
+L’audit permet d’abord de déterminer ce que la future solution devra améliorer.
+
+Les principaux besoins qui en découlent sont notamment :
+
+- mieux distinguer les rôles métier ;
+- fiabiliser les relations entre les données ;
+- mieux gérer le cycle de vie des mandats ;
+- structurer les critères de recherche ;
+- historiser les évolutions importantes ;
+- couvrir davantage le parcours métier ;
+- préparer une reprise contrôlée des données historiques.
+
+Ces constats servent d’entrée à la Phase 2 consacrée à la conception de la solution cible.
+
+---
+
+## 11. Conclusion
+
+L’audit montre que le système existant permet déjà de gérer un premier niveau d’activité autour des utilisateurs, des secteurs et des mandats.
+
+La base possède également plusieurs mécanismes d’intégrité technique utiles.
+
+Cependant, les contrôles ont confirmé des anomalies de données et plusieurs limites structurelles.
+
+Trois catégories d’anomalies ont notamment été confirmées :
+
+- un utilisateur de rôle `chasseur` utilisé comme client sur le mandat `13` ;
+- six mandats encore actifs alors que leur durée théorique de six mois est dépassée au 25 juillet 2026 ;
+- le mandat `9` dont la date de début précède la création du compte du chasseur associé.
+
+Ces résultats ne sont pas seulement déclaratifs : les requêtes exécutées et leurs résultats sont conservés dans le dossier `preuves/`.
+
+Le contrôle final de la Phase 1 est documenté dans :
+
+`preuves/04-validation-finale/validation-phase1.md`
+
+L’ensemble constitue l’état de référence utilisé avant la conception et la migration vers le modèle cible.

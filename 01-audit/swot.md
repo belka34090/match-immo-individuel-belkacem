@@ -1,36 +1,62 @@
-# SWOT — Système d'information existant
+# SWOT — Système d’information existant
+
+Date de référence : **25 juillet 2026**.
+
+Cette analyse porte sur le système d’information de l’entreprise de chasse immobilière.
 
 ## Forces
 
-- Base de données simple et facile à comprendre.
-- Présence de clés primaires et de clés étrangères.
-- Adresse email contrainte en unicité.
-- Rôles et statuts encadrés par des valeurs autorisées.
-- Structure suffisante pour gérer un premier niveau de suivi des mandats.
+Éléments internes favorables :
+
+- L’entreprise exerce une activité rentable.
+- Le site web et le logiciel métier existent déjà et peuvent être conservés.
+- Une base historique permet d’identifier les utilisateurs, les mandats et les secteurs.
+- Les données disponibles permettent de préparer et tester leur reprise.
+- Des clés primaires, clés étrangères et contraintes d’unicité assurent un premier niveau d’intégrité.
 
 ## Faiblesses
 
-- Clients et chasseurs regroupés dans une seule table.
-- Les clés étrangères ne garantissent pas le bon rôle métier.
-- Présence d'une incohérence confirmée : un chasseur est référencé comme client dans un mandat.
-- Absence de `date_fin` et de mécanisme de suivi du renouvellement des mandats.
-- Plusieurs mandats restent `actif` alors que leur durée théorique de six mois est dépassée.
-- Critères de recherche stockés en texte libre, difficiles à exploiter pour le filtrage et l'analyse.
-- Couverture fonctionnelle limitée à trois tables.
-- Présence d'une incohérence temporelle confirmée : un mandat débute avant la date de création du chasseur associé.
+Éléments internes défavorables :
+
+- Le code source du backend existant est inexploitable.
+- Clients et chasseurs sont regroupés dans une même table.
+- Les rôles associés aux mandats ne sont pas suffisamment contrôlés.
+- La durée et les renouvellements des mandats ne sont pas correctement suivis.
+- Les critères de recherche sont enregistrés en texte libre.
+- La base historique ne couvre pas l’ensemble du parcours métier.
+- Une partie de l’information repose sur des dossiers papier.
+
+Les anomalies détaillées figurent dans `registre-anomalies.md`.
 
 ## Opportunités
 
-- Structurer davantage les données métier.
-- Améliorer le contrôle de cohérence des rôles.
-- Automatiser le calcul de la durée et du statut des mandats.
-- Structurer les critères de recherche pour permettre des analyses et traitements automatisés.
-- Étendre le modèle aux autres étapes du parcours métier.
+Éléments externes favorables :
+
+- Accès à de nouveaux marchés en France et dans les DROM.
+- Possibilités de développement dans plusieurs pays européens.
+- Possibilités de croissance externe par acquisition d’autres entreprises.
+- Disponibilité de technologies d’analyse de données et d’intelligence artificielle.
 
 ## Menaces
 
-- Risque de décisions basées sur des données incohérentes.
-- Risque de mauvais suivi des mandats arrivés à échéance.
-- Difficulté à faire évoluer le système sans évolution structurante du modèle de données.
-- Risque d'erreurs métier si les contrôles restent principalement manuels.
-- Limitation des futurs traitements décisionnels ou IA si les données restent peu structurées.
+Éléments externes défavorables :
+
+- Hausse prévisible des volumes liée au développement du marché.
+- Diversité des règles et pratiques applicables selon les pays.
+- Risque de non-conformité aux réglementations sur les données personnelles.
+- Risques de sécurité liés à l’exploitation et au partage des données.
+
+## Stratégies croisées
+
+| Croisement | Orientation |
+| --- | --- |
+| Forces × Opportunités | Conserver les applications existantes et exploiter les données disponibles pour accompagner le développement de l’activité. |
+| Forces × Menaces | Utiliser les données et contraintes existantes pour préparer une reprise maîtrisée et sécurisée. |
+| Faiblesses × Opportunités | Structurer les données métier afin de faciliter l’extension géographique et les futurs usages analytiques. |
+| Faiblesses × Menaces | Remplacer le backend inexploitable, fiabiliser les mandats et anticiper les exigences de sécurité et de croissance. |
+
+## Conclusion
+
+L’entreprise dispose d’une activité rentable et d’applications existantes, mais son backend et son modèle de données présentent des limites importantes.
+
+La modernisation devra conserver le site web et le logiciel métier, fiabiliser les données et préparer la croissance de l’activité.
