@@ -802,3 +802,304 @@ Le principe de traçabilité retenu est :
 **compétence attendue → travail réalisé → preuve vérifiable → état réel → travail restant**
 
 Cette organisation permettra de mettre à jour progressivement le dossier sans perdre le lien entre les exigences du référentiel RNCP40573 et les livrables réels du projet.
+
+---
+
+# 10. Mise à jour d’avancement — 09/09/2026
+
+## 10.1 Objet de cette mise à jour
+
+Cette section complète l’état présenté précédemment dans le document.
+
+Elle ne remplace pas les états historiques indiqués comme « À produire ».
+
+Elle permet de tracer les travaux réalisés depuis cette première évaluation et
+de relier chaque nouvelle réalisation à une preuve vérifiable dans le dépôt.
+
+Le principe appliqué est :
+
+```text
+état antérieur
+→ travail réalisé
+→ preuve produite
+→ nouvel état daté
+```
+
+---
+
+## 10.2 Évolution des livrables de Phase 3
+
+| Compétence / livrable | État précédent | État au 09/09/2026 | Preuve principale |
+| --- | --- | --- | --- |
+| Note de dimensionnement 3V | À produire | Produite | `03-architecture/note-dimensionnement-3v.md` |
+| Dossier d’architecture de croissance | À produire | Produit | `03-architecture/dossier-architecture-de-croissance.md` |
+| Matrice de décision d’architecture | À produire | Produite | `03-architecture/matrice-décision-architecture.md` |
+| Indexation / `EXPLAIN ANALYZE` | À produire | Benchmark réalisé | `03-architecture/benchmark-indexation.md` |
+| Partitionnement | Non encore tracé | Benchmark réalisé | `03-architecture/benchmark-partitionnement.md` |
+| Réplication / haute disponibilité | Non encore tracé | POC réalisé | `03-architecture/benchmark-replication-ha.md` |
+| Citus / sharding | Non encore tracé | POC réalisé, retenu comme option future | `03-architecture/poc-citus/benchmark-citus-sharding.md` |
+| Schéma OLAP | À produire | Produit | `03-architecture/olap-schema.mmd`, `03-architecture/olap-schema.svg`, `03-architecture/sql/olap-schema.sql` |
+| Alimentation OLAP | À produire | ETL produit | `03-architecture/sql/olap-etl.sql` |
+| Qualité des données analytiques | À produire | Formalisée et reliée aux contrôles ETL | `03-architecture/oltp-olap-modele-decisionnel.md` |
+| Matrice de risques projet | À compléter | Produite et mise à jour avec les résultats des POC | `03-architecture/matrice-risques.md` |
+| PCA / PRA | À produire | Validé au niveau POC | `03-architecture/pca-pra-complet-maj.md` |
+| Plan de migration | Non encore tracé | Produit | `03-architecture/plan-migration.md` |
+| Éco-conception | Réalisée au niveau conception | Mise en cohérence avec les preuves de Phase 3 | `02-modele-cible/note-eco-conception.md` |
+
+---
+
+## 10.3 Preuves de performance obtenues
+
+La Phase 3 ne repose pas uniquement sur des choix théoriques.
+
+Des benchmarks ont été exécutés afin de mesurer l’intérêt des différentes
+solutions.
+
+### Indexation
+
+Sur un jeu de test de 1 000 000 de lignes :
+
+```text
+avant index
+≈ 11,438 ms
+
+après index
+≈ 2,641 ms
+
+gain
+≈ 4,3 ×
+```
+
+La décision consiste donc à privilégier l’indexation ciblée avant d’augmenter
+la complexité de l’architecture.
+
+Preuve :
+
+```text
+03-architecture/benchmark-indexation.md
+```
+
+### Partitionnement
+
+Sur un jeu de test de 10 000 000 de lignes :
+
+```text
+table non partitionnée
+≈ 130,166 ms
+
+table partitionnée
+≈ 25,008 ms
+
+gain
+≈ 5,2 ×
+```
+
+Le partitionnement reste une optimisation à appliquer lorsqu’un volume et un
+mode d’accès aux données le justifient.
+
+Preuve :
+
+```text
+03-architecture/benchmark-partitionnement.md
+```
+
+### Citus / sharding
+
+Le POC Citus a démontré la distribution de 10 000 000 de lignes sur plusieurs
+workers.
+
+Il a également montré qu’une mauvaise requête distribuée peut rester coûteuse,
+et que l’indexation demeure importante même dans une architecture distribuée.
+
+La décision actuelle est donc :
+
+```text
+PostgreSQL optimisé
+→ indexation
+→ partitionnement
+→ réplication si besoin
+→ Citus seulement si les volumes réels le justifient
+```
+
+Preuve :
+
+```text
+03-architecture/poc-citus/benchmark-citus-sharding.md
+```
+
+---
+
+## 10.4 Évolution de la continuité et de la reprise
+
+L’état précédent indiquait le PCA/PRA comme « À produire ».
+
+Depuis, plusieurs preuves ont été réalisées au niveau POC :
+
+- réplication PostgreSQL ;
+- persistance après redémarrage ;
+- promotion d’un replica ;
+- conservation des données après failover ;
+- sauvegarde ;
+- restauration locale ;
+- externalisation de sauvegarde ;
+- restauration distante sur un environnement indépendant ;
+- contrôle d’intégrité ;
+- reprise des écritures.
+
+La preuve principale est :
+
+```text
+03-architecture/pca-pra-complet-maj.md
+```
+
+Les limites restent explicitement tracées :
+
+```text
+RPO ≈ 1 h
+→ cible d’exploitation
+→ chaîne automatisée horaire non encore démontrée
+
+RTO ≤ 4 h
+→ cible d’architecture
+→ mesure end-to-end encore à réaliser
+```
+
+---
+
+## 10.5 Évolution du bloc OLTP / OLAP
+
+L’état précédent indiquait encore :
+
+```text
+Schéma OLAP et alimentation
+→ À produire
+
+Note qualité des données analytiques
+→ À produire
+```
+
+Au 09/09/2026, le bloc décisionnel comprend désormais :
+
+```text
+modèle OLAP
++
+schéma en étoile
++
+schéma SQL
++
+ETL
++
+contrôles de volumes
++
+contrôles métier
++
+gestion de certains doublons
++
+traçabilité vers les données OLTP
++
+formalisation de la qualité analytique
+```
+
+Les principales preuves sont :
+
+- `03-architecture/oltp-olap-modele-decisionnel.md`
+- `03-architecture/olap-schema.mmd`
+- `03-architecture/olap-schema.svg`
+- `03-architecture/sql/olap-schema.sql`
+- `03-architecture/sql/olap-etl.sql`
+
+Les mécanismes de supervision continue de Data Quality restent à
+industrialiser ultérieurement.
+
+---
+
+## 10.6 Plan de migration
+
+Le passage de l’ancien système vers le modèle cible dispose désormais d’un plan
+de migration et de bascule formalisé.
+
+La stratégie retenue pour le périmètre actuel est :
+
+```text
+Big Bang contrôlé
+→ gel des écritures
+→ sauvegarde
+→ contrôles préalables
+→ GO / NO-GO
+→ création de la cible
+→ reprise
+→ contrôles
+→ GO / NO-GO
+→ bascule
+→ surveillance
+→ possibilité de rollback
+```
+
+Preuve :
+
+```text
+03-architecture/plan-migration.md
+```
+
+La stratégie progressive n’est pas retenue à ce stade car elle ajouterait une
+synchronisation temporaire de deux systèmes sans justification par les volumes
+actuels.
+
+---
+
+## 10.7 Compétences restant réellement à produire après cette mise à jour
+
+La production des preuves de Phase 3 ne signifie pas que l’ensemble du projet
+est terminé.
+
+Au 09/09/2026, restent notamment à produire ou à poursuivre :
+
+| Domaine | État |
+| --- | --- |
+| Accessibilité PSH | À produire |
+| Modèle de matching IA | À produire |
+| Schéma du programme IA | À produire |
+| Souveraineté / sécurité IA | À produire |
+| Architecture applicative détaillée | Phase ultérieure |
+| Maquettes | Phase ultérieure |
+| Patterns logiciels | Phase ultérieure |
+| Développement applicatif | Phase ultérieure |
+| Plan de tests applicatifs | Phase ultérieure |
+| Pipeline qualité / CI | Phase ultérieure |
+
+Ces éléments ne doivent pas être déclarés comme acquis avant production de
+leurs preuves.
+
+---
+
+## 10.8 Synthèse au 09/09/2026
+
+Depuis l’état précédent du document, la Phase 3 a permis de passer :
+
+```text
+architecture envisagée
+        ↓
+architecture comparée
+        ↓
+architecture expérimentée
+        ↓
+mesures obtenues
+        ↓
+risques analysés
+        ↓
+continuité testée au niveau POC
+        ↓
+reprise testée au niveau POC
+        ↓
+migration planifiée
+```
+
+Le principe directeur reste :
+
+> **Mesurer avant de complexifier.**
+
+Cette mise à jour constitue le nouveau repère temporel de la traçabilité au
+09/09/2026.
+
+Les états antérieurs sont volontairement conservés dans le document afin de
+montrer la progression réelle du projet.

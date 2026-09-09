@@ -2432,14 +2432,19 @@ Les preuves sont suffisantes pour démontrer :
 
 Le travail suivant ne consiste plus à ajouter un nouveau POC PCA/PRA.
 
-La suite logique de la Phase 3 est :
+Le plan de migration et de bascule est désormais formalisé dans :
 
 ```text
-1. plan de migration
-2. cohérence transverse / éco-conception
-3. audit contre Starter Pack
-4. audit contre grille d'évaluation
-5. vérification des preuves
-6. nettoyage Git
-7. commit / push
+03-architecture/plan-migration.md
+```
+
+La suite logique de la Phase 3 devient :
+
+```text
+1. cohérence transverse / éco-conception
+2. audit contre Starter Pack
+3. audit contre grille d'évaluation
+4. vérification des preuves
+5. nettoyage Git
+6. commit / push
 ```

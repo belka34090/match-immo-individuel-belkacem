@@ -209,3 +209,322 @@ correspond à une réalisation individuelle. La règle de soutenance reste
 la même sur le fond : l'intégralité des choix, livrables, scripts,
 modèles et arbitrages présentés doit pouvoir être expliquée et défendue
 individuellement devant le jury.
+
+------------------------------------------------------------------------
+
+## 6. Mise à jour de l'auto-évaluation au 09/09/2026
+
+> Cette section constitue un nouveau repère temporel.
+>
+> Elle ne remplace pas l'état du 06/09/2026 présenté précédemment.
+> L'état antérieur est volontairement conservé afin de montrer la progression
+> réelle du projet et l'apparition progressive des preuves.
+>
+> Cotation inchangée :
+>
+> - **NA** = non abordé ou preuve principale absente ;
+> - **EC** = en cours ou preuve encore incomplète ;
+> - **A** = acquis avec une preuve produite et défendable.
+
+Depuis l'évaluation du 06/09/2026, plusieurs travaux de Phase 3 ont été
+réalisés, expérimentés et documentés.
+
+La nouvelle évaluation est établie uniquement à partir des preuves réellement
+présentes dans le dépôt au 09/09/2026.
+
+### BC05 --- Big data & IA
+
+| Compétence | Statut au 06/09 | Statut au 09/09 | Justification au 09/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Analyser 3V (volume, vélocité, variété) | **NA** | **A** | L'analyse 3V est désormais produite, chiffrée et reliée aux hypothèses de croissance du Starter Pack. | `03-architecture/note-dimensionnement-3v.md` |
+| Concevoir/évaluer un modèle ML | **NA** | **NA** | Le modèle de matching IA et ses features ne sont pas encore formalisés. | À produire dans la phase IA. |
+| Extraction/transformation/chargement + qualité + RGPD | **EC** | **A** | La reprise transactionnelle est validée, le registre RGPD existe, l'OLAP et son ETL sont produits et les contrôles de qualité analytique sont désormais formalisés. | `02-modele-cible/reprise-donnees-validation.md`, `02-modele-cible/registre-rgpd.md`, `03-architecture/sql/olap-etl.sql`, `03-architecture/oltp-olap-modele-decisionnel.md` |
+| Concevoir la base pour analytique/IA | **EC** | **A** | Le modèle relationnel cible, le schéma analytique, l'alimentation OLAP et la preuve d'optimisation avec `EXPLAIN ANALYZE` sont produits. | `02-modele-cible/mld-cible-final.md`, `03-architecture/olap-schema.svg`, `03-architecture/sql/olap-schema.sql`, `03-architecture/benchmark-indexation.md` |
+| Schématiser/concevoir un programme d'IA | **NA** | **NA** | Le programme IA avec entrées, traitements et sorties n'est pas encore conçu. | À produire dans la phase IA. |
+
+### Lecture BC05 au 09/09/2026
+
+```text
+3V
+→ acquis
+
+ETL + qualité + RGPD
+→ acquis
+
+base analytique + optimisation
+→ acquis
+
+matching ML
+→ à produire
+
+programme IA
+→ à produire
+```
+
+La partie **Data / Big Data / analytique** de BC05 est donc maintenant fortement
+documentée.
+
+La partie **IA / modèle de matching** reste volontairement non déclarée comme
+acquise.
+
+---
+
+### BC01 --- Stratégie SI
+
+| Compétence | Statut au 06/09 | Statut au 09/09 | Justification au 09/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Cartographier le SI (analyse de risques) | **A** | **A** | L'audit, les cartographies, les anomalies et les preuves de Phase 1 restent validés. | `01-audit/` |
+| Élaborer la stratégie SI | **EC** | **EC** | Les axes stratégiques existent dans plusieurs documents, mais la note stratégique synthétique identifiée par la grille n'est pas encore constituée comme preuve dédiée. | Besoins, cadrage et architecture existants. |
+| Comparer les architectures | **NA** | **A** | Plusieurs solutions de croissance sont désormais comparées avec avantages, limites et critères de décision. | `03-architecture/dossier-architecture-de-croissance.md`, `03-architecture/matrice-décision-architecture.md` |
+| Analyser les composants d'architecture | **NA** | **A** | Le dossier d'architecture décrit les composants OLTP, OLAP, ETL, réplication, stockage, IA future et Citus ainsi que leurs interactions. | `03-architecture/dossier-architecture-de-croissance.md` |
+| Arbitrer performance / scalabilité / sécurité / éco-conception | **NA** | **A** | Les arbitrages reposent maintenant sur une matrice de décision, des benchmarks, une matrice de risques et l'éco-conception. | `03-architecture/matrice-décision-architecture.md`, `03-architecture/matrice-risques.md`, benchmarks Phase 3 |
+| Présenter des solutions écoresponsables | **EC** | **EC** | Les préconisations et arbitrages sont documentés et renforcés par les mesures de Phase 3. La défense orale reste à démontrer lors de la soutenance. | `02-modele-cible/note-eco-conception.md` |
+
+### Décision d'architecture démontrée
+
+La Phase 3 a permis de formaliser la progression suivante :
+
+```text
+PostgreSQL
+↓
+mesurer
+↓
+indexer
+↓
+partitionner lorsque nécessaire
+↓
+répliquer lorsque la disponibilité l'exige
+↓
+distribuer avec Citus uniquement si les volumes le justifient
+```
+
+Le principe retenu reste :
+
+> **Mesurer avant de complexifier.**
+
+---
+
+### BC02 --- Piloter des projets
+
+| Compétence | Statut au 06/09 | Statut au 09/09 | Justification au 09/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Étude d'opportunité | **A** | **A** | Preuve déjà validée. | `02-modele-cible/etude-opportunite.md` |
+| Prioriser les fonctionnalités | **A** | **A** | Le backlog priorisé reste la preuve de référence. | `02-modele-cible/backlog-priorise.md` |
+| CDC technique (RGPD + PSH) | **EC** | **EC** | Le CDC et le RGPD sont produits mais la preuve dédiée à l'accessibilité PSH manque encore. | `02-modele-cible/cahier-des-charges-technique-MAJ.md`, `02-modele-cible/registre-rgpd.md` |
+| Modéliser les processus métier | **A** | **A** | Le BPMN reste produit et défendable. | `02-modele-cible/processus-metier.bpmn`, `02-modele-cible/processus-metier.png` |
+| Note de cadrage | **A** | **A** | La note couvre le pilotage et le périmètre du projet. | `02-modele-cible/note-cadrage.md` |
+| Planifier | **A** | **A** | Le planning Gantt reste la preuve de planification. | `planning-projet_chasse_immo.gan` |
+| Mitigation des risques | **NA** | **A** | La matrice des risques, le PCA/PRA testé au niveau POC et le plan de migration couvrent désormais cette compétence. | `03-architecture/matrice-risques.md`, `03-architecture/pca-pra-complet-maj.md`, `03-architecture/plan-migration.md` |
+| Engagement des parties prenantes | **EC** | **EC** | Le RACI est produit mais les preuves réelles d'interactions et validations restent à consolider. | `02-modele-cible/RACI.md` |
+
+### Évolution importante
+
+Au 06/09/2026 :
+
+```text
+mitigation des risques
+→ NA
+```
+
+Au 09/09/2026 :
+
+```text
+matrice des risques
++
+POC haute disponibilité
++
+PCA / PRA
++
+restauration distante
++
+plan de migration
+=
+preuve désormais produite
+```
+
+---
+
+### BC03 --- Concevoir & développer
+
+| Compétence | Statut au 06/09 | Statut au 09/09 | Justification au 09/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Architecture applicative + maquettes | **NA** | **NA** | La Phase 3 porte sur l'architecture SI et données, pas encore sur la conception détaillée de l'application. | Phase applicative ultérieure. |
+| Schématiser les processus métier | **A** | **A** | Le BPMN reste produit et validé. | `02-modele-cible/processus-metier.bpmn`, `02-modele-cible/processus-metier.png` |
+| Environnement + réduction d'impact éco | **EC** | **EC** | Les choix d'éco-conception et plusieurs composants d'infrastructure sont définis, mais l'environnement applicatif complet n'est pas encore finalisé. | `02-modele-cible/note-eco-conception.md`, documents Phase 3 |
+| Justifier les patterns | **NA** | **NA** | Les patterns applicatifs seront justifiés lors de la conception de l'application. | Phase applicative ultérieure. |
+| Sécurité applicative | **NA** | **NA** | Le développement applicatif cible n'est pas encore réalisé. | Phase applicative ultérieure. |
+| Scénarios de tests exécutés | **EC** | **EC** | De nombreux tests techniques SQL, performance, HA et PRA existent, mais le plan de tests applicatif demandé par BC03 reste à produire. | Benchmarks et POC Phase 3 ; tests applicatifs à venir. |
+| Suivi qualité automatisé | **NA** | **NA** | Aucun pipeline CI applicatif complet avec indicateurs de qualité n'est encore produit. | Phase applicative ultérieure. |
+
+La Phase 3 améliore fortement les preuves techniques, mais elle ne doit pas
+être utilisée pour déclarer prématurément acquises les compétences
+spécifiquement applicatives de BC03.
+
+---
+
+### Exigences transverses
+
+| Exigence | Statut au 06/09 | Statut au 09/09 | Justification |
+| --- | --- | --- | --- |
+| RGPD | **A** | **A** | Le registre RGPD reste produit et contextualisé. |
+| Éco-conception | **A** | **A** | La note d'éco-conception est produite et a été mise en cohérence avec les résultats de Phase 3. |
+| Accessibilité PSH | **NA** | **NA** | La preuve dédiée reste à produire. |
+| Souveraineté / sécurité IA | **NA** | **NA** | Cette preuve sera traitée avec la conception du volet IA. |
+
+---
+
+## 6.1 Synthèse chiffrée de l'évolution
+
+### État du 06/09/2026
+
+| Bloc | A | EC | NA |
+| --- | ---: | ---: | ---: |
+| BC05 | 0 | 2 | 3 |
+| BC01 | 1 | 2 | 3 |
+| BC02 | 5 | 2 | 1 |
+| BC03 | 1 | 2 | 4 |
+| Transverses | 2 | 0 | 2 |
+| **Total** | **9** | **8** | **13** |
+
+### État au 09/09/2026
+
+| Bloc | A | EC | NA |
+| --- | ---: | ---: | ---: |
+| BC05 | 3 | 0 | 2 |
+| BC01 | 4 | 2 | 0 |
+| BC02 | 6 | 2 | 0 |
+| BC03 | 1 | 2 | 4 |
+| Transverses | 2 | 0 | 2 |
+| **Total** | **16** | **6** | **8** |
+
+La progression est donc :
+
+```text
+A
+9 → 16
+
+EC
+8 → 6
+
+NA
+13 → 8
+```
+
+Cette évolution ne résulte pas d'un changement de méthode de notation.
+
+Elle correspond à l'apparition de nouvelles preuves entre le 06/09 et le
+09/09/2026.
+
+---
+
+## 6.2 Principales preuves acquises depuis le 06/09/2026
+
+Les évolutions principales sont :
+
+```text
+3V
+→ produit
+
+architecture de croissance
+→ produite
+
+comparaison des architectures
+→ produite
+
+schéma de composants
+→ produit
+
+matrice de décision
+→ produite
+
+benchmark indexation
+→ exécuté et documenté
+
+benchmark partitionnement
+→ exécuté et documenté
+
+réplication / haute disponibilité
+→ testée au niveau POC
+
+Citus / sharding
+→ testé et positionné comme option future
+
+OLTP / OLAP
+→ conçu et documenté
+
+ETL
+→ produit
+
+qualité analytique
+→ formalisée
+
+matrice de risques
+→ produite
+
+PCA / PRA
+→ testé au niveau POC
+
+plan de migration
+→ produit
+```
+
+---
+
+## 6.3 Compétences restant prioritaires
+
+Au 09/09/2026, les principaux manques ne concernent plus le cœur de
+l'architecture de croissance de Phase 3.
+
+Ils concernent surtout les phases suivantes :
+
+1. accessibilité PSH ;
+2. modèle de matching et features ;
+3. programme IA ;
+4. souveraineté et sécurité IA ;
+5. architecture applicative ;
+6. maquettes ;
+7. patterns logiciels ;
+8. sécurité applicative ;
+9. plan de tests applicatif ;
+10. pipeline CI et suivi qualité.
+
+La note stratégique synthétique BC01 et les preuves d'engagement réel des
+parties prenantes restent également à consolider.
+
+---
+
+## 6.4 Conclusion au 09/09/2026
+
+L'état du projet a sensiblement évolué depuis l'auto-évaluation du 06/09/2026.
+
+La Phase 3 a transformé plusieurs éléments qui étaient encore théoriques ou
+absents en preuves concrètes :
+
+```text
+hypothèses
+→ architecture
+
+architecture
+→ expérimentations
+
+expérimentations
+→ mesures
+
+mesures
+→ décisions
+
+décisions
+→ risques et continuité
+
+continuité
+→ tests de reprise
+
+reprise
+→ stratégie de migration
+```
+
+La Phase 3 peut désormais être auditée sur la base de livrables et de preuves
+techniques réelles.
+
+Les statuts historiques du 06/09/2026 restent volontairement conservés afin que
+le document montre l'évolution du projet au lieu d'effacer son historique.

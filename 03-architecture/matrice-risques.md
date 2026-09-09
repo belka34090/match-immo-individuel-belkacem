@@ -6,7 +6,7 @@
 
 Cette matrice identifie les principaux risques susceptibles d'affecter la continuité, la disponibilité, l'intégrité, la sécurité et la migration du SI Match-Immo.
 
-Elle sert de base aux décisions de mitigation, au PCA (Plan de Continuité d'Activité), au PRA (Plan de Reprise d'Activité) et au plan de migration.
+Elle sert de base aux décisions de mitigation, au PCA (Plan de Continuité d'Activité), au PRA (Plan de Reprise d'Activité) et au `03-architecture/plan-migration.md`.
 
 La matrice distingue :
 
@@ -59,9 +59,9 @@ Criticité = Probabilité × Impact
 | ID | Risque | Actif / activité concerné | Prob. | Impact | Criticité initiale | Mesures de mitigation | Preuve / contrôle | Risque résiduel | Responsable cible |
 |---|---|---|---:|---:|---:|---|---|---|---|
 | R01 | Panne de l'instance PostgreSQL primaire | Base OLTP / activité métier | 3 | 4 | 12 — Critique | Réplication PostgreSQL, replica, failover automatique, stockage persistant | POC CloudNativePG : 10 M lignes, promotion automatique, nouvelle écriture après bascule, retour à `streaming`, retard WAL final 0 byte | Modéré | Exploitation / DBA |
-| R02 | Perte physique de la machine ou du site hébergeant toutes les instances | Ensemble du SI | 2 | 4 | 8 — Élevé | Nœuds physiques distincts en production, sauvegardes externalisées, PRA documenté | Limite explicitement identifiée dans le POC HA local ; test multi-site non couvert par le laboratoire | Modéré | Infrastructure / exploitation |
-| R03 | Perte de données après incident | Données métier | 2 | 4 | 8 — Élevé | Sauvegardes incrémentales horaires, points 12 h, sauvegarde complète quotidienne, rétention contrôlée | Note d'éco-conception : cible RPO ≈ 1 h ; test réel de restauration à produire dans le PRA | Modéré tant que restauration non testée | DBA / exploitation |
-| R04 | Sauvegarde inutilisable ou restauration impossible | Données / PRA | 2 | 4 | 8 — Élevé | Tests périodiques de restauration, contrôle d'intégrité, journal de tests | Test de sauvegarde/restauration à produire dans la Phase 3 | Élevé tant que non testé | DBA / exploitation |
+| R02 | Perte physique de la machine ou du site hébergeant toutes les instances | Ensemble du SI | 2 | 4 | 8 — Élevé | Nœuds physiques distincts en production, sauvegardes externalisées, PRA documenté | Limite du POC HA local explicitée ; restauration distante validée sur un site B indépendant à partir d'une sauvegarde externalisée | Modéré | Infrastructure / exploitation |
+| R03 | Perte de données après incident | Données métier | 2 | 4 | 8 — Élevé | Sauvegardes incrémentales horaires, points 12 h, sauvegarde complète quotidienne, rétention contrôlée | Restaurations locale et distante validées avec contrôle d'intégrité ; cible RPO ≈ 1 h documentée mais chaîne automatisée horaire non encore démontrée | Modéré | DBA / exploitation |
+| R04 | Sauvegarde inutilisable ou restauration impossible | Données / PRA | 2 | 4 | 8 — Élevé | Tests périodiques de restauration, contrôle d'intégrité, journal de tests | Sauvegarde restaurée localement puis sur un site B indépendant ; volumes et empreintes d'intégrité contrôlés ; écriture post-restauration validée | Modéré | DBA / exploitation |
 | R05 | Réplication asynchrone non totalement à jour au moment d'une panne brutale | Base OLTP | 2 | 3 | 6 — Modéré | Supervision du lag WAL, politique RPO, sauvegardes indépendantes | POC HA : `streaming`, `async`, retard observé 0 byte après synchronisation ; limite RPO nul explicitement non garantie | Faible à modéré | DBA |
 | R06 | Corruption logique ou suppression accidentelle propagée au replica | Données métier | 2 | 4 | 8 — Élevé | Sauvegardes historiques, contrôles d'accès, restauration à un point sain, séparation réplication/sauvegarde | Dossier architecture : réplication ≠ sauvegarde ; politique de rétention documentée | Modéré | DBA / sécurité |
 | R07 | Requête lente ou saturation liée à la croissance des volumes | Performance OLTP | 3 | 3 | 9 — Élevé | Indexation mesurée, partitionnement ciblé, suivi `EXPLAIN ANALYZE`, dimensionnement 3V | Benchmark indexation : ≈4,3× ; benchmark partitionnement : ≈5,2× | Modéré | DBA / Data Engineer |
@@ -93,9 +93,11 @@ R04 — sauvegarde/restauration défaillante
 
 Les POC réalisés réduisent déjà fortement R01.
 
-Les risques R03 et R04 ne seront considérés comme correctement maîtrisés qu'après un **test réel de sauvegarde et de restauration**.
+Les tests de restauration locale et distante réduisent désormais les risques R03 et R04.
 
-Les risques R11 et R12 seront traités dans le plan de migration avec :
+La restaurabilité a été démontrée sur le jeu de données du POC. En revanche, le **RPO cible d'environ 1 heure reste un objectif d'architecture** tant qu'une chaîne automatisée produisant et validant réellement un point restaurable chaque heure n'a pas été démontrée.
+
+Les risques R11 et R12 sont traités dans `03-architecture/plan-migration.md` avec :
 
 - préparation ;
 - sauvegarde ;
@@ -163,4 +165,4 @@ REVENIR EN ARRIÈRE
 → rollback de migration
 ```
 
-Cette matrice alimente directement le PCA, le PRA et le plan de migration de Match-Immo.
+Cette matrice alimente directement le PCA, le PRA et `03-architecture/plan-migration.md`.

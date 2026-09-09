@@ -70,8 +70,14 @@ La cible associée est un RPO d'environ une heure.
 Le RPO (Recovery Point Objective) représente la quantité maximale de données
 que l'organisation accepte de perdre après un incident.
 
-Cette valeur constitue une cible de conception. Elle devra être confirmée dans
-le futur PCA/PRA et par des tests réels de sauvegarde et de restauration.
+Cette valeur reste une cible d'exploitation.
+
+Le PCA/PRA de Phase 3 a validé au niveau POC la restaurabilité locale et
+distante d'une sauvegarde. En revanche, une chaîne automatisée produisant
+réellement un point restaurable toutes les heures n'a pas encore été démontrée.
+
+Le RPO d'environ une heure reste donc un objectif d'architecture, et non une
+mesure de production déjà obtenue.
 
 ---
 
@@ -163,16 +169,23 @@ en Phase 3 selon les besoins réels et les volumes mesurés.
 
 Cette note définit des choix de conception et non un mécanisme déjà déployé.
 
-Les points suivants devront être vérifiés lors des phases techniques :
+Les travaux de Phase 3 ont déjà permis de valider au niveau POC :
 
-- fonctionnement réel des sauvegardes ;
-- test de restauration ;
-- volume réellement occupé ;
-- temps nécessaire à une restauration ;
-- cohérence du RPO avec le PCA/PRA ;
-- consommation des requêtes importantes ;
-- fréquence réellement nécessaire pour l'OLAP ;
-- politique de stockage et de purge des médias.
+- une sauvegarde restaurable ;
+- une restauration locale ;
+- une restauration distante sur un site indépendant ;
+- un contrôle d'intégrité après restauration ;
+- une reprise des écritures après restauration.
+
+Les points restant à vérifier ou industrialiser concernent notamment :
+
+- l'automatisation réelle des sauvegardes horaires ;
+- une chaîne de sauvegarde physique et de PITR adaptée à la production ;
+- le volume réellement occupé en exploitation ;
+- le RTO complet mesuré de bout en bout ;
+- la consommation des requêtes importantes ;
+- la fréquence réellement nécessaire pour l'OLAP ;
+- la politique de stockage et de purge des médias.
 
 Les décisions pourront être ajustées si des mesures réelles montrent qu'un
 autre compromis répond mieux au besoin métier.
@@ -194,5 +207,11 @@ limitée.
 Cette stratégie permet de viser un RPO d'environ une heure tout en évitant de
 stocker et traiter inutilement de multiples copies complètes.
 
-La politique sera reliée au PCA/PRA et validée techniquement par des tests de
-sauvegarde et de restauration lors de la Phase 3.
+La politique est désormais reliée au PCA/PRA de Phase 3.
+
+Les tests ont démontré au niveau POC qu'une sauvegarde peut être restaurée
+localement puis sur un site distant indépendant avec contrôle d'intégrité et
+reprise des écritures.
+
+La cible RPO d'environ une heure reste toutefois à industrialiser et à
+démontrer par une chaîne automatisée de sauvegarde et de restauration.
