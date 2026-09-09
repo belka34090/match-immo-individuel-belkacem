@@ -1236,7 +1236,7 @@ COMMIT
 La preuve détaillée est conservée dans :
 
 ``` text
-02-modele-cible/preuves/reprise-donnees-validation.md
+02-modele-cible/reprise-donnees-validation.md
 ```
 
 ------------------------------------------------------------------------
@@ -1253,7 +1253,7 @@ Pour la Phase 2, les livrables concernés comprennent :
 -   documentation du MLD ;
 -   `migration-final.sql` ;
 -   `reprise-donnees-final.sql` ;
--   `preuves/reprise-donnees-validation.md` ;
+-   `reprise-donnees-validation.md` ;
 -   cahier des charges technique ;
 -   étude d'opportunité ;
 -   journal des décisions techniques.
@@ -1353,7 +1353,7 @@ Le contrôle réalisé a confirmé :
 + le mandat 9 rejeté pour l'anomalie chronologique A-03
 ```
 
-La transaction de reprise s'est terminée par `COMMIT`. La preuve détaillée est conservée dans `preuves/reprise-donnees-validation.md`.
+La transaction de reprise s'est terminée par `COMMIT`. La preuve détaillée est conservée dans `reprise-donnees-validation.md`.
 
 ### 13.4 Historisation
 
@@ -1450,13 +1450,12 @@ sécurité et d'architecture.
 Le présent cahier des charges doit être lu conjointement avec :
 
 -   `note-cadrage.md` ;
--   `besoins-metier.md` ;
--   `regles-gestion.md` ;
+-   `besoins-metier-final.md` ;
 -   le MCD cible validé ;
--   `mld-cible.md` ;
+-   `mld-cible-final.md` ;
 -   `migration-final.sql` ;
 -   `reprise-donnees-final.sql` ;
--   `preuves/reprise-donnees-validation.md` ;
+-   `reprise-donnees-validation.md` ;
 -   le journal de décisions ;
 -   le registre RGPD ;
 -   la note d'éco-conception ;

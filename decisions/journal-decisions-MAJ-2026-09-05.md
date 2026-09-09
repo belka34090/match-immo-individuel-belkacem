@@ -45,6 +45,32 @@ Utiliser PostgreSQL dans l'environnement Docker du projet.
 -   Les décisions concernant le modèle cible seront ajoutées lors de la
     phase 2.
 
+### Décisions associées à l'audit de l'existant
+
+#### Distinguer anomalies de données et risques structurels
+
+Les anomalies réellement observées dans les données sont distinguées des
+risques rendus possibles par la structure du schéma.
+
+Cette séparation évite de présenter comme anomalie avérée un problème qui
+n'est encore qu'un risque de conception.
+
+#### Conserver la Phase 1 centrée sur l'existant
+
+La cartographie et l'audit de la Phase 1 représentent uniquement le système
+hérité.
+
+Les futures tables, règles et solutions du modèle cible ne sont pas introduites
+dans cette représentation afin de ne pas mélanger l'existant et la cible.
+
+#### Utiliser le 25/07/2026 comme date de référence métier
+
+Les contrôles temporels de l'audit utilisent le 25 juillet 2026 comme date de
+référence métier, conformément aux données et au contexte fournis par le
+projet.
+
+Cette date sert notamment à interpréter la validité des mandats.
+
 ------------------------------------------------------------------------
 
 ## ADR-002 --- Séparer l'utilisateur de ses rôles métier
@@ -79,8 +105,8 @@ rôle dans le processus métier et facilite les contrôles de cohérence.
 ### Preuves
 
 -   `01-audit/registre-anomalies.md`
--   `02-modele-cible/mcd-cible.png`
--   `02-modele-cible/mld-cible.md`
+-   `02-modele-cible/mcd-cible-final-propre.drawio.png`
+-   `02-modele-cible/mld-cible-final.md`
 
 ------------------------------------------------------------------------
 
@@ -115,10 +141,9 @@ permet de savoir qui a effectué une modification.
 
 ### Preuves
 
--   `02-modele-cible/besoins-metier.md`
--   `02-modele-cible/regles-gestion.md`
--   `02-modele-cible/mcd-cible.png`
--   `02-modele-cible/mld-cible.md`
+-   `02-modele-cible/besoins-metier-final.md`
+-   `02-modele-cible/mcd-cible-final-propre.drawio.png`
+-   `02-modele-cible/mld-cible-final.md`
 
 ------------------------------------------------------------------------
 
@@ -153,9 +178,8 @@ conserver une demande qui n'aboutit pas à un mandat.
 
 ### Preuves
 
--   `02-modele-cible/besoins-metier.md`
--   `02-modele-cible/regles-gestion.md`
--   `02-modele-cible/mld-cible.md`
+-   `02-modele-cible/besoins-metier-final.md`
+-   `02-modele-cible/mld-cible-final.md`
 -   `02-modele-cible/reprise-donnees-final.sql`
 
 ------------------------------------------------------------------------
@@ -192,8 +216,8 @@ bien.
 
 ### Preuves
 
--   `02-modele-cible/mcd-cible.png`
--   `02-modele-cible/mld-cible.md`
+-   `02-modele-cible/mcd-cible-final-propre.drawio.png`
+-   `02-modele-cible/mld-cible-final.md`
 
 ------------------------------------------------------------------------
 
@@ -241,7 +265,7 @@ Une valeur inventée donnerait une fausse information métier.
 
 -   `01-audit/registre-anomalies.md`
 -   `02-modele-cible/reprise-donnees-final.sql`
--   `02-modele-cible/preuves/reprise-donnees-validation.md`
+-   `02-modele-cible/reprise-donnees-validation.md`
 
 ------------------------------------------------------------------------
 
@@ -272,15 +296,15 @@ niveau.
 ### Conséquences
 
 -   Le Gantt est mis à jour aux jalons importants.
--   `auto-evaluation.md` représente l'état courant des compétences.
+-   `auto-evaluation-MAJ-2026-09-05.md` représente l'état courant des compétences.
 -   Le présent journal conserve les changements significatifs.
 -   Git fournit l'historique technique des modifications.
 
 ### Preuves
 
 -   `planning-projet_chasse_immo.gan`
--   `auto-evaluation.md`
--   `decisions/journal-decisions.md`
+-   `auto-evaluation-MAJ-2026-09-05.md`
+-   `decisions/journal-decisions-MAJ-2026-09-05.md`
 
 ------------------------------------------------------------------------
 
@@ -328,7 +352,7 @@ et défendable.
                                                           dédiée reste à      
                                                           finaliser.          
 
-  05/09/2026   BC02         CDC technique     NA → **EC** Le CDCT est produit `02-modele-cible/cahier-des-charges-technique.md`
+  05/09/2026   BC02         CDC technique     NA → **EC** Le CDCT est produit `02-modele-cible/cahier-des-charges-technique-MAJ.md`
                             (RGPD + PSH)                  ; le registre RGPD  
                                                           et la note PSH      
                                                           restent à           
@@ -444,7 +468,7 @@ et défendable.
 
 1.  vérifier le livrable et sa preuve ;
 2.  mettre à jour le Gantt si l'avancement ou le planning change ;
-3.  mettre à jour `auto-evaluation.md` si une compétence change de
+3.  mettre à jour `auto-evaluation-MAJ-2026-09-05.md` si une compétence change de
     niveau ;
 4.  ajouter ici une ligne uniquement lorsqu'un changement de niveau a
     réellement lieu ;
@@ -545,3 +569,78 @@ La synthèse de l'auto-évaluation passe à :
 - `02-modele-cible/registre-rgpd.md`
 - `02-modele-cible/note-eco-conception.md`
 - `auto-evaluation-MAJ-2026-09-05.md`
+
+------------------------------------------------------------------------
+
+## ADR-009 — Retenir PostgreSQL comme SGBD transactionnel cible
+
+-   **Phase :** 2 — Modèle cible
+-   **Statut :** accepté
+-   **Décideur :** Belkacem
+-   **Origine :** consolidation de l'ancienne décision `DEC-006`
+
+### Contexte
+
+Le modèle cible comporte de nombreuses relations et doit garantir
+l'intégrité de données métier importantes : clients, chasseurs, mandats,
+demandes historisées, biens, offres, ventes, honoraires, commissions et
+paiements.
+
+Le SGBD retenu doit donc être adapté à un modèle fortement relationnel et
+permettre d'appliquer des contraintes d'intégrité fiables.
+
+### Options envisagées
+
+1. **PostgreSQL**
+   - SGBD relationnel ;
+   - clés étrangères, contraintes `UNIQUE`, `CHECK` et `NOT NULL` ;
+   - transactions ACID ;
+   - adapté à un modèle fortement structuré ;
+   - continuité avec la fixture PostgreSQL déjà utilisée pendant l'audit.
+
+2. **MySQL / MariaDB**
+   - solution relationnelle techniquement viable ;
+   - aucun avantage déterminant identifié dans ce projet par rapport à
+     PostgreSQL.
+
+3. **Base NoSQL documentaire**
+   - intéressante pour des données peu structurées ;
+   - moins adaptée ici aux nombreuses relations et contraintes
+     d'intégrité du modèle métier.
+
+### Décision
+
+PostgreSQL est retenu comme SGBD transactionnel du modèle cible.
+
+### Justification
+
+Le MLD est fortement relationnel et repose sur de nombreuses relations,
+contraintes d'unicité et règles d'intégrité.
+
+Les opérations liées notamment aux mandats, ventes, honoraires,
+commissions et paiements nécessitent également des garanties
+transactionnelles fortes.
+
+MySQL / MariaDB reste une alternative techniquement possible, mais ne
+présente pas d'avantage suffisant pour justifier un changement dans le
+contexte du projet.
+
+Une base NoSQL documentaire n'est pas retenue car elle ne correspond pas
+au besoin transactionnel et relationnel principal de cette phase.
+
+### Conséquences
+
+-   `02-modele-cible/migration-final.sql` cible PostgreSQL ;
+-   les types et contraintes du modèle cible suivent les capacités de
+    PostgreSQL ;
+-   `02-modele-cible/reprise-donnees-final.sql` charge le nouveau schéma
+    PostgreSQL ;
+-   les problématiques de croissance, OLAP, réplication, partitionnement
+    et distribution sont traitées séparément en Phase 3.
+
+### Preuves
+
+-   `02-modele-cible/mld-cible-final.md`
+-   `02-modele-cible/migration-final.sql`
+-   `02-modele-cible/reprise-donnees-final.sql`
+-   `03-architecture/dossier-architecture-de-croissance.md`

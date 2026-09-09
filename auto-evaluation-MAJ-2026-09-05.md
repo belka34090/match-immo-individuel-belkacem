@@ -51,7 +51,7 @@ Ce document a deux fonctions :
                           choix débattus          
 
   Scripts SQL             Commentés, rejouables,  BC05
-  (`migration.sql`,       transactionnels         
+  (`02-modele-cible/migration-final.sql`,       transactionnels
   requêtes)                                       
 
   Note d'indexation       1 page + captures       BC05

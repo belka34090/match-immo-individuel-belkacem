@@ -118,7 +118,7 @@ Contient la preuve de l’import de la base historique dans PostgreSQL.
 
 Fichier principal :
 
-- `import-postgresql.md`
+- `preuves/01-import/import-postgresql.md`
 
 ### `preuves/02-controles/`
 
@@ -126,7 +126,7 @@ Contient les contrôles réalisés après l’import afin de vérifier que les d
 
 Fichier principal :
 
-- `comptages-initiaux.md`
+- `preuves/02-controles/comptages-initiaux.md`
 
 ### `preuves/03-anomalies/`
 
@@ -134,8 +134,8 @@ Contient les requêtes SQL utilisées pour rechercher les anomalies ainsi que le
 
 Fichiers principaux :
 
-- `requetes-audit.sql`
-- `resultats-anomalies.md`
+- `preuves/03-anomalies/requetes-audit.sql`
+- `preuves/03-anomalies/resultats-anomalies.md`
 
 Une **requête SQL** est une instruction envoyée à une base de données pour consulter ou contrôler ses données.
 
@@ -147,7 +147,7 @@ Contient le contrôle final de la Phase 1.
 
 Fichier principal :
 
-- `validation-phase1.md`
+- `preuves/04-validation-finale/validation-phase1.md`
 
 Cette dernière vérification permet de confirmer que l’existant a été suffisamment analysé avant de commencer la conception de la solution cible.
 

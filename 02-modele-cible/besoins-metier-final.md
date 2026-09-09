@@ -262,6 +262,10 @@ Pour chaque commission calculée, il doit être possible d'identifier :
 
 Cette traçabilité permet de justifier le calcul de la rémunération.
 
+Les indicateurs de performance du chasseur doivent pouvoir être recalculés après le paiement d'une rémunération.
+
+Le renouvellement d'un mandat arrivé à échéance sans achat doit également pouvoir être pris en compte dans le calcul de performance du chasseur.
+
 ## 19. Facturation du chasseur
 
 Une commission peut donner lieu à une facture émise par le chasseur.
@@ -307,6 +311,8 @@ Le modèle cible doit permettre de garantir notamment :
 - la traçabilité des offres et des ventes ;
 - la traçabilité des honoraires, barèmes et commissions ;
 - la traçabilité des factures et paiements ;
+- l'interdiction des montants financiers négatifs ;
+- le contrôle des données obligatoires par le modèle de données ou par les règles applicatives ;
 - la reprise contrôlée des données provenant du système existant.
 
 Les contrôles techniques précis seront définis lors de l'implémentation de la base de données.
