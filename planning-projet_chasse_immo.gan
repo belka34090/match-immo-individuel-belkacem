@@ -99,31 +99,40 @@
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-17" duration="23" complete="0" expand="true">
-            <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-17" duration="4" complete="0" expand="true">
+        <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-17" duration="23" complete="100" expand="true">
+            <notes><![CDATA[Phase 3 réalisée en avance et considérée terminée au 09/09/2026. Les dates start/duration conservent le planning prévisionnel initial. Les preuves réelles sont réparties dans 03-architecture/, auto-evaluation-MAJ-2026-09-05.md et decisions/journal-decisions-MAJ-2026-09-05.md.]]></notes>
+            <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-17" duration="4" complete="100" expand="true">
+                <notes><![CDATA[Analyse 3V produite et versionnée le 07/09/2026. Preuve : 03-architecture/note-dimensionnement-3v.md, commit 608cadc.]]></notes>
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
                 <depend id="23" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="22" uid="484ce62c88844fd8b011bc40c7e7566d" name="Concevoir la séparation OLTP / OLAP" meeting="false" start="2026-09-21" duration="5" complete="0" expand="true">
+            <task id="22" uid="484ce62c88844fd8b011bc40c7e7566d" name="Concevoir la séparation OLTP / OLAP" meeting="false" start="2026-09-21" duration="5" complete="100" expand="true">
+                <notes><![CDATA[Séparation OLTP / OLAP conçue et documentée à partir du 07/09/2026, puis consolidée avec preuve d'alimentation réelle le 09/09/2026. Preuves : 03-architecture/oltp-olap-modele-decisionnel.md, 03-architecture/olap-schema.svg, 03-architecture/sql/olap-schema.sql et 03-architecture/sql/olap-etl.sql.]]></notes>
                 <depend id="25" type="2" difference="0" hardness="Strong"/>
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="23" uid="71c9184b5fde40ab87f5c94781f028d4" name="Étudier l’architecture PostgreSQL distribuée / Citus" meeting="false" start="2026-09-21" duration="5" complete="0" expand="true">
+            <task id="23" uid="71c9184b5fde40ab87f5c94781f028d4" name="Étudier l’architecture PostgreSQL distribuée / Citus" meeting="false" start="2026-09-21" duration="5" complete="100" expand="true">
+                <notes><![CDATA[Architecture distribuée PostgreSQL / Citus étudiée et comparée en Phase 3. Citus n'est pas retenu comme architecture obligatoire actuelle ; il reste une option d'évolution future. Preuves : 03-architecture/dossier-architecture-de-croissance.md et 03-architecture/matrice-décision-architecture.md.]]></notes>
                 <depend id="24" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="24" uid="9e9689ef86ec480eb866ed0ea09cf5df" name="Prototyper Citus avec k3d" meeting="false" start="2026-09-26" duration="5" complete="0" expand="true">
+            <task id="24" uid="9e9689ef86ec480eb866ed0ea09cf5df" name="Prototyper Citus avec k3d" meeting="false" start="2026-09-26" duration="5" complete="100" expand="true">
+                <notes><![CDATA[POC Citus / sharding réalisé et versionné le 08/09/2026. Preuve : 03-architecture/poc-citus/benchmark-citus-sharding.md, commit 2cb8a18.]]></notes>
                 <depend id="25" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="25" uid="f0759d37629d453498c9307bc404a0ea" name="Définir indexation, partitionnement et stratégie de performance" meeting="false" start="2026-10-01" duration="4" complete="0" expand="true">
+            <task id="25" uid="f0759d37629d453498c9307bc404a0ea" name="Définir indexation, partitionnement et stratégie de performance" meeting="false" start="2026-10-01" duration="4" complete="100" expand="true">
+                <notes><![CDATA[Stratégie de performance validée par benchmarks. Indexation et partitionnement testés le 07/09/2026. Preuves : 03-architecture/benchmark-indexation.md, commit e65b459, et 03-architecture/benchmark-partitionnement.md, commit 7dd2cc1.]]></notes>
                 <depend id="26" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="26" uid="4c4ac8ae19234e86abd175cb9bcf45fc" name="Formaliser PCA, PRA et stratégie de migration" meeting="false" start="2026-10-05" duration="5" complete="0" expand="true">
+            <task id="26" uid="4c4ac8ae19234e86abd175cb9bcf45fc" name="Formaliser PCA, PRA et stratégie de migration" meeting="false" start="2026-10-05" duration="5" complete="100" expand="true">
+                <notes><![CDATA[PCA/PRA, haute disponibilité, restauration distante, matrice des risques et plan de migration consolidés au 09/09/2026. Preuves : 03-architecture/benchmark-replication-ha.md, 03-architecture/pca-pra-complet-maj.md, 03-architecture/matrice-risques.md et 03-architecture/plan-migration.md.]]></notes>
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="27" uid="0e6b3149e2824a14b63353a8953c2c31" name="Concevoir le modèle décisionnel et les indicateurs" meeting="false" start="2026-09-26" duration="5" complete="0" expand="true">
+            <task id="27" uid="0e6b3149e2824a14b63353a8953c2c31" name="Concevoir le modèle décisionnel et les indicateurs" meeting="false" start="2026-09-26" duration="5" complete="100" expand="true">
+                <notes><![CDATA[Modèle décisionnel et indicateurs conçus à partir du 07/09/2026. Schéma OLAP, ETL, contrôles qualité et alimentation réelle documentés. Preuves : 03-architecture/oltp-olap-modele-decisionnel.md, 03-architecture/olap-schema.svg et 03-architecture/sql/olap-etl.sql.]]></notes>
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="28" uid="46f4e3aed3aa468aa15f409e758e26e9" name="Validation de la phase 3" meeting="true" start="2026-10-10" duration="0" complete="0" expand="true">
+            <task id="28" uid="46f4e3aed3aa468aa15f409e758e26e9" name="Validation de la phase 3" meeting="true" start="2026-10-10" duration="0" complete="100" expand="true">
+                <notes><![CDATA[Validation de la Phase 3 au 09/09/2026 après contrôle des livrables, preuves techniques, références de fichiers, auto-évaluation et journal des décisions. Phase terminée en avance par rapport au planning prévisionnel initial.]]></notes>
                 <depend id="30" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
