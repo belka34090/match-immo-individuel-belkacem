@@ -32,6 +32,16 @@ comparaison des architectures
 tests de disponibilité et de reprise
         ↓
 planification de la migration
+        ↓
+conception applicative
+        ↓
+matching et assistance IA
+        ↓
+validation humaine
+        ↓
+tests et sécurité
+        ↓
+qualité automatisée / CI
 ```
 
 Les décisions techniques sont fondées autant que possible sur une chaîne de
@@ -65,6 +75,9 @@ décision
 │
 ├── 03-architecture/
 │   └── croissance, OLAP, benchmarks, HA, PCA/PRA et migration
+│
+├── 04-application-ia/
+│   └── architecture applicative, matching, IA, tests et backend
 │
 ├── decisions/
 │   └── journal des décisions
@@ -290,7 +303,127 @@ rollback si nécessaire
 
 ---
 
-## 10. Traçabilité et pilotage
+## 10. Phase 4 — Application et IA
+
+Dossier :
+
+`04-application-ia/`
+
+Principaux livrables :
+
+- `04-application-ia/architecture-applicative.md`
+- `04-application-ia/maquettes.html`
+- `04-application-ia/matching-features.md`
+- `04-application-ia/programme-ia.md`
+- `04-application-ia/programme-ia.png`
+- `04-application-ia/plan-de-tests.md`
+- `04-application-ia/backend/`
+
+### Architecture applicative
+
+Le démonstrateur utilise un **monolithe modulaire**.
+
+Le principe est :
+
+    API FastAPI
+    ↓
+    services métier
+    ↓
+    faisabilité / matching / chasseur-IA
+    ↓
+    accès aux données avec SQLAlchemy
+    ↓
+    PostgreSQL
+
+Ce choix conserve une architecture simple et testable sans introduire
+prématurément la complexité de microservices.
+
+### Matching
+
+Le moteur de matching est déterministe, explicable et reproductible.
+
+Il utilise six features :
+
+- secteur ;
+- prix ;
+- surface ;
+- type de bien ;
+- nombre de pièces ;
+- DPE.
+
+Les pondérations sont :
+
+- secteur : 30 % ;
+- prix : 25 % ;
+- surface : 20 % ;
+- type de bien : 10 % ;
+- nombre de pièces : 10 % ;
+- DPE : 5 %.
+
+Une donnée absente n'est pas inventée.
+
+Le moteur conserve également le détail des contributions au score afin de
+pouvoir expliquer le classement obtenu.
+
+Exemple de référence :
+
+    bien 2
+    → 100,00 / 100
+
+    bien 1
+    → 98,57 / 100
+
+### Faisabilité et chasseur-IA
+
+Le backend fournit également :
+
+- une estimation de la faisabilité d'une demande ;
+- un classement des biens compatibles ;
+- des explications de matching ;
+- une synthèse destinée au chasseur immobilier ;
+- une étape de validation humaine.
+
+Le composant IA n'accède pas librement à PostgreSQL.
+
+Le backend sélectionne les données nécessaires avant traitement et les
+décisions importantes restent soumises à une validation humaine.
+
+### Tests
+
+Suite standard :
+
+    python -m pytest -q
+
+Résultat au 12/09/2026 :
+
+    47 passed, 5 skipped
+
+Les 5 tests ignorés correspondent aux tests d'intégration PostgreSQL exclus de
+la suite standard.
+
+Tests PostgreSQL exécutés explicitement :
+
+    5 passed
+
+### Qualité automatisée
+
+Une CI GitHub Actions exécute automatiquement :
+
+- Ruff ;
+- pytest.
+
+Le pipeline est déclenché sur les changements de la branche `develop` et sur
+les pull requests vers `develop`.
+
+Preuves :
+
+- `.github/workflows/phase4-backend.yml`
+- `04-application-ia/backend/ruff.toml`
+- `04-application-ia/backend/requirements-dev.txt`
+
+---
+
+## 11. Traçabilité et pilotage
 
 Les documents de suivi sont volontairement des **documents vivants**.
 
@@ -309,45 +442,63 @@ Repères actuels :
 
 09/09/2026
 → mise à jour après production des principales preuves de Phase 3
+
+12/09/2026
+→ consolidation de la Phase 4 applicative et IA
 ```
 
 ---
 
-## 11. État du projet au 09/09/2026
+## 12. État du projet au 12/09/2026
 
-Les principales preuves de Phase 3 sont désormais produites :
+Les Phases 1 à 3 disposent de leurs principales preuves :
 
+- audit et cartographie de l'existant ;
+- modèle cible ;
+- migration et reprise contrôlée ;
 - dimensionnement 3V ;
+- benchmarks ;
 - architecture de croissance ;
-- matrice de décision ;
-- benchmark d'indexation ;
-- benchmark de partitionnement ;
-- POC réplication / HA ;
-- POC Citus ;
-- modèle OLTP / OLAP ;
-- schéma analytique ;
-- ETL ;
-- qualité analytique ;
-- matrice de risques ;
+- OLTP / OLAP ;
+- risques ;
 - PCA / PRA au niveau POC ;
-- plan de migration et de bascule.
+- plan de migration.
 
-Les phases suivantes concernent notamment :
+Depuis le jalon du 09/09/2026, la Phase 4 a également produit :
 
-- accessibilité PSH ;
-- modèle de matching IA ;
-- schéma du programme IA ;
-- souveraineté et sécurité IA ;
-- conception applicative ;
+- architecture applicative ;
 - maquettes ;
-- patterns ;
-- développement ;
-- tests applicatifs ;
-- CI et suivi qualité.
+- modèle de matching ;
+- features et pondérations ;
+- programme IA ;
+- faisabilité ;
+- chasseur-IA ;
+- validation humaine ;
+- sécurité applicative et IA ;
+- tests unitaires et fonctionnels ;
+- tests d'intégration PostgreSQL ;
+- pipeline CI ;
+- accessibilité PSH au niveau conception ;
+- note de souveraineté et sécurité IA ;
+- note stratégique SI.
+
+La synthèse d'auto-évaluation au 12/09/2026 est :
+
+    28 compétences / exigences acquises
+    2 en cours
+    0 non abordée
+
+Les deux éléments encore ouverts sont :
+
+- le suivi du planning jusqu'à la clôture du projet ;
+- la preuve réelle d'engagement d'une partie prenante externe.
+
+Le projet entre donc dans une phase de clôture documentaire et de préparation
+de la soutenance.
 
 ---
 
-## 12. Ordre de lecture conseillé
+## 13. Ordre de lecture conseillé
 
 ```text
 README.md
@@ -373,11 +524,25 @@ README.md
 03-architecture/pca-pra-complet-maj.md
 ↓
 03-architecture/plan-migration.md
+↓
+04-application-ia/README.md
+↓
+04-application-ia/architecture-applicative.md
+↓
+04-application-ia/matching-features.md
+↓
+04-application-ia/programme-ia.md
+↓
+04-application-ia/plan-de-tests.md
+↓
+02-modele-cible/TRACABILITE-COMPETENCES.md
+↓
+auto-evaluation-MAJ-2026-09-05.md
 ```
 
 ---
 
-## 13. Référentiel
+## 14. Référentiel
 
 Projet :
 
