@@ -139,10 +139,10 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| U-E01 | détail des features | un score de matching calculé | génération de l'explication | chaque contribution importante est identifiable | À exécuter | ⬜ |
-| U-E02 | cohérence du score | détail des contributions disponible | affichage de l'explication | somme des contributions cohérente avec le score final | À exécuter | ⬜ |
-| U-E03 | point de vigilance | un critère faible existe | génération de l'explication | le critère faible est signalé | À exécuter | ⬜ |
-| U-E04 | absence d'invention | caractéristique inconnue | génération de l'explication | l'information est annoncée comme non disponible | À exécuter | ⬜ |
+| U-E01 | détail des features | un score de matching calculé | génération de l'explication | chaque contribution importante est identifiable | Contributions secteur, prix, surface, type, pièces et DPE identifiables | ✅ |
+| U-E02 | cohérence du score | détail des contributions disponible | affichage de l'explication | somme des contributions cohérente avec le score final | Somme des contributions vérifiée égale au score final | ✅ |
+| U-E03 | point de vigilance | un critère faible existe | génération de l'explication | le critère faible est signalé | Surface insuffisante signalée comme point de vigilance | ✅ |
+| U-E04 | absence d'invention | caractéristique inconnue | génération de l'explication | l'information est annoncée comme non disponible | DPE absent retourné comme non disponible, sans score inventé | ✅ |
 
 ---
 
@@ -164,7 +164,7 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 | --- | --- | --- | --- | --- | --- | --- |
 | F01 | analyse de faisabilité complète | demande valide | appel de l'API de faisabilité | réponse avec niveau, score et critères restrictifs | Score 53,33/100, niveau difficile, secteur restrictif, 2 biens compatibles sur 6 | ✅ |
 | F02 | matching complet | demande valide et biens disponibles | appel de l'API de matching | liste de biens classés avec scores | 2 biens retournés, classés : bien 2 = 100/100, bien 1 = 98,57/100 | ✅ |
-| F03 | détail d'un score | résultat de matching existant | demande du détail | contributions des features retournées | À exécuter | ⬜ |
+| F03 | détail d'un score | résultat de matching existant | demande du détail | contributions des features retournées | API réelle retourne score, contributions et points de vigilance depuis PostgreSQL | ✅ |
 | F04 | synthèse chasseur-IA | résultats calculés disponibles | génération de la synthèse | texte cohérent avec les résultats | Synthèse réelle produite depuis faisabilité + matching PostgreSQL | ✅ |
 | F05 | validation humaine | recommandation disponible | chasseur valide | statut de validation enregistré | Décision VALIDER enregistrée via API puis persistée dans PostgreSQL | ✅ |
 | F06 | refus humain | recommandation disponible | chasseur refuse | refus enregistré sans transmission automatique | Décision REFUSER enregistrée et persistée sans validation automatique | ✅ |
@@ -212,7 +212,7 @@ Commande :
 
 Résultat :
 
-    28 passed, 3 skipped
+    36 passed, 5 skipped
 
 Le test ignoré correspond au test d'intégration PostgreSQL, volontairement désactivé dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
 

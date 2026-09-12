@@ -65,6 +65,7 @@ def classer_biens_pour_demande(
                 "dpe": bien.dpe,
                 "score": matching["score"],
                 "details": matching["details"],
+                "explication": matching["explication"],
             }
         )
 

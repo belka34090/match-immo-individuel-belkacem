@@ -154,30 +154,107 @@ def calculer_score_matching(
     secteurs_demandes: set[int],
 ) -> dict:
     """
-    Calcule le score final de matching sur 100
-    ainsi que le détail de chaque contribution.
+    Calcule un score de matching explicable sur 100.
+
+    Une donnée explicitement demandée mais absente n'est jamais
+    inventée et ne reçoit aucun bonus artificiel.
+
+    Les critères non demandés restent neutres.
     """
 
     scores = {
         "secteur": score_secteur(bien, secteurs_demandes),
         "prix": score_prix(bien, version),
-        "surface": score_surface(bien, version),
+        "surface": (
+            None
+            if version.surface_min is not None and bien.surface is None
+            else score_surface(bien, version)
+        ),
         "type_bien": score_type_bien(bien, version),
-        "pieces": score_pieces(bien, version),
-        "dpe": score_dpe(bien, version),
+        "pieces": (
+            None
+            if version.nb_pieces_min is not None
+            and bien.nombre_pieces is None
+            else score_pieces(bien, version)
+        ),
+        "dpe": (
+            None
+            if version.dpe_min is not None and bien.dpe is None
+            else score_dpe(bien, version)
+        ),
     }
 
-    contributions = {
-        critere: scores[critere] * POIDS[critere]
+    criteres_non_disponibles = [
+        critere
+        for critere, score in scores.items()
+        if score is None
+    ]
+
+    criteres_evalues = [
+        critere
+        for critere, score in scores.items()
+        if score is not None
+    ]
+
+    poids_evalue = sum(
+        (POIDS[critere] for critere in criteres_evalues),
+        Decimal("0"),
+    )
+
+    contributions_brutes = {
+        critere: (
+            scores[critere] * POIDS[critere]
+            if scores[critere] is not None
+            else None
+        )
         for critere in POIDS
     }
 
-    score_final = sum(contributions.values(), Decimal("0"))
+    if poids_evalue == 0:
+        score_final = Decimal("0.00")
+        contributions = {
+            critere: None
+            for critere in POIDS
+        }
+    else:
+        facteur_normalisation = Decimal("100") / poids_evalue
+
+        contributions = {
+            critere: (
+                (
+                    contributions_brutes[critere]
+                    * facteur_normalisation
+                ).quantize(Decimal("0.01"))
+                if contributions_brutes[critere] is not None
+                else None
+            )
+            for critere in POIDS
+        }
+
+        score_final = sum(
+            (
+                contributions_brutes[critere]
+                for critere in criteres_evalues
+            ),
+            Decimal("0"),
+        )
+
+        score_final = (
+            score_final * facteur_normalisation
+        ).quantize(Decimal("0.01"))
+
+    points_vigilance = [
+        critere
+        for critere in criteres_evalues
+        if scores[critere] < Decimal("1")
+    ]
 
     return {
-        "score": score_final.quantize(Decimal("0.01")),
-        "details": {
-            critere: contribution.quantize(Decimal("0.01"))
-            for critere, contribution in contributions.items()
+        "score": score_final,
+        "details": contributions,
+        "explication": {
+            "criteres_evalues": criteres_evalues,
+            "criteres_non_disponibles": criteres_non_disponibles,
+            "points_vigilance": points_vigilance,
         },
     }
