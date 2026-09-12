@@ -166,10 +166,10 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 | F02 | matching complet | demande valide et biens disponibles | appel de l'API de matching | liste de biens classés avec scores | 2 biens retournés, classés : bien 2 = 100/100, bien 1 = 98,57/100 | ✅ |
 | F03 | détail d'un score | résultat de matching existant | demande du détail | contributions des features retournées | À exécuter | ⬜ |
 | F04 | synthèse chasseur-IA | résultats calculés disponibles | génération de la synthèse | texte cohérent avec les résultats | Synthèse réelle produite depuis faisabilité + matching PostgreSQL | ✅ |
-| F05 | validation humaine | recommandation disponible | chasseur valide | statut de validation enregistré | À exécuter | ⬜ |
-| F06 | refus humain | recommandation disponible | chasseur refuse | refus enregistré sans transmission automatique | À exécuter | ⬜ |
-| F07 | modification humaine | recommandation disponible | chasseur modifie la sélection | sélection modifiée avant validation | À exécuter | ⬜ |
-| F08 | parcours principal | demande valide | faisabilité → matching → synthèse → validation | parcours complet terminé sans erreur | À exécuter | ⬜ |
+| F05 | validation humaine | recommandation disponible | chasseur valide | statut de validation enregistré | Décision VALIDER enregistrée via API puis persistée dans PostgreSQL | ✅ |
+| F06 | refus humain | recommandation disponible | chasseur refuse | refus enregistré sans transmission automatique | Décision REFUSER enregistrée et persistée sans validation automatique | ✅ |
+| F07 | modification humaine | recommandation disponible | chasseur modifie la sélection | sélection modifiée avant validation | Décision MODIFIER enregistrée et persistée avant toute validation | ✅ |
+| F08 | parcours principal | demande valide | faisabilité → matching → synthèse → validation | parcours complet terminé sans erreur | Parcours complet API → PostgreSQL exécuté sans erreur jusqu'à la validation humaine | ✅ |
 
 ---
 
@@ -215,6 +215,48 @@ Résultat :
     28 passed, 3 skipped
 
 Le test ignoré correspond au test d'intégration PostgreSQL, volontairement désactivé dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
+
+### Test d'intégration PostgreSQL — validation humaine
+
+Commande :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q tests/test_human_validation_integration.py
+
+Résultat :
+
+    1 passed
+
+Ce test vérifie réellement les trois décisions humaines :
+
+    VALIDER
+    REFUSER
+    MODIFIER
+
+Chaque décision passe par l'API puis est enregistrée dans PostgreSQL.
+
+### Test d'intégration PostgreSQL — parcours complet
+
+Commande :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q tests/test_full_workflow_integration.py
+
+Résultat :
+
+    1 passed
+
+Ce test vérifie le parcours complet :
+
+    demande
+        ↓
+    faisabilité
+        ↓
+    matching
+        ↓
+    synthèse chasseur-IA
+        ↓
+    validation humaine
+        ↓
+    enregistrement PostgreSQL
 
 ### Test d'intégration PostgreSQL — chasseur-IA
 

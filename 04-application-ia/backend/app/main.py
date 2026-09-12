@@ -1,12 +1,21 @@
 from collections.abc import Generator
 
 from fastapi import Depends, FastAPI, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.feasibility_service import analyser_faisabilite_demande
 from app.chasseur_ai_service import generer_synthese_pour_demande
 from app.matching_service import classer_biens_pour_demande
+from app.human_validation_service import enregistrer_validation_pour_demande
+
+
+class ValidationHumaineEntree(BaseModel):
+    validateur_id: int
+    decision: str
+    commentaire: str | None = None
+
 
 
 app = FastAPI(
@@ -92,6 +101,36 @@ def chasseur_ia_demande(
     except ValueError as exc:
         raise HTTPException(
             status_code=404,
+            detail=str(exc),
+        ) from exc
+
+
+@app.post("/demandes/{id_demande}/validation-humaine")
+def validation_humaine_demande(
+    id_demande: int,
+    entree: ValidationHumaineEntree,
+    session: Session = Depends(get_session),
+) -> dict:
+    """
+    Enregistre la décision finale d'un utilisateur humain
+    sur la version courante d'une demande.
+
+    Décisions autorisées :
+    - VALIDER ;
+    - REFUSER ;
+    - MODIFIER.
+    """
+    try:
+        return enregistrer_validation_pour_demande(
+            session=session,
+            demande_id=id_demande,
+            validateur_id=entree.validateur_id,
+            decision=entree.decision,
+            commentaire=entree.commentaire,
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
             detail=str(exc),
         ) from exc
 

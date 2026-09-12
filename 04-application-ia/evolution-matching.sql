@@ -40,4 +40,39 @@ BEGIN
 END
 $$;
 
+
+-- ------------------------------------------------------------
+-- Controle humain des recommandations produites en Phase 4
+-- ------------------------------------------------------------
+--
+-- Une validation est rattachee a une version precise de la
+-- demande afin de conserver la trace du contexte qui a ete
+-- effectivement examine par le chasseur.
+--
+-- Plusieurs decisions peuvent etre conservees pour une meme
+-- version : par exemple MODIFIER puis VALIDER.
+CREATE TABLE IF NOT EXISTS fil_rouge_cible.validation_humaine (
+    id_validation INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+    version_demande_id INTEGER NOT NULL,
+    validateur_id INTEGER NOT NULL,
+
+    decision VARCHAR(20) NOT NULL,
+    commentaire TEXT,
+
+    date_validation TIMESTAMP WITHOUT TIME ZONE
+        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_validation_version_demande
+        FOREIGN KEY (version_demande_id)
+        REFERENCES fil_rouge_cible.version_demande(id_version),
+
+    CONSTRAINT fk_validation_validateur
+        FOREIGN KEY (validateur_id)
+        REFERENCES fil_rouge_cible.utilisateur(id_utilisateur),
+
+    CONSTRAINT chk_validation_decision
+        CHECK (decision IN ('VALIDER', 'REFUSER', 'MODIFIER'))
+);
+
 COMMIT;
