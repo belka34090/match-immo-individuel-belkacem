@@ -12,7 +12,7 @@ def test_matching_api_retourne_des_resultats(monkeypatch) -> None:
 
         return [
             {
-                "bien_id": 2,
+                "id_bien": 2,
                 "score": 100.0,
                 "details": {
                     "secteur": 30.0,
@@ -24,7 +24,7 @@ def test_matching_api_retourne_des_resultats(monkeypatch) -> None:
                 },
             },
             {
-                "bien_id": 1,
+                "id_bien": 1,
                 "score": 98.57,
                 "details": {
                     "secteur": 30.0,
@@ -51,9 +51,9 @@ def test_matching_api_retourne_des_resultats(monkeypatch) -> None:
 
     assert body["demande_id"] == 1
     assert body["nombre_resultats"] == 2
-    assert body["resultats"][0]["bien_id"] == 2
+    assert body["resultats"][0]["id_bien"] == 2
     assert body["resultats"][0]["score"] == 100.0
-    assert body["resultats"][1]["bien_id"] == 1
+    assert body["resultats"][1]["id_bien"] == 1
     assert body["resultats"][1]["score"] == 98.57
 
 

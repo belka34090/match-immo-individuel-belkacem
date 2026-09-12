@@ -4,6 +4,8 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
+from app.feasibility_service import analyser_faisabilite_demande
+from app.chasseur_ai_service import generer_synthese_pour_demande
 from app.matching_service import classer_biens_pour_demande
 
 
@@ -39,6 +41,59 @@ def health() -> dict[str, str]:
     il permet de savoir rapidement si le backend répond.
     """
     return {"status": "ok"}
+
+
+@app.get("/demandes/{id_demande}/faisabilite")
+def faisabilite_demande(
+    id_demande: int,
+    session: Session = Depends(get_session),
+) -> dict:
+    """
+    Analyse à quel point une demande est facile ou difficile
+    à satisfaire avec les biens disponibles.
+
+    Le résultat indique notamment :
+    - un score de faisabilité sur 100 ;
+    - un niveau de difficulté ;
+    - les critères les plus restrictifs ;
+    - le détail des données utilisées.
+    """
+    try:
+        return analyser_faisabilite_demande(
+            session=session,
+            demande_id=id_demande,
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        ) from exc
+
+
+@app.get("/demandes/{id_demande}/chasseur-ia")
+def chasseur_ia_demande(
+    id_demande: int,
+    session: Session = Depends(get_session),
+) -> dict:
+    """
+    Produit une synthèse chasseur-IA à partir :
+
+    - de la faisabilité ;
+    - du matching ;
+    - des données réelles de la demande.
+
+    La synthèse ne remplace pas la décision humaine.
+    """
+    try:
+        return generer_synthese_pour_demande(
+            session=session,
+            demande_id=id_demande,
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        ) from exc
 
 
 @app.get("/demandes/{id_demande}/matching")

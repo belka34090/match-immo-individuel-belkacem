@@ -107,12 +107,12 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| U-F01 | demande réaliste | plusieurs biens correspondent aux principaux critères | calcul de faisabilité | niveau de faisabilité favorable | À exécuter | ⬜ |
-| U-F02 | recherche restrictive | très peu de biens correspondent | calcul de faisabilité | résultat indique une recherche difficile ou restrictive | À exécuter | ⬜ |
-| U-F03 | critère secteur restrictif | aucun ou très peu de biens dans le secteur | analyse des critères | secteur identifié comme critère restrictif | À exécuter | ⬜ |
-| U-F04 | critère surface restrictif | surface minimale supérieure à la majorité des biens | analyse des critères | surface identifiée comme restrictive | À exécuter | ⬜ |
-| U-F05 | donnée manquante | DPE ou autre donnée non disponible | analyse | la donnée reste indiquée comme inconnue et n'est pas inventée | À exécuter | ⬜ |
-| U-F06 | résultat borné | demande quelconque | calcul du score de faisabilité | score compris entre 0 et 100 | À exécuter | ⬜ |
+| U-F01 | demande réaliste | plusieurs biens correspondent aux principaux critères | calcul de faisabilité | niveau de faisabilité favorable | Niveau favorable obtenu sur données de test | ✅ |
+| U-F02 | recherche restrictive | très peu de biens correspondent | calcul de faisabilité | résultat indique une recherche difficile ou restrictive | Niveau très restrictive obtenu | ✅ |
+| U-F03 | critère secteur restrictif | aucun ou très peu de biens dans le secteur | analyse des critères | secteur identifié comme critère restrictif | Secteur détecté comme restrictif | ✅ |
+| U-F04 | critère surface restrictif | surface minimale supérieure à la majorité des biens | analyse des critères | surface identifiée comme restrictive | Surface détectée comme restrictive | ✅ |
+| U-F05 | donnée manquante | DPE ou autre donnée non disponible | analyse | la donnée reste indiquée comme inconnue et n'est pas inventée | DPE conservé comme inconnu, sans valeur inventée | ✅ |
+| U-F06 | résultat borné | demande quelconque | calcul du score de faisabilité | score compris entre 0 et 100 | Bornage vérifié sur plusieurs scénarios | ✅ |
 
 ---
 
@@ -150,11 +150,11 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| U-AI01 | synthèse d'un matching | scores et données vérifiées disponibles | création de la synthèse | résumé cohérent avec les données | À exécuter | ⬜ |
-| U-AI02 | conservation du score | score calculé par le moteur de matching | génération de la synthèse | le chasseur-IA ne modifie pas le score | À exécuter | ⬜ |
-| U-AI03 | donnée absente | information inconnue | génération de la synthèse | aucune caractéristique n'est inventée | À exécuter | ⬜ |
-| U-AI04 | recommandation explicable | critères forts et faibles identifiés | génération de la synthèse | forces et points de vigilance apparaissent | À exécuter | ⬜ |
-| U-AI05 | absence de LLM | LLM indisponible ou désactivé | traitement du parcours | calculs de faisabilité et matching continuent de fonctionner | À exécuter | ⬜ |
+| U-AI01 | synthèse d'un matching | scores et données vérifiées disponibles | création de la synthèse | résumé cohérent avec les données | Synthèse cohérente avec faisabilité et matching | ✅ |
+| U-AI02 | conservation du score | score calculé par le moteur de matching | génération de la synthèse | le chasseur-IA ne modifie pas le score | Scores 53,33, 100,00 et 98,57 conservés | ✅ |
+| U-AI03 | donnée absente | information inconnue | génération de la synthèse | aucune caractéristique n'est inventée | Valeurs absentes conservées à None | ✅ |
+| U-AI04 | recommandation explicable | critères forts et faibles identifiés | génération de la synthèse | forces et points de vigilance apparaissent | Critères restrictifs présents dans les points de vigilance | ✅ |
+| U-AI05 | absence de LLM | LLM indisponible ou désactivé | traitement du parcours | calculs de faisabilité et matching continuent de fonctionner | Parcours exécuté avec llm_utilise = false | ✅ |
 
 ---
 
@@ -162,10 +162,10 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| F01 | analyse de faisabilité complète | demande valide | appel de l'API de faisabilité | réponse avec niveau, score et critères restrictifs | À exécuter | ⬜ |
-| F02 | matching complet | demande valide et biens disponibles | appel de l'API de matching | liste de biens classés avec scores | À exécuter | ⬜ |
+| F01 | analyse de faisabilité complète | demande valide | appel de l'API de faisabilité | réponse avec niveau, score et critères restrictifs | Score 53,33/100, niveau difficile, secteur restrictif, 2 biens compatibles sur 6 | ✅ |
+| F02 | matching complet | demande valide et biens disponibles | appel de l'API de matching | liste de biens classés avec scores | 2 biens retournés, classés : bien 2 = 100/100, bien 1 = 98,57/100 | ✅ |
 | F03 | détail d'un score | résultat de matching existant | demande du détail | contributions des features retournées | À exécuter | ⬜ |
-| F04 | synthèse chasseur-IA | résultats calculés disponibles | génération de la synthèse | texte cohérent avec les résultats | À exécuter | ⬜ |
+| F04 | synthèse chasseur-IA | résultats calculés disponibles | génération de la synthèse | texte cohérent avec les résultats | Synthèse réelle produite depuis faisabilité + matching PostgreSQL | ✅ |
 | F05 | validation humaine | recommandation disponible | chasseur valide | statut de validation enregistré | À exécuter | ⬜ |
 | F06 | refus humain | recommandation disponible | chasseur refuse | refus enregistré sans transmission automatique | À exécuter | ⬜ |
 | F07 | modification humaine | recommandation disponible | chasseur modifie la sélection | sélection modifiée avant validation | À exécuter | ⬜ |
@@ -178,7 +178,7 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
 | F-S01 | requête invalide | budget absent ou format incorrect | appel API | erreur contrôlée avec message compréhensible | À exécuter | ⬜ |
-| F-S02 | identifiant inconnu | ressource inexistante | appel API | réponse 404 ou erreur métier équivalente | À exécuter | ⬜ |
+| F-S02 | identifiant inconnu | ressource inexistante | appel API | réponse 404 ou erreur métier équivalente | HTTP 404 retourné avec message métier contrôlé | ✅ |
 | F-S03 | absence de biens compatibles | aucun bien après préfiltrage | matching | liste vide et explication claire | À exécuter | ⬜ |
 | F-S04 | données personnelles inutiles | opération de matching | préparation des données | nom, email et téléphone non transmis au composant IA | À exécuter | ⬜ |
 | F-S05 | protection des écritures | composant IA exécuté | tentative de modification directe des données métier | modification interdite ou impossible | À exécuter | ⬜ |
@@ -200,6 +200,126 @@ Un changement est accepté uniquement si les tests précédemment réussis reste
 
 # 12. Rapport d'exécution
 
+## Exécution intermédiaire — matching
+
+Les tests suivants ont réellement été exécutés pendant le développement.
+
+### Suite automatisée courante
+
+Commande :
+
+    python -m pytest -q
+
+Résultat :
+
+    28 passed, 3 skipped
+
+Le test ignoré correspond au test d'intégration PostgreSQL, volontairement désactivé dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
+
+### Test d'intégration PostgreSQL — chasseur-IA
+
+Commande :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q tests/test_chasseur_ai_integration.py
+
+Résultat :
+
+    1 passed
+
+Ce test vérifie le parcours réel :
+
+    API FastAPI
+        ↓
+    PostgreSQL
+        ↓
+    faisabilité
+        ↓
+    matching
+        ↓
+    synthèse chasseur-IA
+        ↓
+    validation humaine requise
+
+Le test vérifie également que :
+
+- le score de faisabilité reste à 53,33 / 100 ;
+- le meilleur bien conserve son score de 100 / 100 ;
+- le secteur reste identifié comme critère restrictif ;
+- aucun LLM n'est nécessaire au fonctionnement du cœur métier.
+
+### Test d'intégration PostgreSQL — faisabilité
+
+Commande :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q tests/test_feasibility_integration.py
+
+Résultat :
+
+    1 passed
+
+Pour la demande de démonstration `1`, le résultat obtenu est :
+
+    score : 53,33 / 100
+    niveau : difficile
+    biens disponibles : 6
+    biens compatibles : 2
+    critère restrictif : secteur
+
+Ce test vérifie le parcours réel :
+
+    API FastAPI
+        ↓
+    service de faisabilité
+        ↓
+    PostgreSQL
+        ↓
+    moteur de faisabilité
+        ↓
+    réponse HTTP
+
+### Test d'intégration PostgreSQL
+
+Commande :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q tests/test_matching_integration.py
+
+Résultat :
+
+    1 passed
+
+Ce test vérifie le parcours réel :
+
+    API FastAPI
+        ↓
+    service métier
+        ↓
+    PostgreSQL
+        ↓
+    moteur de matching
+        ↓
+    classement
+        ↓
+    réponse HTTP
+
+Pour la demande de démonstration `1`, le résultat obtenu est :
+
+    2 biens compatibles
+
+    bien 2
+    score : 100 / 100
+
+    bien 1
+    score : 98,57 / 100
+
+Le classement est retourné du score le plus élevé au plus faible.
+
+### Test d'erreur API
+
+Un test fonctionnel vérifie également qu'une demande inexistante provoque une réponse HTTP `404` contrôlée.
+
+Ces résultats constituent des preuves intermédiaires. Le rapport final sera complété lorsque l'ensemble des scénarios prévus aura été implémenté et exécuté.
+
+
 Après développement, ce document sera complété avec :
 
 - le résultat réellement obtenu ;
@@ -210,13 +330,14 @@ Après développement, ce document sera complété avec :
 - la commande d'exécution ;
 - la date d'exécution.
 
-Exemple attendu :
+Le bilan final indiquera :
 
-    41 tests collectés
-    41 tests réussis
-    0 test échoué
+- le nombre de tests réellement collectés ;
+- le nombre de tests réussis ;
+- le nombre de tests échoués ;
+- le nombre de tests volontairement ignorés.
 
-Ces valeurs ne seront renseignées qu'après une exécution réelle.
+Ces valeurs seront renseignées à partir des exécutions réelles du projet.
 
 ---
 
