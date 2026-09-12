@@ -528,3 +528,150 @@ techniques réelles.
 
 Les statuts historiques du 06/09/2026 restent volontairement conservés afin que
 le document montre l'évolution du projet au lieu d'effacer son historique.
+
+---
+
+## 7. Mise à jour de l'auto-évaluation au 12/09/2026
+
+> Cette section constitue un nouveau repère temporel.
+>
+> Elle complète les états du 06/09/2026 et du 09/09/2026 sans les supprimer.
+>
+> Cotation inchangée :
+>
+> - **NA** = non abordé ou preuve principale absente ;
+> - **EC** = en cours ou preuve encore incomplète ;
+> - **A** = acquis avec une preuve produite, vérifiable et défendable.
+
+Depuis le jalon du 09/09/2026, la Phase 4 applicative et IA a été réalisée et plusieurs preuves transverses ont été consolidées.
+
+La présente évaluation repose uniquement sur les éléments réellement présents et testés dans le dépôt au 12/09/2026.
+
+### BC05 --- Big data & IA
+
+| Compétence | Statut au 09/09 | Statut au 12/09 | Justification au 12/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Analyser 3V (volume, vélocité, variété) | **A** | **A** | L'analyse 3V reste produite, chiffrée et reliée aux choix d'architecture. | `03-architecture/note-dimensionnement-3v.md` |
+| Concevoir/évaluer un modèle de matching | **NA** | **A** | Le projet n'entraîne pas de modèle de Machine Learning. Le démonstrateur utilise un scoring déterministe, explicable et reproductible avec six features, pondérations documentées et tests automatisés. | `04-application-ia/matching-features.md`, `04-application-ia/backend/app/matching.py`, `04-application-ia/backend/tests/test_matching.py` |
+| Extraction/transformation/chargement + qualité + RGPD | **A** | **A** | La reprise historique, l'alimentation OLAP, les contrôles qualité et les règles RGPD disposent de preuves dédiées. | `02-modele-cible/reprise-donnees-validation.md`, `03-architecture/sql/olap-etl.sql`, `02-modele-cible/registre-rgpd.md` |
+| Concevoir la base pour analytique/IA | **A** | **A** | Les modèles OLTP et OLAP, l'alimentation analytique et les preuves d'optimisation sont produits. | `03-architecture/olap-schema.svg`, `03-architecture/sql/olap-schema.sql`, `03-architecture/benchmark-indexation.md` |
+| Schématiser/concevoir un programme d'IA | **NA** | **A** | Les entrées, traitements, sorties, règles de sécurité et validation humaine du programme IA sont désormais décrits et schématisés. | `04-application-ia/programme-ia.md`, `04-application-ia/programme-ia.png` |
+
+### BC01 --- Stratégie SI
+
+| Compétence | Statut au 09/09 | Statut au 12/09 | Justification au 12/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Cartographier le SI (analyse de risques) | **A** | **A** | L'audit et les cartographies restent validés. | `01-audit/` |
+| Élaborer la stratégie SI | **EC** | **A** | Une note stratégique SI dédiée consolide désormais les constats, objectifs et axes d'évolution. | `02-modele-cible/note-strategique-si.md` |
+| Comparer les architectures | **A** | **A** | Les architectures de croissance ont été comparées et expérimentées. | `03-architecture/dossier-architecture-de-croissance.md`, `03-architecture/matrice-décision-architecture.md` |
+| Analyser les composants d'architecture | **A** | **A** | Les composants OLTP, OLAP, réplication, sauvegarde, ETL et distribution sont analysés avec leurs interactions. | `03-architecture/dossier-architecture-de-croissance.md` |
+| Arbitrer performance / scalabilité / sécurité / éco-conception | **A** | **A** | Les arbitrages reposent sur des benchmarks, une matrice de décision, une matrice de risques et les principes d'éco-conception. | `03-architecture/matrice-décision-architecture.md`, `03-architecture/matrice-risques.md` |
+| Présenter des solutions écoresponsables | **EC** | **A** | Les préconisations SI et d'éco-conception sont désormais consolidées et reliées aux choix techniques réels. L'oral constituera une preuve complémentaire de présentation. | `02-modele-cible/note-eco-conception.md`, `02-modele-cible/note-strategique-si.md` |
+
+### BC02 --- Piloter des projets
+
+| Compétence | Statut au 09/09 | Statut au 12/09 | Justification au 12/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Étude d'opportunité | **A** | **A** | Preuve déjà produite et validée. | `02-modele-cible/etude-opportunite.md` |
+| Prioriser les fonctionnalités | **A** | **A** | Le backlog priorisé reste la preuve de référence. | `02-modele-cible/backlog-priorise.md` |
+| CDC technique (RGPD + PSH) | **EC** | **A** | Le CDC, le registre RGPD et la note dédiée à l'accessibilité PSH sont désormais produits. | `02-modele-cible/cahier-des-charges-technique-MAJ.md`, `02-modele-cible/registre-rgpd.md`, `02-modele-cible/note-accessibilite-psh.md` |
+| Modéliser les processus métier | **A** | **A** | Le processus métier principal reste formalisé en BPMN. | `02-modele-cible/processus-metier.bpmn`, `02-modele-cible/processus-metier.png` |
+| Note de cadrage | **A** | **A** | La note couvre le périmètre, les objectifs, risques, acteurs, planning et critères de réussite. | `02-modele-cible/note-cadrage.md` |
+| Planifier | **A** | **EC** | Le Gantt existe et structure le projet, mais son suivi reste actif jusqu'à la clôture du projet. | `planning-projet_chasse_immo.gan` |
+| Mitigation des risques | **A** | **A** | La matrice de risques, le PCA/PRA et le plan de migration couvrent la gestion et la réduction des risques. | `03-architecture/matrice-risques.md`, `03-architecture/pca-pra-complet-maj.md`, `03-architecture/plan-migration.md` |
+| Engagement des parties prenantes | **EC** | **EC** | Les responsabilités sont formalisées, mais aucune interaction externe ne doit être inventée. Une preuve réelle d'échange ou de validation reste nécessaire. | `02-modele-cible/RACI.md`, `decisions/journal-decisions-MAJ-2026-09-05.md` |
+
+### BC03 --- Concevoir & développer
+
+| Compétence | Statut au 09/09 | Statut au 12/09 | Justification au 12/09/2026 | Preuve principale |
+| --- | --- | --- | --- | --- |
+| Architecture applicative + maquettes | **NA** | **A** | Une architecture applicative et des maquettes des principaux parcours sont désormais produites. | `04-application-ia/architecture-applicative.md`, `04-application-ia/maquettes.html` |
+| Schématiser les processus métier | **A** | **A** | Le BPMN reste produit et défendable. | `02-modele-cible/processus-metier.bpmn`, `02-modele-cible/processus-metier.png` |
+| Environnement + réduction d'impact éco | **EC** | **A** | L'environnement applicatif s'inscrit dans une architecture progressive et proportionnée, cohérente avec la note d'éco-conception. | `04-application-ia/architecture-applicative.md`, `02-modele-cible/note-eco-conception.md` |
+| Justifier les patterns | **NA** | **A** | L'architecture en couches, la séparation des responsabilités et le monolithe modulaire sont décrits et justifiés. | `04-application-ia/architecture-applicative.md` |
+| Sécurité applicative | **NA** | **A** | Le backend applique la validation des entrées, une gestion contrôlée des erreurs, la minimisation des données IA et la validation humaine. Ces comportements sont testés. | `04-application-ia/backend/tests/test_api_security.py`, `04-application-ia/backend/tests/test_chasseur_ai_security.py` |
+| Scénarios de tests exécutés | **EC** | **A** | Le plan de tests est produit et exécuté. La suite standard obtient `47 passed, 5 skipped` et les 5 tests d'intégration PostgreSQL passent explicitement. | `04-application-ia/plan-de-tests.md`, `04-application-ia/backend/tests/` |
+| Suivi qualité automatisé | **NA** | **A** | Une CI GitHub Actions exécute automatiquement Ruff et pytest sur la branche `develop`. Le pipeline est opérationnel et validé. | `.github/workflows/phase4-backend.yml`, `04-application-ia/backend/ruff.toml` |
+
+### Exigences transverses
+
+| Exigence | Statut au 09/09 | Statut au 12/09 | Justification | Preuve principale |
+| --- | --- | --- | --- | --- |
+| RGPD | **A** | **A** | Le registre RGPD est complété par des contrôles techniques de minimisation des données dans le backend. | `02-modele-cible/registre-rgpd.md`, `04-application-ia/backend/tests/test_chasseur_ai_security.py` |
+| Éco-conception | **A** | **A** | Les principes sont intégrés aux choix d'architecture et de dimensionnement. | `02-modele-cible/note-eco-conception.md` |
+| Accessibilité PSH | **NA** | **A** | Une note dédiée est produite et les principes sont intégrés à la conception et aux maquettes. L'acquisition porte sur le niveau de conception, pas sur une déclaration de conformité complète de l'interface. | `02-modele-cible/note-accessibilite-psh.md` |
+| Souveraineté / sécurité IA | **NA** | **A** | Une note dédiée et des contrôles techniques encadrent l'accès aux données, leur minimisation et le rôle de la validation humaine. | `02-modele-cible/note-souverainete-securite-ia.md`, `04-application-ia/backend/tests/test_chasseur_ai_security.py` |
+
+---
+
+## 7.1 Synthèse chiffrée au 12/09/2026
+
+| Bloc | A | EC | NA |
+| --- | ---: | ---: | ---: |
+| BC05 | 5 | 0 | 0 |
+| BC01 | 6 | 0 | 0 |
+| BC02 | 6 | 2 | 0 |
+| BC03 | 7 | 0 | 0 |
+| Transverses | 4 | 0 | 0 |
+| **Total** | **28** | **2** | **0** |
+
+L'évolution globale est donc :
+
+    06/09/2026
+    9 A / 8 EC / 13 NA
+
+    09/09/2026
+    16 A / 6 EC / 8 NA
+
+    12/09/2026
+    28 A / 2 EC / 0 NA
+
+Cette progression correspond à la production de nouvelles preuves. Elle ne résulte pas d'un assouplissement de la méthode d'évaluation.
+
+---
+
+## 7.2 Éléments restant réellement ouverts
+
+Deux compétences restent volontairement classées **EC** :
+
+1. **Planification du projet**
+   - le planning existe ;
+   - les jalons sont structurés ;
+   - son suivi doit continuer jusqu'à la clôture du projet.
+
+2. **Engagement des parties prenantes**
+   - le RACI existe ;
+   - les responsabilités sont formalisées ;
+   - une preuve réelle d'interaction, de retour ou de validation externe reste à conserver.
+
+Aucune interaction externe ne doit être inventée pour transformer artificiellement cette compétence en **A**.
+
+Les autres compétences disposent désormais de preuves produites et défendables dans le périmètre du projet.
+
+---
+
+## 7.3 Repère d'avancement
+
+Au 09/09/2026, les principaux éléments encore manquants concernaient la Phase 4 applicative et IA.
+
+Au 12/09/2026, sont désormais produits et contrôlés :
+
+- le modèle de matching ;
+- les features et pondérations ;
+- le programme IA ;
+- l'architecture applicative ;
+- les maquettes ;
+- les patterns logiciels ;
+- le backend démonstrateur ;
+- la faisabilité ;
+- le chasseur-IA ;
+- la validation humaine ;
+- la sécurité applicative ;
+- les tests unitaires et fonctionnels ;
+- les tests d'intégration PostgreSQL ;
+- le pipeline CI ;
+- l'accessibilité PSH au niveau conception ;
+- la souveraineté et la sécurité IA ;
+- la note stratégique SI.
+
+Le projet entre donc dans une phase de clôture documentaire, de mise à jour du pilotage et de préparation de la soutenance.
