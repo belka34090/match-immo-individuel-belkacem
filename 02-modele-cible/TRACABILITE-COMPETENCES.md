@@ -273,12 +273,13 @@ Une étude d’opportunité et un cahier des charges ont été produits.
 - `02-modele-cible/etude-opportunite.md`
 - `02-modele-cible/besoins-metier-final.md`
 - `02-modele-cible/cahier-des-charges-technique-MAJ.md`
+- `02-modele-cible/note-strategique-si.md`
 
 ### État actuel
 
-Partiellement démontré.
+Réalisé.
 
-Une note stratégique dédiée pourra être produite pour regrouper explicitement les axes d’évolution attendus par la grille.
+Les axes d’évolution du système d’information sont regroupés et justifiés dans une note stratégique dédiée.
 
 ---
 
