@@ -99,83 +99,84 @@
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-17" duration="23" complete="100" expand="true">
+        <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-07" duration="2" complete="100" expand="true">
             <notes><![CDATA[Phase 3 réalisée en avance et considérée terminée au 09/09/2026. Les dates start/duration conservent le planning prévisionnel initial. Les preuves réelles sont réparties dans 03-architecture/, auto-evaluation-MAJ-2026-09-05.md et decisions/journal-decisions-MAJ-2026-09-05.md.]]></notes>
-            <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-17" duration="4" complete="100" expand="true">
+            <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Analyse 3V produite et versionnée le 07/09/2026. Preuve : 03-architecture/note-dimensionnement-3v.md, commit 608cadc.]]></notes>
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
                 <depend id="23" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="22" uid="484ce62c88844fd8b011bc40c7e7566d" name="Concevoir la séparation OLTP / OLAP" meeting="false" start="2026-09-21" duration="5" complete="100" expand="true">
+            <task id="22" uid="484ce62c88844fd8b011bc40c7e7566d" name="Concevoir la séparation OLTP / OLAP" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Séparation OLTP / OLAP conçue et documentée à partir du 07/09/2026, puis consolidée avec preuve d'alimentation réelle le 09/09/2026. Preuves : 03-architecture/oltp-olap-modele-decisionnel.md, 03-architecture/olap-schema.svg, 03-architecture/sql/olap-schema.sql et 03-architecture/sql/olap-etl.sql.]]></notes>
                 <depend id="25" type="2" difference="0" hardness="Strong"/>
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="23" uid="71c9184b5fde40ab87f5c94781f028d4" name="Étudier l’architecture PostgreSQL distribuée / Citus" meeting="false" start="2026-09-21" duration="5" complete="100" expand="true">
+            <task id="23" uid="71c9184b5fde40ab87f5c94781f028d4" name="Étudier l’architecture PostgreSQL distribuée / Citus" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Architecture distribuée PostgreSQL / Citus étudiée et comparée en Phase 3. Citus n'est pas retenu comme architecture obligatoire actuelle ; il reste une option d'évolution future. Preuves : 03-architecture/dossier-architecture-de-croissance.md et 03-architecture/matrice-décision-architecture.md.]]></notes>
                 <depend id="24" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="24" uid="9e9689ef86ec480eb866ed0ea09cf5df" name="Prototyper Citus avec k3d" meeting="false" start="2026-09-26" duration="5" complete="100" expand="true">
+            <task id="24" uid="9e9689ef86ec480eb866ed0ea09cf5df" name="Prototyper Citus avec k3d" meeting="false" start="2026-09-08" duration="1" complete="100" expand="true">
                 <notes><![CDATA[POC Citus / sharding réalisé et versionné le 08/09/2026. Preuve : 03-architecture/poc-citus/benchmark-citus-sharding.md, commit 2cb8a18.]]></notes>
                 <depend id="25" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="25" uid="f0759d37629d453498c9307bc404a0ea" name="Définir indexation, partitionnement et stratégie de performance" meeting="false" start="2026-10-01" duration="4" complete="100" expand="true">
+            <task id="25" uid="f0759d37629d453498c9307bc404a0ea" name="Définir indexation, partitionnement et stratégie de performance" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Stratégie de performance validée par benchmarks. Indexation et partitionnement testés le 07/09/2026. Preuves : 03-architecture/benchmark-indexation.md, commit e65b459, et 03-architecture/benchmark-partitionnement.md, commit 7dd2cc1.]]></notes>
                 <depend id="26" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="26" uid="4c4ac8ae19234e86abd175cb9bcf45fc" name="Formaliser PCA, PRA et stratégie de migration" meeting="false" start="2026-10-05" duration="5" complete="100" expand="true">
+            <task id="26" uid="4c4ac8ae19234e86abd175cb9bcf45fc" name="Formaliser PCA, PRA et stratégie de migration" meeting="false" start="2026-09-09" duration="1" complete="100" expand="true">
                 <notes><![CDATA[PCA/PRA, haute disponibilité, restauration distante, matrice des risques et plan de migration consolidés au 09/09/2026. Preuves : 03-architecture/benchmark-replication-ha.md, 03-architecture/pca-pra-complet-maj.md, 03-architecture/matrice-risques.md et 03-architecture/plan-migration.md.]]></notes>
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="27" uid="0e6b3149e2824a14b63353a8953c2c31" name="Concevoir le modèle décisionnel et les indicateurs" meeting="false" start="2026-09-26" duration="5" complete="100" expand="true">
+            <task id="27" uid="0e6b3149e2824a14b63353a8953c2c31" name="Concevoir le modèle décisionnel et les indicateurs" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Modèle décisionnel et indicateurs conçus à partir du 07/09/2026. Schéma OLAP, ETL, contrôles qualité et alimentation réelle documentés. Preuves : 03-architecture/oltp-olap-modele-decisionnel.md, 03-architecture/olap-schema.svg et 03-architecture/sql/olap-etl.sql.]]></notes>
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="28" uid="46f4e3aed3aa468aa15f409e758e26e9" name="Validation de la phase 3" meeting="true" start="2026-10-10" duration="0" complete="100" expand="true">
+            <task id="28" uid="46f4e3aed3aa468aa15f409e758e26e9" name="Validation de la phase 3" meeting="true" start="2026-09-09" duration="0" complete="100" expand="true">
                 <notes><![CDATA[Validation de la Phase 3 au 09/09/2026 après contrôle des livrables, preuves techniques, références de fichiers, auto-évaluation et journal des décisions. Phase terminée en avance par rapport au planning prévisionnel initial.]]></notes>
                 <depend id="30" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="29" uid="8127ee6a243541a48a35d77fe36c3871" name="Phase 4 — Backend, API et IA" meeting="false" start="2026-10-10" duration="27" complete="0" expand="true">
-            <task id="30" uid="99b4ea5ae32744488fd7d13eb6331fdd" name="Concevoir l’architecture applicative du backend" meeting="false" start="2026-10-10" duration="4" complete="0" expand="true">
+        <task id="29" uid="8127ee6a243541a48a35d77fe36c3871" name="Phase 4 — Backend, API et IA" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
+            <task id="30" uid="99b4ea5ae32744488fd7d13eb6331fdd" name="Concevoir l’architecture applicative du backend" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="31" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="31" uid="e3cc69e6bca34188b3c5eb4a967adff9" name="Développer l’API et les accès aux données" meeting="false" start="2026-10-14" duration="8" complete="0" expand="true">
+            <task id="31" uid="e3cc69e6bca34188b3c5eb4a967adff9" name="Développer l’API et les accès aux données" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="32" type="2" difference="0" hardness="Strong"/>
                 <depend id="33" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="32" uid="edb6b4bd6fe8437eb937b9a4ac5f7a05" name="Implémenter les règles métier et contrôles d’accès" meeting="false" start="2026-10-22" duration="5" complete="0" expand="true">
+            <task id="32" uid="edb6b4bd6fe8437eb937b9a4ac5f7a05" name="Implémenter les règles métier et contrôles d’accès" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="33" uid="0f28aad91605404b97246cb7780b686f" name="Préparer le pipeline de matching et les traitements IA" meeting="false" start="2026-10-22" duration="6" complete="0" expand="true">
+            <task id="33" uid="0f28aad91605404b97246cb7780b686f" name="Préparer le pipeline de matching et les traitements IA" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="34" uid="fe5d3da32202458a82be59b711754b03" name="Réaliser les tests fonctionnels, techniques et sécurité" meeting="false" start="2026-10-28" duration="5" complete="0" expand="true">
+            <task id="34" uid="fe5d3da32202458a82be59b711754b03" name="Réaliser les tests fonctionnels, techniques et sécurité" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="35" type="2" difference="0" hardness="Strong"/>
                 <depend id="38" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="35" uid="39d595dc6ad446638f789440980cd414" name="Documenter API, accessibilité et exploitation" meeting="false" start="2026-11-02" duration="4" complete="0" expand="true">
+            <task id="35" uid="39d595dc6ad446638f789440980cd414" name="Documenter API, accessibilité et exploitation" meeting="false" start="2026-09-12" duration="1" complete="100" expand="true">
                 <depend id="36" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="36" uid="2266f13f25a449c98b8100915d01fd21" name="Validation de la phase 4" meeting="true" start="2026-11-06" duration="0" complete="0" expand="true">
+            <task id="36" uid="2266f13f25a449c98b8100915d01fd21" name="Validation de la phase 4" meeting="true" start="2026-09-12" duration="0" complete="100" expand="true">
+                <notes><![CDATA[Validation technique de la Phase 4 au 12/09/2026 : architecture applicative, API, matching explicable, faisabilité, assistance chasseur-IA, validation humaine, sécurité, tests, reproductibilité, CI et documentation. La clôture documentaire générale et la préparation de la soutenance restent suivies séparément.]]></notes>
                 <depend id="42" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="37" uid="5ec211f2481c4f36b94d34249c35f0c7" name="Finalisation du dossier et préparation de la soutenance" meeting="false" start="2026-11-02" duration="5" complete="0" expand="true">
-            <task id="38" uid="0f7c8b98d13049d5912d0ed6b619329d" name="Consolider les preuves et la traçabilité des compétences" meeting="false" start="2026-11-02" duration="2" complete="0" expand="true">
+        <task id="37" uid="5ec211f2481c4f36b94d34249c35f0c7" name="Finalisation du dossier et préparation de la soutenance" meeting="false" start="2026-09-12" duration="110" complete="50" expand="true">
+            <task id="38" uid="0f7c8b98d13049d5912d0ed6b619329d" name="Consolider les preuves et la traçabilité des compétences" meeting="false" start="2026-09-12" duration="110" complete="90" expand="true">
                 <depend id="39" type="2" difference="0" hardness="Strong"/>
                 <depend id="40" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="39" uid="0ba485ba6bf447259716dc76840c97ed" name="Finaliser l’auto-évaluation" meeting="false" start="2026-11-04" duration="1" complete="0" expand="true">
+            <task id="39" uid="0ba485ba6bf447259716dc76840c97ed" name="Finaliser l’auto-évaluation" meeting="false" start="2026-09-12" duration="110" complete="90" expand="true">
                 <depend id="41" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="40" uid="d488a47ffea04bdebe7a3f157479cb1d" name="Préparer le support de soutenance" meeting="false" start="2026-11-04" duration="2" complete="0" expand="true">
+            <task id="40" uid="d488a47ffea04bdebe7a3f157479cb1d" name="Préparer le support de soutenance" meeting="false" start="2026-12-14" duration="10" complete="0" expand="true">
                 <depend id="41" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="41" uid="378f8beabef14806a428ad902986f042" name="Répéter la soutenance et contrôler le dépôt final" meeting="false" start="2026-11-06" duration="1" complete="0" expand="true">
+            <task id="41" uid="378f8beabef14806a428ad902986f042" name="Répéter la soutenance et contrôler le dépôt final" meeting="false" start="2026-12-28" duration="3" complete="0" expand="true">
                 <depend id="42" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="42" uid="80865016d56449ceb9e80cc79bbb0ac2" name="Rendu final" meeting="true" start="2026-11-07" duration="0" complete="0" expand="true"/>
+            <task id="42" uid="80865016d56449ceb9e80cc79bbb0ac2" name="Rendu final" meeting="true" start="2026-12-31" duration="0" complete="0" expand="true"/>
         </task>
         <task id="43" uid="051d6d0ad1594574936c8c774841d112" name="Pilotage transversal" meeting="false" start="2026-07-27" duration="113" complete="47" expand="true">
             <task id="44" uid="aa4904a468b3492790f354d6d6e2a177" name="Maintenir le journal de décisions" meeting="false" start="2026-07-27" duration="113" complete="60" expand="true"/>
