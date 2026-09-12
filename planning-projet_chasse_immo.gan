@@ -100,7 +100,7 @@
             </task>
         </task>
         <task id="20" uid="43525b97ff3840d8865cee41e852b4ec" name="Phase 3 — Architecture de croissance et décisionnel" meeting="false" start="2026-09-07" duration="2" complete="100" expand="true">
-            <notes><![CDATA[Phase 3 réalisée en avance et considérée terminée au 09/09/2026. Les dates start/duration conservent le planning prévisionnel initial. Les preuves réelles sont réparties dans 03-architecture/, auto-evaluation-MAJ-2026-09-05.md et decisions/journal-decisions-MAJ-2026-09-05.md.]]></notes>
+            <notes><![CDATA[Phase 3 réalisée en avance et considérée terminée au 09/09/2026. Les dates du Gantt ont été recalées sur la chronologie réelle des travaux et des commits. Les preuves sont réparties dans 03-architecture/, auto-evaluation-MAJ-2026-09-05.md et decisions/journal-decisions-MAJ-2026-09-05.md.]]></notes>
             <task id="21" uid="5b8fb5f36985498ea1ba47336b79881a" name="Analyser les volumes, la croissance et les contraintes 3V" meeting="false" start="2026-09-07" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Analyse 3V produite et versionnée le 07/09/2026. Preuve : 03-architecture/note-dimensionnement-3v.md, commit 608cadc.]]></notes>
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
