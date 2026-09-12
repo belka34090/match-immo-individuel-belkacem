@@ -120,18 +120,18 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| U-M01 | bien parfaitement compatible | tous les critères correspondent | calcul du matching | score très élevé | À exécuter | ⬜ |
-| U-M02 | prix compatible | bien inférieur ou égal au budget | calcul du critère prix | score prix élevé | À exécuter | ⬜ |
-| U-M03 | bien au-dessus du budget | prix supérieur au budget maximal obligatoire | préfiltrage | bien exclu du matching | À exécuter | ⬜ |
-| U-M04 | secteur incompatible | secteur différent d'un secteur obligatoire | préfiltrage | bien exclu | À exécuter | ⬜ |
-| U-M05 | surface légèrement insuffisante | surface proche mais inférieure au souhait | calcul surface | score partiel et non nul | À exécuter | ⬜ |
-| U-M06 | type de bien compatible | type demandé = type du bien | calcul type | score maximal sur ce critère | À exécuter | ⬜ |
-| U-M07 | nombre de pièces insuffisant | bien avec moins de pièces que demandé | calcul pièces | pénalité appliquée | À exécuter | ⬜ |
-| U-M08 | DPE inconnu | DPE absent | calcul matching | aucune valeur de DPE n'est inventée | À exécuter | ⬜ |
-| U-M09 | score final borné | ensemble quelconque de features | calcul final | résultat compris entre 0 et 100 | À exécuter | ⬜ |
-| U-M10 | pondération | scores de features connus | calcul pondéré | poids secteur 30 %, prix 25 %, surface 20 %, type 10 %, pièces 10 %, DPE 5 % appliqués | À exécuter | ⬜ |
-| U-M11 | exemple de référence | contributions 24 + 30 + 19 + 10 + 7 + 2 | calcul final | score = 92/100 | À exécuter | ⬜ |
-| U-M12 | classement | trois biens avec scores différents | tri des résultats | biens classés du score le plus élevé au plus faible | À exécuter | ⬜ |
+| U-M01 | bien parfaitement compatible | tous les critères correspondent | calcul du matching | score très élevé | Score final = 100,00 / 100 | ✅ |
+| U-M02 | prix compatible | bien inférieur ou égal au budget | calcul du critère prix | score prix élevé | Contribution prix = 25,00 | ✅ |
+| U-M03 | bien au-dessus du budget | prix supérieur au budget maximal obligatoire | préfiltrage | bien exclu du matching | Bien exclu par le préfiltrage | ✅ |
+| U-M04 | secteur incompatible | secteur différent d'un secteur obligatoire | préfiltrage | bien exclu | Bien exclu par le préfiltrage | ✅ |
+| U-M05 | surface légèrement insuffisante | surface proche mais inférieure au souhait | calcul surface | score partiel et non nul | Ratio surface = 0,90 | ✅ |
+| U-M06 | type de bien compatible | type demandé = type du bien | calcul type | score maximal sur ce critère | Contribution type = 10,00 | ✅ |
+| U-M07 | nombre de pièces insuffisant | bien avec moins de pièces que demandé | calcul pièces | pénalité appliquée | 2 pièces sur 4 demandées → contribution = 5,00 | ✅ |
+| U-M08 | DPE inconnu | DPE absent | calcul matching | aucune valeur de DPE n'est inventée | DPE signalé non disponible, sans contribution inventée | ✅ |
+| U-M09 | score final borné | ensemble quelconque de features | calcul final | résultat compris entre 0 et 100 | Score vérifié entre 0 et 100 | ✅ |
+| U-M10 | pondération | scores de features connus | calcul pondéré | poids secteur 30 %, prix 25 %, surface 20 %, type 10 %, pièces 10 %, DPE 5 % appliqués | Contributions vérifiées : 30 / 25 / 20 / 10 / 10 / 5 | ✅ |
+| U-M11 | exemple de référence | bien 1 : 250 000 €, 65 m², 3 pièces, Appartement, DPE C, secteur 1 | calcul final | score = 98,57 / 100 | Surface = 18,57 ; score final = 98,57 / 100 | ✅ |
+| U-M12 | classement | deux biens avec scores différents | tri des résultats | biens classés du score le plus élevé au plus faible | Bien 2 = 100,00 puis bien 1 = 98,57 | ✅ |
 
 ---
 
@@ -212,9 +212,9 @@ Commande :
 
 Résultat :
 
-    41 passed, 5 skipped
+    47 passed, 5 skipped
 
-Le test ignoré correspond au test d'intégration PostgreSQL, volontairement désactivé dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
+Les 5 tests ignorés correspondent aux tests d'intégration PostgreSQL, volontairement désactivés dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
 
 ### Test d'intégration PostgreSQL — validation humaine
 

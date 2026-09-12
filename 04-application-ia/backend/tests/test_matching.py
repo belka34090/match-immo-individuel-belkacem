@@ -167,3 +167,88 @@ def test_score_reste_entre_zero_et_cent() -> None:
     )
 
     assert Decimal("0") <= resultat["score"] <= Decimal("100")
+
+
+def test_prix_compatible() -> None:
+    bien = make_bien_complet(prix="275000.00")
+    version = make_version_complete(budget_max="300000.00")
+
+    resultat = calculer_score_matching(
+        bien,
+        version,
+        {1},
+    )
+
+    assert resultat["details"]["prix"] == Decimal("25.00")
+
+
+def test_type_bien_compatible() -> None:
+    bien = make_bien_complet(type_bien="Appartement")
+    version = make_version_complete(type_bien_souhaite="Appartement")
+
+    resultat = calculer_score_matching(
+        bien,
+        version,
+        {1},
+    )
+
+    assert resultat["details"]["type_bien"] == Decimal("10.00")
+
+
+def test_nombre_pieces_insuffisant() -> None:
+    bien = make_bien_complet(nombre_pieces=2)
+    version = make_version_complete(nb_pieces_min=4)
+
+    resultat = calculer_score_matching(
+        bien,
+        version,
+        {1},
+    )
+
+    assert resultat["details"]["pieces"] == Decimal("5.00")
+
+
+def test_ponderation_complete() -> None:
+    bien = make_bien_complet()
+    version = make_version_complete()
+
+    resultat = calculer_score_matching(
+        bien,
+        version,
+        {1},
+    )
+
+    assert resultat["details"] == {
+        "secteur": Decimal("30.00"),
+        "prix": Decimal("25.00"),
+        "surface": Decimal("20.00"),
+        "type_bien": Decimal("10.00"),
+        "pieces": Decimal("10.00"),
+        "dpe": Decimal("5.00"),
+    }
+
+
+def test_exemple_reference_bien_surface_insuffisante() -> None:
+    bien = make_bien_complet(
+        prix="250000.00",
+        surface="65.00",
+        nombre_pieces=3,
+        type_bien="Appartement",
+        dpe="C",
+    )
+    version = make_version_complete(
+        budget_max="300000.00",
+        surface_min="70.00",
+        nb_pieces_min=3,
+        type_bien_souhaite="Appartement",
+        dpe_min="C",
+    )
+
+    resultat = calculer_score_matching(
+        bien,
+        version,
+        {1},
+    )
+
+    assert resultat["score"] == Decimal("98.57")
+    assert resultat["details"]["surface"] == Decimal("18.57")
