@@ -73,3 +73,29 @@ def test_matching_api_demande_inexistante(monkeypatch) -> None:
     assert response.json() == {
         "detail": "Demande 999999 introuvable."
     }
+
+
+def test_matching_api_sans_bien_compatible(monkeypatch) -> None:
+    def faux_matching(*, session, demande_id: int) -> list[dict]:
+        assert demande_id == 1
+        return []
+
+    monkeypatch.setattr(
+        main_module,
+        "classer_biens_pour_demande",
+        faux_matching,
+    )
+
+    response = client.get("/demandes/1/matching")
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["demande_id"] == 1
+    assert body["nombre_resultats"] == 0
+    assert body["resultats"] == []
+    assert body["message"] == (
+        "Aucun bien compatible avec les critères obligatoires "
+        "de la demande."
+    )

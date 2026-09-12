@@ -120,3 +120,19 @@ def test_validation_humaine_erreur_metier(monkeypatch) -> None:
 
     assert response.status_code == 400
     assert response.json()["detail"] == "Décision invalide."
+
+
+def test_validation_humaine_requete_invalide() -> None:
+    response = client.post(
+        "/demandes/1/validation-humaine",
+        json={
+            "decision": "VALIDER",
+        },
+    )
+
+    assert response.status_code == 422
+
+    body = response.json()
+
+    assert "detail" in body
+    assert isinstance(body["detail"], list)

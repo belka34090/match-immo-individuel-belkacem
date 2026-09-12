@@ -177,12 +177,12 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 
 | ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| F-S01 | requête invalide | budget absent ou format incorrect | appel API | erreur contrôlée avec message compréhensible | À exécuter | ⬜ |
+| F-S01 | requête invalide | corps API incomplet ou format incorrect | appel API | erreur contrôlée avec message compréhensible | Requête invalide rejetée en HTTP 422 par validation FastAPI/Pydantic | ✅ |
 | F-S02 | identifiant inconnu | ressource inexistante | appel API | réponse 404 ou erreur métier équivalente | HTTP 404 retourné avec message métier contrôlé | ✅ |
-| F-S03 | absence de biens compatibles | aucun bien après préfiltrage | matching | liste vide et explication claire | À exécuter | ⬜ |
-| F-S04 | données personnelles inutiles | opération de matching | préparation des données | nom, email et téléphone non transmis au composant IA | À exécuter | ⬜ |
-| F-S05 | protection des écritures | composant IA exécuté | tentative de modification directe des données métier | modification interdite ou impossible | À exécuter | ⬜ |
-| F-S06 | erreur interne | erreur provoquée dans un service | appel API | erreur gérée sans exposition d'informations techniques sensibles | À exécuter | ⬜ |
+| F-S03 | absence de biens compatibles | aucun bien après préfiltrage | matching | liste vide et explication claire | Liste vide retournée avec message métier explicite | ✅ |
+| F-S04 | données personnelles inutiles | opération de matching | préparation des données | nom, email et téléphone non transmis au composant IA | Liste blanche appliquée avant le chasseur-IA ; nom, email et téléphone exclus | ✅ |
+| F-S05 | protection des écritures | composant IA exécuté | tentative de modification directe des données métier | modification interdite ou impossible | Le composant IA ne reçoit aucune session ou connexion base de données | ✅ |
+| F-S06 | erreur interne | erreur provoquée dans un service | appel API | erreur gérée sans exposition d'informations techniques sensibles | HTTP 500 JSON générique sans URL PostgreSQL, mot de passe ni adresse interne | ✅ |
 
 ---
 
@@ -212,7 +212,7 @@ Commande :
 
 Résultat :
 
-    36 passed, 5 skipped
+    41 passed, 5 skipped
 
 Le test ignoré correspond au test d'intégration PostgreSQL, volontairement désactivé dans la suite standard afin de garder les tests rapides et indépendants de l'état de la base locale.
 

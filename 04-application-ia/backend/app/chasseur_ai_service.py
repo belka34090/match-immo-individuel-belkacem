@@ -30,9 +30,28 @@ def generer_synthese_pour_demande(
         demande_id=demande_id,
     )
 
+    matching_minimise = [
+        {
+            cle: bien.get(cle)
+            for cle in (
+                "id_bien",
+                "adresse",
+                "type_bien",
+                "prix",
+                "surface",
+                "nombre_pieces",
+                "dpe",
+                "score",
+                "details",
+                "explication",
+            )
+        }
+        for bien in matching
+    ]
+
     synthese = generer_synthese_chasseur(
         faisabilite=faisabilite,
-        resultats_matching=matching,
+        resultats_matching=matching_minimise,
     )
 
     return {

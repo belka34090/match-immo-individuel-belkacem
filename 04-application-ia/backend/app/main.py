@@ -1,7 +1,8 @@
 from collections.abc import Generator
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
@@ -27,6 +28,28 @@ app = FastAPI(
     ),
     version="0.1.0",
 )
+
+
+@app.exception_handler(Exception)
+async def erreur_interne_non_divulguee(
+    request: Request,
+    exc: Exception,
+) -> JSONResponse:
+    """
+    Évite d'exposer au client les détails techniques internes.
+
+    Les informations sensibles restent côté serveur.
+    """
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": (
+                "Une erreur interne est survenue. "
+                "Veuillez réessayer ultérieurement."
+            )
+        },
+    )
+
 
 
 def get_session() -> Generator[Session, None, None]:
@@ -164,8 +187,16 @@ def matching_demande(
             detail=str(exc),
         ) from exc
 
-    return {
+    reponse = {
         "demande_id": id_demande,
         "nombre_resultats": len(resultats),
         "resultats": resultats,
     }
+
+    if not resultats:
+        reponse["message"] = (
+            "Aucun bien compatible avec les critères obligatoires "
+            "de la demande."
+        )
+
+    return reponse
