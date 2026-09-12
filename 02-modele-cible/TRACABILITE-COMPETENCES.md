@@ -417,14 +417,13 @@ Réalisé.
 
 - `02-modele-cible/cahier-des-charges-technique-MAJ.md`
 - `02-modele-cible/registre-rgpd.md`
+- `02-modele-cible/note-accessibilite-psh.md`
 
 ### État actuel
 
-Partiellement démontré.
+Réalisé.
 
-Le volet RGPD est traité.
-
-Une note dédiée à l’accessibilité PSH reste à produire.
+Le volet RGPD est traité et les préconisations d’accessibilité PSH sont formalisées dans une note dédiée.
 
 ---
 
@@ -664,11 +663,11 @@ Réalisé au niveau de la politique et des choix de conception.
 
 ### État
 
-À produire.
+Réalisé.
 
-### Preuve attendue
+### Preuve
 
-- note de préconisations d’accessibilité.
+- `02-modele-cible/note-accessibilite-psh.md`
 
 ---
 
@@ -676,11 +675,11 @@ Réalisé au niveau de la politique et des choix de conception.
 
 ### État
 
-À produire.
+Réalisé.
 
-### Preuve attendue
+### Preuve
 
-- note dédiée à la souveraineté et à la sécurité IA ;
+- `02-modele-cible/note-souverainete-securite-ia.md`
 - règles d’accès ;
 - anonymisation si nécessaire ;
 - limitation des droits ;
@@ -760,7 +759,7 @@ Réalisé au niveau de la politique et des choix de conception.
 | Note d’éco-conception | Réalisée |
 | Planning Gantt | En cours |
 | Traçabilité des décisions | En cours |
-| Note accessibilité PSH | À produire |
+| Note accessibilité PSH | Réalisée |
 | Matrice de risques projet | À compléter |
 | PCA/PRA | À produire |
 | Note de dimensionnement 3V | À produire |
@@ -771,7 +770,7 @@ Réalisé au niveau de la politique et des choix de conception.
 | Note qualité des données analytiques | À produire |
 | Modèle de matching IA | À produire |
 | Schéma du programme IA | À produire |
-| Note souveraineté / sécurité IA | À produire |
+| Note souveraineté / sécurité IA | Réalisée |
 | Architecture applicative | À produire |
 | Maquettes | À produire |
 | Patterns logiciels | À produire |
@@ -1056,10 +1055,10 @@ Au 09/09/2026, restent notamment à produire ou à poursuivre :
 
 | Domaine | État |
 | --- | --- |
-| Accessibilité PSH | À produire |
+| Accessibilité PSH | Réalisé |
 | Modèle de matching IA | À produire |
 | Schéma du programme IA | À produire |
-| Souveraineté / sécurité IA | À produire |
+| Souveraineté / sécurité IA | Réalisé |
 | Architecture applicative détaillée | Phase ultérieure |
 | Maquettes | Phase ultérieure |
 | Patterns logiciels | Phase ultérieure |
