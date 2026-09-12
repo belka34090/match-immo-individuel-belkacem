@@ -1,7 +1,6 @@
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-
 DECISIONS_AUTORISEES = {"VALIDER", "REFUSER", "MODIFIER"}
 
 

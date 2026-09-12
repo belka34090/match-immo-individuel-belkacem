@@ -2,12 +2,10 @@ import os
 from decimal import Decimal
 
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import text
-
 from app.database import SessionLocal
 from app.main import app
-
+from fastapi.testclient import TestClient
+from sqlalchemy import text
 
 pytestmark = pytest.mark.skipif(
     os.getenv("RUN_INTEGRATION_TESTS") != "1",

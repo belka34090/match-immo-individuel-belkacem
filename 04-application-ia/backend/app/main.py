@@ -1,15 +1,15 @@
 from collections.abc import Generator
 
 from fastapi import Depends, FastAPI, HTTPException, Request
-from pydantic import BaseModel
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from app.chasseur_ai_service import generer_synthese_pour_demande
 from app.database import SessionLocal
 from app.feasibility_service import analyser_faisabilite_demande
-from app.chasseur_ai_service import generer_synthese_pour_demande
-from app.matching_service import classer_biens_pour_demande
 from app.human_validation_service import enregistrer_validation_pour_demande
+from app.matching_service import classer_biens_pour_demande
 
 
 class ValidationHumaineEntree(BaseModel):

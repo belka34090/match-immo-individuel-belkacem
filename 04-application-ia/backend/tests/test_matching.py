@@ -1,7 +1,12 @@
 from decimal import Decimal
 from types import SimpleNamespace
 
-from app.matching import bien_est_compatible
+from app.matching import (
+    bien_est_compatible,
+    calculer_score_matching,
+    score_dpe,
+    score_surface,
+)
 
 
 def make_bien(
@@ -66,13 +71,6 @@ def test_absence_secteur_ne_bloque_pas() -> None:
     version = make_version()
 
     assert bien_est_compatible(bien, version, set()) is True
-
-
-from app.matching import (
-    calculer_score_matching,
-    score_dpe,
-    score_surface,
-)
 
 
 def make_bien_complet(

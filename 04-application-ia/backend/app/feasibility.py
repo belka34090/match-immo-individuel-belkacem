@@ -3,7 +3,6 @@ from decimal import Decimal
 from app.matching import ORDRE_DPE, POIDS, bien_est_compatible
 from app.models import Bien, VersionDemande
 
-
 SEUIL_FAVORABLE = Decimal("70")
 SEUIL_DIFFICILE = Decimal("40")
 SEUIL_CRITERE_RESTRICTIF = Decimal("0.50")
