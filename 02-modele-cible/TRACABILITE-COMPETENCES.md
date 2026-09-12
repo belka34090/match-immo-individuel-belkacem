@@ -1793,14 +1793,27 @@ Cette preuve montre que le contrôle qualité n’est plus uniquement manuel.
 
 ## 11.6 Éléments restant réellement ouverts
 
-Au 12/09/2026, les principaux éléments encore ouverts sont :
+Au 12/09/2026, les Phases 1 à 4 sont réalisées et leurs principales preuves
+techniques et documentaires sont présentes dans le dépôt.
 
-- la mise à jour continue du planning Gantt jusqu’à la fin du projet ;
+Les documents de pilotage ont également été consolidés :
+
+- README racine mis à jour ;
+- auto-évaluation RNCP mise à jour ;
+- journal des décisions complété ;
+- Gantt recalé sur la chronologie réelle des travaux ;
+- traçabilité des compétences actualisée.
+
+Les éléments encore réellement ouverts sont désormais :
+
+- le suivi continu du planning jusqu’au rendu final du 31/12/2026 ;
 - la preuve réelle d’engagement d’une partie prenante externe pour BC02 4.8 ;
-- les mises à jour finales de l’auto-évaluation, du README et du journal de décisions ;
-- la préparation de la soutenance finale.
+- la préparation du support de soutenance ;
+- la répétition de la soutenance et le contrôle final du dépôt.
 
-Les compétences techniques principales des Phases 1 à 4 disposent désormais de preuves vérifiables dans le dépôt.
+Aucune preuve d’engagement externe n’est inventée. Cette compétence reste donc
+partiellement démontrée tant qu’une interaction réelle et vérifiable avec une
+partie prenante n’est pas disponible.
 
 ---
 
@@ -1815,10 +1828,17 @@ Le projet est passé de :
 à :
 
     12/09/2026
-    Phase 4 applicative et IA réalisée
+    Phases 1 à 4 réalisées
+    backend et matching opérationnels
     tests exécutés
     sécurité vérifiée
     CI opérationnelle
+    documentation principale consolidée
+    Gantt recalé sur la chronologie réelle
     traçabilité RNCP largement consolidée
 
-Le prochain objectif est désormais la clôture documentaire et la préparation de la soutenance.
+Le développement principal du projet est terminé.
+
+Le travail restant concerne désormais le pilotage jusqu’au rendu final,
+l’éventuelle preuve réelle d’engagement d’une partie prenante et la préparation
+de la soutenance.
