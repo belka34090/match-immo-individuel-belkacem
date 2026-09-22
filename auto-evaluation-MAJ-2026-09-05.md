@@ -704,7 +704,7 @@ La première tentative de la suite PostgreSQL a révélé l'absence du jeu de d�
 
 Les scénarios de rémunération `F-R01` à `F-R05` ne sont pas comptés comme exécutés : le moteur complet de calcul de rémunération n'est pas implémenté.
 
-Cette exécution locale ne constitue pas une nouvelle exécution de la CI GitHub Actions ; aucune nouvelle réussite CI n'est revendiquée ici.
+Cette exécution locale est complétée par une preuve CI réelle du 22/09/2026. Le workflow GitHub Actions `Phase 4 backend CI`, run `#43`, associé au commit `394350e` sur `develop`, s'est terminé avec le statut `success`. Les étapes de contrôle Ruff et d'exécution de pytest ont toutes deux réussi. Cette preuve CI couvre la suite standard exécutée par le workflow ; les tests d'intégration PostgreSQL restent prouvés séparément par l'exécution locale `52 passed` documentée ci-dessus.
 
 ### Statuts RNCP au 22/09/2026
 
