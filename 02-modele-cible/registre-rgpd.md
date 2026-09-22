@@ -27,9 +27,9 @@ du projet.
 | Gestion des mandats | Formaliser et exécuter le mandat de recherche immobilière | identité et coordonnées du client et du chasseur, demande associée, dates, mode de signature, exclusivité, statut du mandat | clients et chasseurs | Exécution du contrat puis obligation légale de conservation | 10 ans pour les mandats et le registre des mandats | client concerné selon ses droits, chasseur affecté et personnel autorisé | Non |
 | Présentation des biens, commentaires et visites | Assurer le suivi opérationnel de la recherche et des biens proposés au client | biens présentés, décisions et priorités du client, commentaires, dates de visite, retours et intérêt, avis du chasseur | clients et chasseurs | Exécution du contrat | Pendant l'exécution du mandat ; après sa fin, les données non nécessaires à une autre finalité ou obligation sont supprimées ou anonymisées | client concerné, chasseur affecté et personnel autorisé | Non |
 | Gestion des vendeurs et des biens | Identifier les propriétaires des biens nécessaires au parcours immobilier | nom, prénom, email, téléphone du vendeur, lien avec le bien, adresse du bien lorsqu'elle permet d'identifier une personne | vendeurs | Intérêt légitime de l'entreprise, sous réserve de nécessité et de mise en balance des droits des personnes | Pendant la durée nécessaire à la gestion du bien et de l'opération ; suppression ou anonymisation lorsque les données ne sont plus nécessaires, sauf obligation de conservation applicable | professionnels autorisés intervenant sur le dossier | Non |
-| Gestion des offres et de la vente | Suivre les offres d'achat et la conclusion éventuelle de la vente | offre, montant, condition de financement, statut, identité des personnes reliées au dossier, prix de vente | clients et personnes participant à la transaction | Exécution du contrat ; obligations légales applicables aux documents devant être conservés | Pendant la relation contractuelle puis selon les obligations légales applicables aux documents concernés | client concerné, professionnels autorisés et notaire lorsque nécessaire | Non |
-| Gestion du notaire et de l'acte authentique | Identifier le notaire et assurer la traçabilité de la vente authentifiée | nom, prénom, email, téléphone du notaire, date de l'acte, prix de vente, offre associée | notaires et clients concernés | Exécution du contrat et obligations légales applicables à l'opération | Selon la durée nécessaire à la finalité et les obligations légales applicables aux documents concernés | professionnels autorisés et personnes habilitées dans le cadre de la vente | Non |
-| Calcul des honoraires et commissions | Calculer et justifier les montants dus à l'entreprise et au chasseur | identité du chasseur, honoraires, barème, tranche, taux appliqué, montant de commission | chasseurs | Exécution du contrat et obligations comptables applicables | Pendant la relation contractuelle puis conservation des pièces comptables concernées pendant 10 ans à compter de la clôture de l'exercice | chasseur pour les informations le concernant, personnel administratif/comptable autorisé | Non |
+| Gestion des offres et de la vente | Suivre les offres d'achat et la conclusion éventuelle de la vente | offre lorsqu'elle existe, montant, condition de financement, statut, mandat concerné, origine de la vente, identité des personnes reliées au dossier, prix de vente | clients, chasseurs et personnes participant à la transaction | Exécution du contrat ; obligations légales applicables aux documents devant être conservés | Pendant la relation contractuelle puis selon les obligations légales applicables aux documents concernés | client concerné selon ses droits, chasseur concerné, professionnels autorisés et notaire lorsque nécessaire | Non |
+| Gestion du notaire et de l'acte authentique | Identifier le notaire et assurer la traçabilité de la vente authentifiée | nom, prénom, email, téléphone du notaire, mandat concerné, origine de la vente, date de l'acte, prix de vente, offre associée lorsqu'elle existe | notaires, clients et chasseurs concernés | Exécution du contrat et obligations légales applicables à l'opération | Selon la durée nécessaire à la finalité et les obligations légales applicables aux documents concernés | professionnels autorisés et personnes habilitées dans le cadre de la vente | Non |
+| Calcul des honoraires et commissions | Déterminer le droit à rémunération, calculer le montant dû au chasseur et pouvoir expliquer le calcul dans le temps | identité du chasseur, date de début d'activité lorsqu'elle est connue, ancienneté calculée, données nécessaires aux cinq critères de performance, score de performance, droit à rémunération, motif d'absence de rémunération, honoraires, barème, tranche, taux de base, effet de l'ancienneté, effet de la performance, taux appliqué, montant de commission | chasseurs | Exécution du contrat et obligations comptables applicables | Pendant la relation contractuelle puis conservation des éléments nécessaires à la justification des rémunérations et des pièces comptables concernées pendant 10 ans à compter de la clôture de l'exercice | chasseur pour les informations le concernant, gestionnaire autorisé et personnel administratif/comptable uniquement lorsque leur mission le nécessite | Non |
 | Facturation et paiement du chasseur | Vérifier les factures et enregistrer les règlements | identité du chasseur, référence et montant de facture, dates, statut, montants et dates de paiement | chasseurs | Obligation légale comptable | 10 ans à compter de la clôture de l'exercice pour les factures et pièces justificatives comptables | chasseur pour les informations le concernant, personnel administratif/comptable autorisé | Non |
 
 ---
@@ -66,6 +66,12 @@ Dans Match Immo :
   modèle métier ;
 - les futurs traitements analytiques ou d'intelligence artificielle ne
   justifient pas une collecte supplémentaire par anticipation ;
+- la date de début d'activité d'un chasseur n'est enregistrée que lorsqu'elle
+  est connue de façon fiable ; elle n'est pas déduite arbitrairement d'une
+  date de création de compte ;
+- les données détaillées de performance et de rémunération sont limitées aux
+  éléments nécessaires au calcul, à sa justification et aux obligations
+  associées ;
 - les données devenues inutiles doivent être supprimées ou anonymisées
   lorsqu'aucune obligation de conservation ne s'y oppose.
 
@@ -81,6 +87,9 @@ Le système cible devra notamment prévoir :
 
 - une authentification des accès ;
 - des droits adaptés aux rôles ;
+- un accès aux informations détaillées de rémunération et de performance
+  limité au chasseur concerné et aux gestionnaires ou personnels
+  administratifs/comptables dont la mission le nécessite ;
 - l'absence d'utilisation quotidienne d'un compte PostgreSQL administrateur
   par les applications ;
 - le chiffrement des communications exposant des données personnelles dans
