@@ -475,6 +475,30 @@ Les scénarios de rémunération `F-R01` à `F-R05` restent volontairement non e
 
 ---
 
+## Validation de la reproductibilité — 22/09/2026
+
+Le jeu de démonstration versionné dans `04-application-ia/jeu-demonstration-phase4.sql` a été exécuté sur PostgreSQL réel après sa création.
+
+Résultat de l'injection :
+
+    6 biens PHASE4_TEST recréés
+    identifiants techniques attribués : 7 à 12
+    version courante de la demande 1 : 19
+
+Les identifiants des biens diffèrent donc volontairement de ceux du jeu précédent, qui utilisait les identifiants 1 à 6.
+
+La suite complète a ensuite été rejouée :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+
+Résultat réellement obtenu :
+
+    52 passed in 0.38s
+
+Ce contrôle prouve que les tests d'intégration ne dépendent plus des identifiants techniques fixes des biens et que le jeu de démonstration Phase 4 est désormais rejouable à partir d'un état PostgreSQL préparé selon l'ordre documenté.
+
+---
+
 # 13. Critère de validation de la Phase 4
 
 Le plan de tests sera considéré comme validé lorsque :
