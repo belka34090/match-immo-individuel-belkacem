@@ -164,10 +164,12 @@
         </task>
         <task id="37" uid="5ec211f2481c4f36b94d34249c35f0c7" name="Finalisation du dossier et préparation de la soutenance" meeting="false" start="2026-09-12" duration="110" complete="50" expand="true">
             <task id="38" uid="0f7c8b98d13049d5912d0ed6b619329d" name="Consolider les preuves et la traçabilité des compétences" meeting="false" start="2026-09-12" duration="110" complete="90" expand="true">
+                <notes><![CDATA[22/09/2026 : alignement des règles de rémunération avec le Starter Pack, synchronisation MCD/MLD/SQL/reprise/documentation et non-régression rejouée. Résultat final : 52 tests réussis avec PostgreSQL réel. Les scénarios de calcul complet de rémunération restent futurs.]]></notes>
                 <depend id="39" type="2" difference="0" hardness="Strong"/>
                 <depend id="40" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="39" uid="0ba485ba6bf447259716dc76840c97ed" name="Finaliser l’auto-évaluation" meeting="false" start="2026-09-12" duration="110" complete="90" expand="true">
+                <notes><![CDATA[Repère du 22/09/2026 ajouté : synthèse maintenue à 28 A / 2 EC / 0 NA. Les deux EC restent la planification jusqu'à clôture et l'engagement réel des parties prenantes.]]></notes>
                 <depend id="41" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="40" uid="d488a47ffea04bdebe7a3f157479cb1d" name="Préparer le support de soutenance" meeting="false" start="2026-12-14" duration="10" complete="0" expand="true">
@@ -179,10 +181,10 @@
             <task id="42" uid="80865016d56449ceb9e80cc79bbb0ac2" name="Rendu final" meeting="true" start="2026-12-31" duration="0" complete="0" expand="true"/>
         </task>
         <task id="43" uid="051d6d0ad1594574936c8c774841d112" name="Pilotage transversal" meeting="false" start="2026-07-27" duration="113" complete="47" expand="true">
-            <task id="44" uid="aa4904a468b3492790f354d6d6e2a177" name="Maintenir le journal de décisions" meeting="false" start="2026-07-27" duration="113" complete="60" expand="true"/>
-            <task id="45" uid="257348de7fe14d698bfab738170d9a4c" name="Mettre à jour le Gantt aux jalons" meeting="false" start="2026-07-27" duration="113" complete="55" expand="true"/>
-            <task id="46" uid="cb2911e010d54507abeadb2c7a19d824" name="Maintenir l’auto-évaluation RNCP" meeting="false" start="2026-07-27" duration="113" complete="40" expand="true"/>
-            <task id="47" uid="5694a0617bf54de592ba25f4d9d85cdf" name="Maintenir la traçabilité des compétences" meeting="false" start="2026-07-27" duration="113" complete="35" expand="true"/>
+            <task id="44" uid="aa4904a468b3492790f354d6d6e2a177" name="Maintenir le journal de décisions" meeting="false" start="2026-07-27" duration="113" complete="60" expand="true"><notes><![CDATA[22/09/2026 : décision d'alignement du modèle de rémunération consignée dans le journal.]]></notes></task>
+            <task id="45" uid="257348de7fe14d698bfab738170d9a4c" name="Mettre à jour le Gantt aux jalons" meeting="false" start="2026-07-27" duration="113" complete="55" expand="true"><notes><![CDATA[Repère de pilotage ajouté le 22/09/2026 après alignement rémunération et non-régression.]]></notes></task>
+            <task id="46" uid="cb2911e010d54507abeadb2c7a19d824" name="Maintenir l’auto-évaluation RNCP" meeting="false" start="2026-07-27" duration="113" complete="40" expand="true"><notes><![CDATA[Auto-évaluation actualisée au 22/09/2026 sans surévaluation : 28 A / 2 EC / 0 NA.]]></notes></task>
+            <task id="47" uid="5694a0617bf54de592ba25f4d9d85cdf" name="Maintenir la traçabilité des compétences" meeting="false" start="2026-07-27" duration="113" complete="35" expand="true"><notes><![CDATA[Traçabilité consolidée au 22/09/2026 : règles de rémunération, reprise des données et preuve de non-régression.]]></notes></task>
         </task>
     </tasks>
     <resources/>
