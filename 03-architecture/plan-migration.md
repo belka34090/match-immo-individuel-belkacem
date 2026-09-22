@@ -443,7 +443,7 @@ Le script réalise notamment :
 11. reconstruction des affectations ;
 12. reconstruction des versions de demande ;
 13. reprise des mandats ;
-14. transformation des taux historiques en barèmes ;
+14. conservation des anciens taux de commission dans la zone de contrôle, sans les transformer en barèmes ;
 15. réalignement des séquences ;
 16. contrôles bloquants ;
 17. `COMMIT` ;
@@ -473,8 +473,8 @@ Le script vérifie notamment :
 
 5 corrections actif → expire
 
-6 barèmes de transition
-6 tranches de commission
+0 barème historique inventé
+0 tranche de commission historique inventée
 ```
 
 Il vérifie également :
@@ -517,6 +517,14 @@ Cinq statuts ont été corrigés de manière déterministe :
 ```text
 actif
 → expire
+```
+
+Les six anciens taux de commission restent conservés dans la zone de contrôle, mais ne sont pas transformés en barèmes cibles car leur fonctionnement complet ne peut pas être démontré à partir de la source.
+
+```text
+6 taux historiques conservés
+0 barème historique inventé
+0 tranche historique inventée
 ```
 
 Ces résultats sont documentés dans :
