@@ -71,6 +71,7 @@ Les six mandats sont donc signalés comme incohérents ou à vérifier, sans inv
 | R-08 | Gestion documentaire | Une partie de l’activité repose sur des dossiers papier dont l’utilisation précise reste à déterminer. | Certaines informations peuvent être difficiles à retrouver, partager ou suivre. | Moyenne | Identifier les documents concernés et déterminer lesquels doivent être pris en charge par le futur système. | `mermaid_carto_existante_SI.png` |
 | R-09 | Qualité des données | Certains formats et certaines valeurs métier ne sont pas suffisamment contrôlés par le schéma historique. | Des valeurs incohérentes ou mal formatées peuvent être enregistrées. | Moyenne | Définir des contraintes adaptées dans le modèle cible et lors des traitements applicatifs. | `preuves/04-validation-finale/validation-phase1.md` |
 | R-10 | Intégrité géographique | Le modèle historique ne garantit pas suffisamment l’unicité logique de certaines informations géographiques et `secteur_id` peut être absent sur un mandat. | Risque de doublons de secteurs ou de mandats insuffisamment rattachés à une zone géographique. | Moyenne | Renforcer les règles de gestion géographique dans la solution cible. | `analyse-audit.md` et `preuves/04-validation-finale/validation-phase1.md` |
+| R-11 | Rémunération des chasseurs | Le champ historique `utilisateurs.taux_commission` ne représente qu’un taux unique par chasseur. Il ne permet pas de modéliser un barème variant dans le temps et par tranche de montant, ni de prendre explicitement en compte l’ancienneté et les cinq critères de performance prévus par le besoin métier. | Le calcul de rémunération ne peut pas être déterministe, historisé et explicable à partir du seul schéma historique. | Élevée | Remplacer le taux isolé par un modèle cible structuré : barèmes datés, tranches de montant, données nécessaires au calcul de performance et traçabilité du résultat appliqué. | Besoin métier du Starter Pack et `analyse-audit.md` |
 
 ---
 
@@ -131,7 +132,8 @@ Les problèmes les plus critiques concernent :
 - le suivi de la durée des mandats ;
 - la cohérence chronologique ;
 - la faible structuration des critères de recherche ;
-- la couverture incomplète du parcours métier.
+- la couverture incomplète du parcours métier ;
+- l’impossibilité de représenter correctement, dans l’existant, les règles de rémunération variables des chasseurs.
 
 Ces constats servent directement à justifier les choix du modèle cible et de la stratégie de reprise des données.
 
