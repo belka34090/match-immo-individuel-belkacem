@@ -13,7 +13,7 @@ Il permet à un formateur, un membre du jury, un développeur, un responsable m�
 - quelles hypothèses ont été nécessaires ;
 - et si l'exécution SQL s'est terminée correctement.
 
-La reprise a été exécutée avec **PostgreSQL 16**.
+La reprise a été exécutée avec **PostgreSQL 16** et rejouée avec succès le **22/09/2026** après l'alignement des règles de rémunération.
 
 ---
 
@@ -660,10 +660,10 @@ Les principaux éléments permettant de contrôler cette preuve sont :
 ```text
 01-audit/registre-anomalies.md
 01-audit/preuves/03-anomalies/resultats-anomalies.md
-02-modele-cible/mld-cible.md
+02-modele-cible/mld-cible-final.md
 02-modele-cible/migration-final.sql
 02-modele-cible/reprise-donnees-final.sql
-02-modele-cible/preuves/reprise-donnees-validation.md
+02-modele-cible/reprise-donnees-validation.md
 ```
 
 Ce document doit être conservé avec les livrables de Phase 2 afin que la reprise puisse être comprise et défendue sans devoir reconstruire le raisonnement à partir des scripts SQL seuls.
