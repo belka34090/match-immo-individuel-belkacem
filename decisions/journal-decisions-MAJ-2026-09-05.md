@@ -2281,3 +2281,61 @@ une maintenance supplémentaires sans bénéfice démontré.
 - `04-application-ia/backend/requirements-dev.txt`
 - `04-application-ia/backend/tests/`
 - `04-application-ia/plan-de-tests.md`
+
+------------------------------------------------------------------------
+
+## ADR-018 — Aligner le modèle de rémunération sur les règles métier clarifiées
+
+- **Date :** 22/09/2026
+- **Phase :** 2 — Consolidation du modèle cible
+- **Statut :** accepté
+- **Décideur :** Belkacem
+
+### Contexte
+
+Une mise à jour du Starter Pack a précisé plusieurs règles liées à la rémunération du chasseur : lien avec le mandat, origine de la vente, assiette basée sur les honoraires de l'entreprise, barème applicable dans le temps et critères de performance.
+
+Ces précisions nécessitaient de vérifier le modèle cible sans inventer de données historiques ni transformer des exemples numériques du Starter Pack en règles obligatoires.
+
+### Décision
+
+Le modèle cible est aligné selon les principes suivants :
+
+- `CHASSEUR.date_debut_activite` est ajouté comme donnée métier optionnelle pour permettre le calcul futur de l'ancienneté ;
+- aucune date historique existante n'est réinterprétée artificiellement comme date de début d'activité ;
+- `ACTE_AUTHENTIQUE` est relié directement au `MANDAT` ;
+- le lien vers `OFFRE` reste optionnel afin de représenter une vente conclue sans offre interne enregistrée ;
+- `ACTE_AUTHENTIQUE.origine_vente` conserve l'origine de la vente ;
+- `COMMISSION` conserve le résultat et les paramètres du calcul afin d'assurer la traçabilité historique ;
+- la tranche de commission peut être absente lorsqu'aucun droit à rémunération n'est ouvert ;
+- les anciens `taux_commission` de la source ne sont pas transformés en barèmes cibles faute de sémantique suffisante ;
+- ces valeurs historiques sont conservées dans `reprise_controle.donnee_source_non_reprise` ;
+- les montants, taux, pondérations et seuils numériques présentés comme exemples dans le Starter Pack ne sont pas imposés comme paramètres métier du projet.
+
+### Conséquences
+
+Le MCD, le MLD, la migration PostgreSQL, la reprise des données, le cahier des charges technique, le registre RGPD et le plan de tests ont été synchronisés avec cette décision.
+
+Le projet conserve volontairement une distinction entre :
+
+- la structure permettant de tracer une rémunération ;
+- les règles métier déjà clarifiées ;
+- les paramètres chiffrés qui devront être validés avant implémentation d'un moteur complet.
+
+Les scénarios `F-R01` à `F-R05` restent donc des tests futurs et ne sont pas présentés comme exécutés.
+
+Après recréation et reprise de la base, une non-régression a également été rejouée le 22/09/2026. Après remise en place du jeu de démonstration Phase 4 attendu par les tests d'intégration, la suite complète obtient :
+
+    52 passed in 0.33s
+
+### Preuves
+
+- `02-modele-cible/besoins-metier-final.md`
+- `02-modele-cible/mcd-cible-final-propre.drawio.png`
+- `02-modele-cible/mld-cible-final.md`
+- `02-modele-cible/migration-final.sql`
+- `02-modele-cible/reprise-donnees-final.sql`
+- `02-modele-cible/cahier-des-charges-technique-MAJ.md`
+- `02-modele-cible/registre-rgpd.md`
+- `04-application-ia/plan-de-tests.md`
+
