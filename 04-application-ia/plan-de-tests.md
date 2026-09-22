@@ -397,6 +397,60 @@ Le bilan final indiquera :
 
 Ces valeurs seront renseignées à partir des exécutions réelles du projet.
 
+
+## Exécution de non-régression — 22/09/2026
+
+Une nouvelle exécution a été réalisée après les évolutions récentes du modèle cible et de la reprise des données.
+
+### Suite standard
+
+Commande :
+
+    python -m pytest -q
+
+Résultat réellement obtenu :
+
+    47 passed, 5 skipped in 0.39s
+
+Les 5 tests ignorés sont les tests d'intégration PostgreSQL, volontairement désactivés sans la variable `RUN_INTEGRATION_TESTS=1`.
+
+### Suite complète avec PostgreSQL réel
+
+Une première exécution de la suite complète a signalé 5 échecs d'intégration. Le contrôle a montré que le backend n'était pas en cause : la recréation récente de la base avait supprimé le jeu de démonstration Phase 4 attendu par ces tests.
+
+État constaté avant remise en place du jeu de démonstration :
+
+    bien = 0
+    version courante de la demande 1 = 1
+
+Le jeu de démonstration Phase 4 a ensuite été remis en place avec :
+
+    version courante de la demande 1 = 19
+    budget maximal = 300 000 €
+    surface minimale = 70 m²
+    nombre minimal de pièces = 3
+    type de bien = Appartement
+    DPE minimal = C
+    secteur = 1
+    biens disponibles = 6
+
+Commande de contrôle final :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+
+Résultat réellement obtenu :
+
+    52 passed in 0.33s
+
+Le contrôle final valide donc, sur l'état courant du projet :
+
+- les 47 tests de la suite standard ;
+- les 5 tests d'intégration PostgreSQL ;
+- le parcours faisabilité → matching → chasseur-IA → validation humaine ;
+- l'absence de régression détectée sur le backend après les évolutions récentes.
+
+Les scénarios de rémunération `F-R01` à `F-R05` restent volontairement non exécutés : le moteur complet de calcul de rémunération n'est pas implémenté dans le backend actuel.
+
 ---
 
 # 13. Critère de validation de la Phase 4
