@@ -760,8 +760,8 @@ La séparation entre facture et paiement permet de distinguer :
 | `CHASSEUR` → `BAREME_COMMISSION` | Un chasseur peut avoir plusieurs barèmes successifs. |
 | `BAREME_COMMISSION` → `TRANCHE_COMMISSION` | Un barème contient une ou plusieurs tranches. |
 | `HONORAIRES` → `COMMISSION` | Les honoraires servent au calcul de la commission. |
-| `CHASSEUR` → `COMMISSION` | Le chasseur perçoit la commission calculée. |
-| `TRANCHE_COMMISSION` → `COMMISSION` | La tranche permet de justifier le taux appliqué. |
+| `CHASSEUR` → `COMMISSION` | Le chasseur est concerné par le calcul de rémunération, y compris lorsqu'aucun montant n'est dû. |
+| `TRANCHE_COMMISSION` → `COMMISSION` | Une commission rémunérée peut référencer la tranche utilisée ; aucune tranche n'est appliquée lorsqu'aucun droit à rémunération n'est ouvert. |
 | `COMMISSION` → `FACTURE_CHASSEUR` | Une commission peut donner lieu à une facture. |
 | `CHASSEUR` → `FACTURE_CHASSEUR` | Le chasseur émet sa facture. |
 | `FACTURE_CHASSEUR` → `PAIEMENT` | Une facture peut faire l'objet de plusieurs paiements. |
