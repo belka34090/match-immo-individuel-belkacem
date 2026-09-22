@@ -142,13 +142,18 @@ Le statut permet notamment de distinguer les situations métier telles que prosp
 CHASSEUR(
     id_chasseur PK FK → UTILISATEUR(id_utilisateur),
     matricule UQ,
-    disponibilite
+    disponibilite,
+    date_debut_activite facultatif
 )
 ```
 
 Le matricule permet d'identifier le chasseur dans l'organisation.
 
 La disponibilité permet de connaître sa capacité à prendre en charge une demande.
+
+`date_debut_activite` permet de calculer l'ancienneté lorsque cette information est connue.
+
+Cette date reste facultative pour les chasseurs repris depuis l'ancien système, car les données historiques fournies ne permettent pas de la reconstituer avec certitude. Le système ne doit donc pas inventer une ancienneté absente des données sources.
 
 ---
 
@@ -545,18 +550,22 @@ NOTAIRE(
 ```text
 ACTE_AUTHENTIQUE(
     id_acte PK,
-    offre_id FK UQ → OFFRE(id_offre),
+    mandat_id FK → MANDAT(id_mandat),
+    offre_id FK UQ → OFFRE(id_offre), facultatif,
     notaire_id FK → NOTAIRE(id_notaire),
+    origine_vente,
     date_acte,
     prix_vente
 )
 ```
 
-Une offre peut ne jamais aboutir à une vente.
+L'acte est rattaché au mandat concerné afin de pouvoir vérifier les règles de rémunération applicables au moment de la vente.
 
-Lorsqu'elle aboutit, elle ne peut produire qu'un seul acte authentique.
+`origine_vente` indique comment la transaction a abouti : par le chasseur mandaté, directement par le client ou, dans le cas d'un mandat non exclusif, par un autre chasseur.
 
-La contrainte `UQ` sur `offre_id` traduit cette règle.
+`offre_id` devient facultatif. Une vente peut ainsi être enregistrée même lorsque le bien a été trouvé en dehors des offres présentes dans le système.
+
+Lorsqu'une offre enregistrée aboutit à une vente, elle ne peut produire qu'un seul acte authentique. La contrainte `UQ` sur `offre_id` conserve cette règle.
 
 ---
 
@@ -629,28 +638,42 @@ Les tranches appartenant au même barème ne doivent pas se chevaucher.
 
 ### Rôle métier
 
-`COMMISSION` conserve le résultat du calcul de la rémunération due au chasseur.
+`COMMISSION` conserve le résultat du calcul de la rémunération du chasseur.
 
 ```text
 COMMISSION(
     id_commission PK,
     honoraires_id FK UQ → HONORAIRES(id_honoraires),
     chasseur_id FK → CHASSEUR(id_chasseur),
-    tranche_id FK → TRANCHE_COMMISSION(id_tranche),
-    montant_commission,
-    taux_applique
+    tranche_id FK → TRANCHE_COMMISSION(id_tranche), facultatif,
+    date_calcul,
+    droit_remuneration,
+    motif_absence_remuneration facultatif,
+    score_performance facultatif,
+    taux_base facultatif,
+    majoration_anciennete facultatif,
+    modulation_performance facultatif,
+    taux_applique,
+    montant_commission
 )
 ```
 
-Cette table conserve :
+Cette table conserve le résultat du calcul, y compris lorsqu'aucune rémunération n'est due.
 
-- les honoraires ayant servi au calcul ;
-- le chasseur bénéficiaire ;
-- la tranche utilisée ;
-- le taux réellement appliqué ;
-- le montant obtenu.
+En langage simple, elle permet de répondre plusieurs années plus tard aux questions suivantes :
 
-Cela rend le calcul traçable et vérifiable.
+- quel chasseur était concerné ?
+- avait-il droit à une rémunération ?
+- si non, pourquoi ?
+- quels honoraires ont servi de base ?
+- quelle tranche et quel taux ont été utilisés ?
+- quel score de performance a été retenu ?
+- quel effet ont eu l'ancienneté et la performance ?
+- quel montant final a été calculé ?
+
+`tranche_id` peut rester vide lorsqu'aucun droit à rémunération n'est ouvert et qu'aucun taux ne doit être appliqué.
+
+Les valeurs numériques de pondération ou de modulation ne sont pas imposées par le besoin métier. La table conserve les valeurs réellement appliquées sans transformer les exemples du Starter Pack en règles obligatoires.
 
 ---
 
@@ -730,7 +753,8 @@ La séparation entre facture et paiement permet de distinguer :
 | `PRESENTATION` → `AVIS_CHASSEUR` | Une présentation peut recevoir plusieurs avis du chasseur. |
 | `AVIS_CHASSEUR` → `MEDIA_AVIS` | Un avis peut contenir plusieurs médias. |
 | `PRESENTATION` → `OFFRE` | Une présentation peut donner lieu à plusieurs offres. |
-| `OFFRE` → `ACTE_AUTHENTIQUE` | Une offre acceptée peut aboutir à une vente authentifiée. |
+| `MANDAT` → `ACTE_AUTHENTIQUE` | Une vente est rattachée au mandat concerné afin d'appliquer correctement les règles de rémunération. |
+| `OFFRE` → `ACTE_AUTHENTIQUE` | Une offre acceptée peut aboutir à une vente authentifiée ; le lien reste facultatif si le bien a été trouvé hors du parcours enregistré. |
 | `NOTAIRE` → `ACTE_AUTHENTIQUE` | Un notaire peut authentifier plusieurs actes. |
 | `ACTE_AUTHENTIQUE` → `HONORAIRES` | Une vente génère ses honoraires. |
 | `CHASSEUR` → `BAREME_COMMISSION` | Un chasseur peut avoir plusieurs barèmes successifs. |
@@ -752,6 +776,7 @@ Le futur schéma PostgreSQL devra notamment garantir les règles suivantes.
 
 - l'email d'un utilisateur est unique ;
 - le matricule d'un chasseur est unique ;
+- la date de début d'activité d'un chasseur, lorsqu'elle est connue, permet de calculer son ancienneté sans l'inventer ;
 - les profils client et chasseur respectent les règles métier définies pour les utilisateurs.
 
 ### Demandes
@@ -793,9 +818,12 @@ Le futur schéma PostgreSQL devra notamment garantir les règles suivantes.
 ### Vente
 
 - une offre appartient à une présentation ;
-- une offre ne peut produire qu'un seul acte authentique ;
+- une vente est rattachée au mandat auquel elle se rapporte ;
+- l'origine de la vente doit être conservée afin de distinguer un bien trouvé par le chasseur, par le client ou par un autre chasseur ;
+- une vente peut exister sans offre enregistrée dans le système ;
+- lorsqu'une offre enregistrée aboutit, elle ne peut produire qu'un seul acte authentique ;
 - l'acte conserve le notaire qui l'a authentifié ;
-- les dates doivent respecter l'ordre logique du parcours : présentation, offre, acte.
+- les dates doivent respecter l'ordre logique des événements réellement présents dans le parcours.
 
 ### Rémunération
 
@@ -805,7 +833,12 @@ Le futur schéma PostgreSQL devra notamment garantir les règles suivantes.
 - les tranches d'un même barème ne doivent pas se chevaucher ;
 - `montant_max` doit être supérieur ou égal à `montant_min` ;
 - les montants et taux ne peuvent pas être négatifs ;
-- la commission doit être reliée au chasseur et à la tranche ayant servi à son calcul ;
+- le droit à rémunération doit être déterminé avant le calcul du montant ;
+- ce droit dépend notamment de la validité du mandat, de son caractère exclusif ou non et de l'origine de la vente ;
+- la performance utilise les cinq critères définis par le besoin : délai mandat-acte, exclusivité, ventes réussies, mandats signés et visites avant achat ;
+- l'ancienneté est calculée à partir d'une date connue et n'est jamais inventée lorsque cette donnée manque ;
+- le résultat du calcul conserve les valeurs réellement utilisées afin qu'un paiement passé reste explicable même si les règles changent plus tard ;
+- la commission doit être reliée au chasseur et, lorsqu'un taux est appliqué, à la tranche ayant servi au calcul ;
 - la facture doit être cohérente avec la commission facturée ;
 - un paiement doit être rattaché à une facture existante.
 
@@ -862,8 +895,9 @@ Il permet notamment :
 - de structurer les secteurs et les caractéristiques des biens ;
 - de gérer plusieurs mandats dans le temps ;
 - de conserver les présentations, commentaires, visites et avis ;
-- de suivre une offre jusqu'à la vente authentifiée ;
-- de rendre le calcul de la rémunération du chasseur traçable ;
+- de suivre une offre jusqu'à la vente authentifiée tout en permettant de représenter une vente trouvée hors du parcours d'offre ;
+- de conserver l'origine de la vente afin d'appliquer correctement les règles de rémunération ;
+- de rendre le calcul de la rémunération du chasseur traçable et explicable ;
 - de distinguer commission, facture et paiement ;
 - de préparer les futurs usages analytiques et de matching sans mélanger ces besoins avec le fonctionnement transactionnel courant.
 
