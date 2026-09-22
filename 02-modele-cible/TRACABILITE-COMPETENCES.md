@@ -1842,3 +1842,62 @@ Le développement principal du projet est terminé.
 Le travail restant concerne désormais le pilotage jusqu’au rendu final,
 l’éventuelle preuve réelle d’engagement d’une partie prenante et la préparation
 de la soutenance.
+
+---
+
+# 7. Mise à jour de traçabilité au 22/09/2026
+
+Cette mise à jour consolide les preuves existantes sans modifier artificiellement les statuts de compétences.
+
+## 7.1 Alignement des règles de rémunération
+
+Les précisions métier intégrées le 22/09/2026 renforcent plusieurs compétences déjà démontrées :
+
+- **BC05 — modélisation et qualité des données** : le modèle distingue le droit à rémunération, la traçabilité du calcul, l'origine de la vente, l'ancienneté calculable à partir d'une date dédiée et les données historiques non transformables sans hypothèse ;
+- **BC05 — reprise des données** : les anciens taux source sont conservés comme données non reprises plutôt que convertis artificiellement en barèmes cibles ;
+- **BC02 — cahier des charges et règles métier** : la documentation technique est synchronisée avec les règles clarifiées du Starter Pack ;
+- **BC03 — tests** : les scénarios futurs de rémunération sont identifiés sans être déclarés exécutés.
+
+### Preuves
+
+- `02-modele-cible/besoins-metier-final.md`
+- `02-modele-cible/mcd-cible-final-propre.drawio.png`
+- `02-modele-cible/mld-cible-final.md`
+- `02-modele-cible/migration-final.sql`
+- `02-modele-cible/reprise-donnees-final.sql`
+- `02-modele-cible/cahier-des-charges-technique-MAJ.md`
+- `02-modele-cible/registre-rgpd.md`
+- `04-application-ia/plan-de-tests.md`
+- `decisions/journal-decisions-MAJ-2026-09-05.md`
+
+## 7.2 Non-régression rejouée
+
+Le 22/09/2026, les tests ont été rejoués sur l'état courant du projet.
+
+Suite standard :
+
+    python -m pytest -q
+    47 passed, 5 skipped in 0.39s
+
+Suite complète avec PostgreSQL réel :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+    52 passed in 0.33s
+
+La recréation préalable de la base avait retiré le jeu de démonstration Phase 4 nécessaire aux tests d'intégration. Après remise en place de ce jeu, l'ensemble des tests passe.
+
+Cette preuve renforce la compétence **BC03 — rédiger et exécuter les scénarios de tests**.
+
+Les scénarios de rémunération `F-R01` à `F-R05` restent explicitement hors de cette preuve d'exécution.
+
+## 7.3 État de la traçabilité
+
+La synthèse RNCP reste à **28 A / 2 EC / 0 NA**.
+
+Les deux éléments encore ouverts restent :
+
+- la planification, maintenue en **EC** jusqu'à la clôture du projet ;
+- l'engagement des parties prenantes, maintenu en **EC** tant qu'aucune preuve réelle d'interaction externe n'est conservée.
+
+Aucune preuve externe ou exécution non réalisée n'est ajoutée artificiellement.
+
