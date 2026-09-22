@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Match-Immo — Maquettes Phase 4</title>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef4ff;
+      --text: #172033;
+      --muted: #5f6b7a;
+      --border: #d9e0ea;
+      --primary: #2457d6;
+      --primary-soft: #e7eeff;
+      --success: #1f7a4d;
+      --success-soft: #e9f7ef;
+      --warning: #a56200;
+      --warning-soft: #fff4df;
+      --danger: #a33a3a;
+      --danger-soft: #fdecec;
+      --shadow: 0 10px 30px rgba(20, 40, 80, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .intro {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro h2 {
+      margin-top: 0;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .flow span {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .screen {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 40px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .screen-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .screen-header h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .screen-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .screen-number {
+      min-width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+    }
+
+    .screen-body {
+      padding: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      background: white;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 17px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+      background: white;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #edf1f5;
+      color: var(--text);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .badge-success {
+      color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .badge-warning {
+      color: var(--warning);
+      background: var(--warning-soft);
+    }
+
+    .badge-danger {
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .score {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+
+    .progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e9edf3;
+      overflow: hidden;
+      margin: 8px 0 16px;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .feature {
+      margin-bottom: 16px;
+    }
+
+    .feature-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .property {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .property .score-small {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .property ul,
+    .card ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    .alert {
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .alert-info {
+      background: var(--primary-soft);
+      color: #193b8d;
+    }
+
+    .alert-warning {
+      background: var(--warning-soft);
+      color: #764800;
+    }
+
+    .alert-success {
+      background: var(--success-soft);
+      color: #175b39;
+    }
+
+    .ai-panel {
+      border: 1px solid #bfcdf6;
+      background: #f5f8ff;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .ai-panel h3 {
+      margin-top: 0;
+    }
+
+    .human-panel {
+      border: 2px solid #b9ddc9;
+      background: #f5fbf7;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .summary-item:last-child {
+      border-bottom: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 12px 24px 40px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        padding: 18px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        position: static;
+        padding: 20px;
+      }
+
+      .screen-header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Match-Immo — Maquettes fonctionnelles Phase 4</h1>
+  <p>Démonstrateur : faisabilité, matching, chasseur-IA et validation humaine.</p>
+</header>
+
+<main>
+
+  <section class="intro">
+    <h2>Parcours présenté</h2>
+
+    <p>
+      Ces maquettes montrent le parcours principal retenu pour le démonstrateur.
+      Elles ne représentent pas l'intégralité de la future plateforme Match-Immo.
+    </p>
+
+    <div class="flow" aria-label="Étapes du parcours">
+      <span>1 · Demande</span>
+      <span>2 · Faisabilité</span>
+      <span>3 · Matching</span>
+      <span>4 · Détail du score</span>
+      <span>5 · Chasseur-IA</span>
+      <span>6 · Validation humaine</span>
+    </div>
+  </section>
+
+  <!-- ÉCRAN 1 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Résumé de la demande immobilière</h2>
+        <p>Le particulier vérifie ou complète les principaux critères de sa recherche.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 1">1</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="grid-2">
+
+        <div class="card">
+          <h3>Budget et localisation</h3>
+
+          <label for="budget">Budget maximal</label>
+          <input id="budget" type="text" value="300 000 €">
+
+          <label for="secteur">Secteur recherché</label>
+          <select id="secteur">
+            <option>Montpellier centre</option>
+            <option>Castelnau-le-Lez</option>
+            <option>Nîmes</option>
+          </select>
+        </div>
+
+        <div class="card">
+          <h3>Caractéristiques du bien</h3>
+
+          <label for="type">Type de bien</label>
+          <select id="type">
+            <option>Appartement</option>
+            <option>Maison</option>
+          </select>
+
+          <label for="surface">Surface minimale</label>
+          <input id="surface" type="text" value="80 m²">
+
+          <label for="pieces">Nombre minimum de pièces</label>
+          <input id="pieces" type="number" value="3">
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary">Analyser la faisabilité</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ÉCRAN 2 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Analyse de faisabilité</h2>
+        <p>Le système explique si la demande semble réaliste par rapport aux biens disponibles.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 2">2</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="grid-2">
+
+        <div class="card">
+          <span class="badge badge-warning">Recherche difficile</span>
+
+          <div class="score">42 / 100</div>
+
+          <p class="muted">
+            Peu de biens répondent actuellement à l'ensemble des critères.
+          </p>
+
+          <div class="alert alert-warning">
+            Le secteur et la surface minimale réduisent fortement le nombre de résultats.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Critères les plus restrictifs</h3>
+
+          <div class="summary-list">
+
+            <div class="summary-item">
+              <span>Secteur</span>
+              <strong>Très restrictif</strong>
+            </div>
+
+            <div class="summary-item">
+              <span>Surface minimale</span>
+              <strong>Restrictif</strong>
+            </div>
+
+            <div class="summary-item">
+              <span>Budget</span>
+              <strong>Compatible</strong>
+            </div>
+
+            <div class="summary-item">
+              <span>Nombre de pièces</span>
+              <strong>Compatible</strong>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="alert alert-info" style="margin-top:20px;">
+        Proposition : élargir légèrement le secteur ou réduire la surface minimale afin d'augmenter le nombre de biens compatibles.
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary">Modifier la demande</button>
+        <button class="btn-primary">Afficher les biens compatibles</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ÉCRAN 3 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Résultats du matching</h2>
+        <p>Les biens compatibles sont classés selon leur score de correspondance.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 3">3</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="grid-3">
+
+        <article class="card property">
+          <span class="badge badge-success">Très pertinent</span>
+          <strong>Appartement A</strong>
+
+          <span class="score-small">92 / 100</span>
+
+          <ul>
+            <li>285 000 €</li>
+            <li>86 m²</li>
+            <li>3 pièces</li>
+            <li>Montpellier centre</li>
+            <li>DPE D</li>
+          </ul>
+
+          <button class="btn-primary">Voir le détail</button>
+        </article>
+
+        <article class="card property">
+          <span class="badge badge-success">Pertinent</span>
+          <strong>Appartement B</strong>
+
+          <span class="score-small">84 / 100</span>
+
+          <ul>
+            <li>295 000 €</li>
+            <li>81 m²</li>
+            <li>3 pièces</li>
+            <li>Montpellier centre</li>
+            <li>DPE C</li>
+          </ul>
+
+          <button class="btn-primary">Voir le détail</button>
+        </article>
+
+        <article class="card property">
+          <span class="badge badge-warning">Compatibilité moyenne</span>
+          <strong>Appartement C</strong>
+
+          <span class="score-small">71 / 100</span>
+
+          <ul>
+            <li>270 000 €</li>
+            <li>78 m²</li>
+            <li>3 pièces</li>
+            <li>Montpellier centre</li>
+            <li>DPE E</li>
+          </ul>
+
+          <button class="btn-primary">Voir le détail</button>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ÉCRAN 4 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Explication du score de matching</h2>
+        <p>Le score global est détaillé pour rester explicable et contrôlable.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 4">4</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="grid-2">
+
+        <div class="card">
+          <h3>Appartement A</h3>
+          <div class="score">92 / 100</div>
+
+          <p>
+            Ce bien respecte la majorité des critères importants de la demande.
+          </p>
+
+          <div class="alert alert-warning">
+            Point de vigilance : le DPE est inférieur au niveau souhaité.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Détail des features</h3>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>Prix</span>
+              <strong>24 / 25</strong>
+            </div>
+            <div class="progress"><span style="width:96%"></span></div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>Secteur</span>
+              <strong>30 / 30</strong>
+            </div>
+            <div class="progress"><span style="width:100%"></span></div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>Surface</span>
+              <strong>19 / 20</strong>
+            </div>
+            <div class="progress"><span style="width:95%"></span></div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>Type de bien</span>
+              <strong>10 / 10</strong>
+            </div>
+            <div class="progress"><span style="width:100%"></span></div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>Nombre de pièces</span>
+              <strong>7 / 10</strong>
+            </div>
+            <div class="progress"><span style="width:70%"></span></div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-line">
+              <span>DPE</span>
+              <strong>2 / 5</strong>
+            </div>
+            <div class="progress"><span style="width:40%"></span></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ÉCRAN 5 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Synthèse du chasseur-IA</h2>
+        <p>Le système transforme les résultats calculés en une synthèse compréhensible.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 5">5</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="ai-panel">
+
+        <h3>Proposition de synthèse</h3>
+
+        <p>
+          La recherche reste relativement restrictive sur le secteur demandé,
+          mais plusieurs biens intéressants ont été identifiés.
+        </p>
+
+        <p>
+          L'appartement A présente actuellement la meilleure correspondance avec
+          un score de 92/100. Il respecte le budget, la localisation, la surface
+          et le type de bien recherchés.
+        </p>
+
+        <p>
+          Le principal point de vigilance concerne son DPE, inférieur au niveau souhaité.
+        </p>
+
+        <div class="alert alert-info">
+          Suggestion : conserver ce bien dans la sélection et vérifier l'importance réelle du critère DPE avec le particulier.
+        </div>
+
+        <p class="muted">
+          Cette synthèse utilise uniquement les résultats calculés et les données disponibles.
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ÉCRAN 6 -->
+
+  <section class="screen">
+
+    <div class="screen-header">
+      <div>
+        <h2>Validation humaine</h2>
+        <p>Le chasseur contrôle la recommandation avant toute transmission au particulier.</p>
+      </div>
+
+      <div class="screen-number" aria-label="Étape 6">6</div>
+    </div>
+
+    <div class="screen-body">
+
+      <div class="human-panel">
+
+        <span class="badge badge-success">Contrôle du chasseur requis</span>
+
+        <h3>Sélection proposée</h3>
+
+        <div class="summary-list">
+
+          <div class="summary-item">
+            <span>Appartement A</span>
+            <strong>92 / 100</strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Appartement B</span>
+            <strong>84 / 100</strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Appartement C</span>
+            <strong>71 / 100</strong>
+          </div>
+
+        </div>
+
+        <label for="commentaire" style="margin-top:20px;">
+          Commentaire du chasseur
+        </label>
+
+        <textarea id="commentaire">Je valide les deux premiers biens. Le troisième nécessite une vérification complémentaire du DPE et de la surface.</textarea>
+
+        <div class="actions">
+          <button class="btn-secondary">Modifier la sélection</button>
+          <button class="btn-secondary">Refuser la recommandation</button>
+          <button class="btn-success">Valider et transmettre</button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Match-Immo — Phase 4 — Maquettes fonctionnelles du démonstrateur
+</footer>
+
+</body>
+</html>

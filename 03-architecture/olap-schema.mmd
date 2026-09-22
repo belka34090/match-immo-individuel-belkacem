@@ -1,0 +1,71 @@
+erDiagram
+
+    DIM_TEMPS {
+        bigint temps_key PK
+        date date_complete UK
+        smallint jour
+        smallint mois
+        smallint trimestre
+        integer annee
+    }
+
+    DIM_CHASSEUR {
+        bigint chasseur_key PK
+        integer chasseur_id_source UK
+        varchar nom
+        varchar prenom
+        varchar matricule
+    }
+
+    DIM_CLIENT {
+        bigint client_key PK
+        integer client_id_source UK
+    }
+
+    DIM_SECTEUR {
+        bigint secteur_key PK
+        integer secteur_id_source UK
+        varchar ville
+        varchar quartier
+        varchar code_postal
+    }
+
+    DIM_TYPE_BIEN {
+        bigint type_bien_key PK
+        varchar type_bien_source UK
+    }
+
+    FACT_VENTE {
+        bigint vente_key PK
+        integer acte_id_source UK
+        bigint temps_key FK
+        bigint chasseur_key FK
+        bigint client_key FK
+        bigint secteur_key FK
+        bigint type_bien_key FK
+        numeric prix_vente
+        numeric montant_honoraires
+        numeric montant_commission
+    }
+
+    FACT_ACTIVITE_MANDAT {
+        bigint activite_mandat_key PK
+        integer mandat_id_source UK
+        bigint temps_key FK
+        bigint chasseur_key FK
+        bigint client_key FK
+        integer nombre_presentations
+        integer nombre_visites
+        integer nombre_offres
+        boolean vente_realisee
+    }
+
+    DIM_TEMPS ||--o{ FACT_VENTE : "date vente"
+    DIM_CHASSEUR ||--o{ FACT_VENTE : "réalise"
+    DIM_CLIENT ||--o{ FACT_VENTE : "achète"
+    DIM_SECTEUR ||--o{ FACT_VENTE : "localise"
+    DIM_TYPE_BIEN ||--o{ FACT_VENTE : "caractérise"
+
+    DIM_TEMPS ||--o{ FACT_ACTIVITE_MANDAT : "date signature"
+    DIM_CHASSEUR ||--o{ FACT_ACTIVITE_MANDAT : "gère"
+    DIM_CLIENT ||--o{ FACT_ACTIVITE_MANDAT : "concerne"

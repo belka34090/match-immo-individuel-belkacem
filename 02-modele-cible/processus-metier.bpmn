@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_MatchImmo" targetNamespace="http://match-immo.local/bpmn" exporter="Camunda Modeler" exporterVersion="5.50.1">
+  <bpmn:process id="Process_Parcours_Immobilier" name="Parcours métier de chasse immobilière" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Admin" name="Entreprise / administration">
+        <bpmn:flowNodeRef>Task_Honoraires</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Commission</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Paiement</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Notaire" name="Notaire">
+        <bpmn:flowNodeRef>Task_Acte</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Chasseur" name="Chasseur">
+        <bpmn:flowNodeRef>Task_Refus</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Mandat</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Recherche</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Avis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Facture</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Acceptation</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_SI" name="Système d&#39;information">
+        <bpmn:flowNodeRef>Task_Demande</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Version</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Affectation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Presentation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Offre</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Client" name="Particulier / Client">
+        <bpmn:flowNodeRef>Task_Besoin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RetourClient</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Offre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Besoin immobilier exprimé" />
+    <bpmn:task id="Task_Besoin" name="Exprimer le besoin immobilier" />
+    <bpmn:task id="Task_Demande" name="Créer la demande" />
+    <bpmn:task id="Task_Version" name="Conserver et faire évoluer les critères" />
+    <bpmn:task id="Task_Affectation" name="Proposer la demande à un chasseur" />
+    <bpmn:exclusiveGateway id="Gateway_Acceptation" name="Le chasseur accepte ?" />
+    <bpmn:task id="Task_Refus" name="Enregistrer le refus et réaffecter" />
+    <bpmn:task id="Task_Mandat" name="Signer et enregistrer le mandat" />
+    <bpmn:task id="Task_Recherche" name="Rechercher des biens" />
+    <bpmn:task id="Task_Presentation" name="Présenter les biens au client" />
+    <bpmn:task id="Task_RetourClient" name="Commenter, prioriser et visiter" />
+    <bpmn:task id="Task_Avis" name="Ajouter l&#39;avis du chasseur" />
+    <bpmn:task id="Task_Offre" name="Formuler une offre d&#39;achat" />
+    <bpmn:exclusiveGateway id="Gateway_Offre" name="L&#39;offre aboutit-elle à une vente ?" />
+    <bpmn:task id="Task_Acte" name="Signer l&#39;acte authentique" />
+    <bpmn:task id="Task_Honoraires" name="Calculer les honoraires" />
+    <bpmn:task id="Task_Commission" name="Calculer la commission du chasseur" />
+    <bpmn:task id="Task_Facture" name="Émettre la facture du chasseur" />
+    <bpmn:task id="Task_Paiement" name="Vérifier et payer la facture" />
+    <bpmn:endEvent id="EndEvent_1" name="Parcours finalisé" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Besoin" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Besoin" targetRef="Task_Demande" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Demande" targetRef="Task_Version" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_Version" targetRef="Task_Affectation" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_Affectation" targetRef="Gateway_Acceptation" />
+    <bpmn:sequenceFlow id="Flow_6" name="Oui" sourceRef="Gateway_Acceptation" targetRef="Task_Mandat" />
+    <bpmn:sequenceFlow id="Flow_7" name="Non" sourceRef="Gateway_Acceptation" targetRef="Task_Refus" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_Refus" targetRef="Task_Affectation" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_Mandat" targetRef="Task_Recherche" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_Recherche" targetRef="Task_Presentation" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_Presentation" targetRef="Task_RetourClient" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_RetourClient" targetRef="Task_Avis" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Task_Avis" targetRef="Task_Offre" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Task_Offre" targetRef="Gateway_Offre" />
+    <bpmn:sequenceFlow id="Flow_15" name="Oui" sourceRef="Gateway_Offre" targetRef="Task_Acte" />
+    <bpmn:sequenceFlow id="Flow_16" name="Non" sourceRef="Gateway_Offre" targetRef="Task_Presentation" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Task_Acte" targetRef="Task_Honoraires" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_Honoraires" targetRef="Task_Commission" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Task_Commission" targetRef="Task_Facture" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_Facture" targetRef="Task_Paiement" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Task_Paiement" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Parcours_Immobilier">
+      <bpmndi:BPMNShape id="Lane_Admin_di" bpmnElement="Lane_Admin" isHorizontal="true">
+        <dc:Bounds x="160" y="720" width="3260" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Notaire_di" bpmnElement="Lane_Notaire" isHorizontal="true">
+        <dc:Bounds x="160" y="560" width="3260" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Chasseur_di" bpmnElement="Lane_Chasseur" isHorizontal="true">
+        <dc:Bounds x="160" y="400" width="3260" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_SI_di" bpmnElement="Lane_SI" isHorizontal="true">
+        <dc:Bounds x="160" y="240" width="3260" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Client_di" bpmnElement="Lane_Client" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="3260" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="210" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="178" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Besoin_di" bpmnElement="Task_Besoin">
+        <dc:Bounds x="280" y="120" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Demande_di" bpmnElement="Task_Demande">
+        <dc:Bounds x="450" y="280" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Version_di" bpmnElement="Task_Version">
+        <dc:Bounds x="620" y="280" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Affectation_di" bpmnElement="Task_Affectation">
+        <dc:Bounds x="810" y="280" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Refus_di" bpmnElement="Task_Refus">
+        <dc:Bounds x="1100" y="430" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Mandat_di" bpmnElement="Task_Mandat">
+        <dc:Bounds x="1290" y="430" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Recherche_di" bpmnElement="Task_Recherche">
+        <dc:Bounds x="1480" y="430" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Presentation_di" bpmnElement="Task_Presentation">
+        <dc:Bounds x="1660" y="280" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RetourClient_di" bpmnElement="Task_RetourClient">
+        <dc:Bounds x="1850" y="120" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Avis_di" bpmnElement="Task_Avis">
+        <dc:Bounds x="2050" y="430" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Offre_di" bpmnElement="Task_Offre">
+        <dc:Bounds x="2240" y="120" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Offre_di" bpmnElement="Gateway_Offre" isMarkerVisible="true">
+        <dc:Bounds x="2440" y="295" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2422" y="345" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Acte_di" bpmnElement="Task_Acte">
+        <dc:Bounds x="2550" y="600" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Honoraires_di" bpmnElement="Task_Honoraires">
+        <dc:Bounds x="2740" y="760" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Commission_di" bpmnElement="Task_Commission">
+        <dc:Bounds x="2930" y="760" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Facture_di" bpmnElement="Task_Facture">
+        <dc:Bounds x="2930" y="430" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Paiement_di" bpmnElement="Task_Paiement">
+        <dc:Bounds x="3130" y="760" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="3330" y="782" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3307" y="818" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Acceptation_di" bpmnElement="Gateway_Acceptation" isMarkerVisible="true">
+        <dc:Bounds x="1010" y="468" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="479" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="246" y="160" />
+        <di:waypoint x="280" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="410" y="160" />
+        <di:waypoint x="430" y="160" />
+        <di:waypoint x="430" y="320" />
+        <di:waypoint x="450" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="580" y="320" />
+        <di:waypoint x="620" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="770" y="320" />
+        <di:waypoint x="810" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="960" y="320" />
+        <di:waypoint x="1035" y="320" />
+        <di:waypoint x="1035" y="468" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="1059" y="494" />
+        <di:waypoint x="1080" y="494" />
+        <di:waypoint x="1080" y="410" />
+        <di:waypoint x="1365" y="410" />
+        <di:waypoint x="1365" y="430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1289" y="413" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1035" y="518" />
+        <di:waypoint x="1035" y="540" />
+        <di:waypoint x="1175" y="540" />
+        <di:waypoint x="1175" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="515" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1100" y="440" />
+        <di:waypoint x="980" y="440" />
+        <di:waypoint x="980" y="380" />
+        <di:waypoint x="885" y="380" />
+        <di:waypoint x="885" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1440" y="470" />
+        <di:waypoint x="1480" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1620" y="470" />
+        <di:waypoint x="1640" y="470" />
+        <di:waypoint x="1640" y="320" />
+        <di:waypoint x="1660" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1810" y="320" />
+        <di:waypoint x="1830" y="320" />
+        <di:waypoint x="1830" y="160" />
+        <di:waypoint x="1850" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="2010" y="160" />
+        <di:waypoint x="2030" y="160" />
+        <di:waypoint x="2030" y="470" />
+        <di:waypoint x="2050" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="2200" y="470" />
+        <di:waypoint x="2220" y="470" />
+        <di:waypoint x="2220" y="160" />
+        <di:waypoint x="2240" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="2390" y="160" />
+        <di:waypoint x="2465" y="160" />
+        <di:waypoint x="2465" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="2465" y="345" />
+        <di:waypoint x="2465" y="640" />
+        <di:waypoint x="2550" y="640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2471" y="483" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="2440" y="320" />
+        <di:waypoint x="2410" y="320" />
+        <di:waypoint x="2410" y="380" />
+        <di:waypoint x="1735" y="380" />
+        <di:waypoint x="1735" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2415" y="340" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17">
+        <di:waypoint x="2700" y="640" />
+        <di:waypoint x="2720" y="640" />
+        <di:waypoint x="2720" y="800" />
+        <di:waypoint x="2740" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18">
+        <di:waypoint x="2890" y="800" />
+        <di:waypoint x="2930" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19">
+        <di:waypoint x="3010" y="760" />
+        <di:waypoint x="3010" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20">
+        <di:waypoint x="3090" y="470" />
+        <di:waypoint x="3110" y="470" />
+        <di:waypoint x="3110" y="800" />
+        <di:waypoint x="3130" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21">
+        <di:waypoint x="3280" y="800" />
+        <di:waypoint x="3330" y="800" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
