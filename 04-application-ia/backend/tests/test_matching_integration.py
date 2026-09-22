@@ -39,7 +39,10 @@ def test_matching_api_avec_postgresql_reel() -> None:
 
     resultats = body["resultats"]
 
-    assert [resultat["id_bien"] for resultat in resultats] == [2, 1]
+    assert [resultat["adresse"] for resultat in resultats] == [
+        "PHASE4_TEST - 12 rue des Lilas",
+        "PHASE4_TEST - 10 rue des Lilas",
+    ]
 
     assert Decimal(str(resultats[0]["score"])) == Decimal("100.00")
     assert Decimal(str(resultats[1]["score"])) == Decimal("98.57")
