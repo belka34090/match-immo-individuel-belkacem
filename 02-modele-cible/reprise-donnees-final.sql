@@ -166,11 +166,6 @@ INSERT INTO reprise_controle.hypothese_reprise (objet, regle, justification) VAL
     'mandat.date_fin',
     'date_fin = date_signature + 6 mois.',
     'La duree metier officielle du mandat est de 6 mois.'
-),
-(
-    'bareme_commission',
-    'Le taux source courant de chaque chasseur devient un bareme de transition valable a partir du 2026-07-25, avec une seule tranche couvrant 0 a 9 999 999 999,99 EUR.',
-    'La source ne conserve ni historique de validite ni tranches. La date de reference permet de preserver le taux connu sans fabriquer un historique anterieur.'
 );
 
 -- ============================================================
@@ -224,8 +219,9 @@ SELECT
 FROM "Fil_Rouge_Depart".utilisateurs u
 WHERE u.ville IS NOT NULL;
 
--- La date de creation du compte source n'a pas d'attribut equivalent
--- dans UTILISATEUR cible. Elle n'est pas reinterpretee en date de demande.
+-- La date de creation du compte source n'est pas reinterpretee.
+-- Pour un chasseur, une date de creation de compte ne prouve pas sa date
+-- de debut d'activite professionnelle. date_debut_activite reste donc NULL.
 INSERT INTO reprise_controle.donnee_source_non_reprise
     (table_source, id_source, champ_source, valeur_source, raison)
 SELECT
@@ -233,8 +229,28 @@ SELECT
     u.id,
     'date_creation',
     u.date_creation::TEXT,
-    'La cible ne porte pas la date historique de creation du compte utilisateur.'
+    CASE
+        WHEN u.role = 'chasseur'
+            THEN 'Date de creation du compte conservee en trace ; elle ne prouve pas la date de debut d''activite du chasseur.'
+        ELSE 'Date de creation du compte conservee en trace ; elle n''est pas reinterpretee comme une date de demande.'
+    END
 FROM "Fil_Rouge_Depart".utilisateurs u;
+
+-- Le taux_commission historique est conserve mais n'est plus transforme
+-- en bareme cible. La source l'etiquette comme un pourcentage, mais elle
+-- ne permet pas d'etablir avec certitude son assiette, ses tranches,
+-- sa periode de validite, ni sa relation avec anciennete et performance.
+INSERT INTO reprise_controle.donnee_source_non_reprise
+    (table_source, id_source, champ_source, valeur_source, raison)
+SELECT
+    'utilisateurs',
+    u.id,
+    'taux_commission',
+    u.taux_commission::TEXT,
+    'Taux historique conserve sans interpretation : insuffisant pour reconstruire un bareme cible fiable et auditable.'
+FROM "Fil_Rouge_Depart".utilisateurs u
+WHERE u.role = 'chasseur'
+  AND u.taux_commission IS NOT NULL;
 
 -- Le texte libre est conserve en preuve mais n'est pas parse automatiquement.
 INSERT INTO reprise_controle.donnee_source_non_reprise
@@ -313,10 +329,11 @@ ORDER BY id;
 
 -- Specialisation CHASSEUR.
 INSERT INTO fil_rouge_cible.chasseur
-    (id_chasseur, matricule, disponibilite)
+    (id_chasseur, matricule, disponibilite, date_debut_activite)
 SELECT
     id,
     'LEGACY-CH-' || LPAD(id::TEXT, 3, '0'),
+    NULL,
     NULL
 FROM "Fil_Rouge_Depart".utilisateurs
 WHERE role = 'chasseur'
@@ -515,36 +532,17 @@ ORDER BY id;
 -- la source n'en conserve pas la filiation.
 
 -- ============================================================
--- 13. TRANSFORMATION DU TAUX LEGACY EN BAREME DE TRANSITION
+-- 13. TAUX DE COMMISSION HISTORIQUE NON TRANSFORME
 -- ============================================================
--- On ne pretend pas reconstruire l'historique des baremes.
--- Le taux connu dans la photographie du 25/07/2026 devient un bareme
--- de transition applicable a partir de cette date.
-
-INSERT INTO fil_rouge_cible.bareme_commission
-    (id_bareme, chasseur_id, date_debut_validite, date_fin_validite)
-SELECT
-    id,
-    id,
-    DATE '2026-07-25',
-    NULL
-FROM "Fil_Rouge_Depart".utilisateurs
-WHERE role = 'chasseur'
-  AND taux_commission IS NOT NULL
-ORDER BY id;
-
-INSERT INTO fil_rouge_cible.tranche_commission
-    (id_tranche, bareme_id, montant_min, montant_max, taux_pourcentage)
-SELECT
-    id,
-    id,
-    0.00,
-    9999999999.99,
-    taux_commission
-FROM "Fil_Rouge_Depart".utilisateurs
-WHERE role = 'chasseur'
-  AND taux_commission IS NOT NULL
-ORDER BY id;
+-- Les six taux historiques restent conserves dans
+-- reprise_controle.donnee_source_non_reprise.
+--
+-- Ils ne sont pas injectes dans BAREME_COMMISSION ni TRANCHE_COMMISSION :
+-- un taux unique ne permet pas de reconstituer avec certitude les dimensions
+-- attendues par le besoin cible (periode, tranche, anciennete, performance).
+--
+-- Cette decision evite de transformer une donnee ambigue en regle metier
+-- apparemment fiable.
 
 -- ============================================================
 -- 14. TABLES CIBLES VOLONTAIREMENT LAISSEES VIDES
@@ -654,10 +652,10 @@ BEGIN
     IF v <> 5 THEN RAISE EXCEPTION 'Controle reprise : 5 statuts actif->expire attendus parmi les mandats migres, % trouves.', v; END IF;
 
     SELECT COUNT(*) INTO v FROM fil_rouge_cible.bareme_commission;
-    IF v <> 6 THEN RAISE EXCEPTION 'Controle cible : 6 baremes de transition attendus, % trouves.', v; END IF;
+    IF v <> 0 THEN RAISE EXCEPTION 'Controle cible : aucun bareme historique ne doit etre invente, % trouve(s).', v; END IF;
 
     SELECT COUNT(*) INTO v FROM fil_rouge_cible.tranche_commission;
-    IF v <> 6 THEN RAISE EXCEPTION 'Controle cible : 6 tranches de transition attendues, % trouvees.', v; END IF;
+    IF v <> 0 THEN RAISE EXCEPTION 'Controle cible : aucune tranche historique ne doit etre inventee, % trouvee(s).', v; END IF;
 END
 $$;
 
@@ -802,12 +800,7 @@ FROM reprise_controle.rejet_mandat
 UNION ALL
 SELECT 'REPRISE corrections statut', COUNT(*)
 FROM reprise_controle.correction_mandat
-UNION ALL
-SELECT 'CIBLE bareme_commission', COUNT(*)
-FROM fil_rouge_cible.bareme_commission
-UNION ALL
-SELECT 'CIBLE tranche_commission', COUNT(*)
-FROM fil_rouge_cible.tranche_commission;
+;
 
 -- Detail des rejets.
 SELECT *
@@ -837,6 +830,8 @@ UNION ALL SELECT 'offre', COUNT(*) FROM fil_rouge_cible.offre
 UNION ALL SELECT 'notaire', COUNT(*) FROM fil_rouge_cible.notaire
 UNION ALL SELECT 'acte_authentique', COUNT(*) FROM fil_rouge_cible.acte_authentique
 UNION ALL SELECT 'honoraires', COUNT(*) FROM fil_rouge_cible.honoraires
+UNION ALL SELECT 'bareme_commission', COUNT(*) FROM fil_rouge_cible.bareme_commission
+UNION ALL SELECT 'tranche_commission', COUNT(*) FROM fil_rouge_cible.tranche_commission
 UNION ALL SELECT 'commission', COUNT(*) FROM fil_rouge_cible.commission
 UNION ALL SELECT 'facture_chasseur', COUNT(*) FROM fil_rouge_cible.facture_chasseur
 UNION ALL SELECT 'paiement', COUNT(*) FROM fil_rouge_cible.paiement
