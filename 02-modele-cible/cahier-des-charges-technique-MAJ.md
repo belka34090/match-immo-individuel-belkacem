@@ -29,9 +29,11 @@ Le système cible doit notamment permettre :
 -   de structurer et historiser les demandes immobilières ;
 -   de rattacher les biens aux versions de recherche concernées ;
 -   de conserver les commentaires, visites et offres ;
--   de tracer les acquisitions et les honoraires ;
+-   de tracer les acquisitions, leur origine et les honoraires ;
 -   de gérer les barèmes de commission par chasseur, par période et par
     tranche ;
+-   de prendre en compte l'ancienneté et les cinq critères métier de
+    performance dans la rémunération ;
 -   de tracer les commissions, les factures des chasseurs et leurs paiements ;
 -   de garantir une meilleure intégrité des données ;
 -   de respecter les principes du RGPD dès la conception ;
@@ -327,13 +329,63 @@ projet.
 
   EF-45                   Le modèle doit          RG-45, RG-46
                           permettre de calculer
-                          ultérieurement des
-                          indicateurs de
+                          les indicateurs de
                           performance à partir
                           des données métier
                           enregistrées.
 
-  EF-46                   Les informations        RG-55, RG-56, RG-57
+  EF-46                   Une acquisition doit    Besoins métier
+                          être rattachée au       §§15 à 18
+                          mandat concerné et
+                          conserver l'origine de
+                          la vente.
+
+  EF-47                   Une acquisition doit    Besoins métier
+                          pouvoir être enregistrée §§15 à 18
+                          même lorsqu'aucune
+                          offre interne n'existe.
+
+  EF-48                   Le système doit         Besoins métier
+                          conserver la date de    §§17 à 18
+                          début d'activité du
+                          chasseur lorsqu'elle
+                          est connue afin de
+                          calculer son ancienneté.
+
+  EF-49                   Le droit à              Besoins métier
+                          rémunération doit être  §§15 à 18
+                          déterminable à partir
+                          du mandat, de sa
+                          validité, de son
+                          exclusivité et de
+                          l'origine de la vente.
+
+  EF-50                   La performance du       Besoins métier
+                          chasseur doit pouvoir   §18
+                          s'appuyer sur les cinq
+                          critères prévus :
+                          délai mandat-achat,
+                          exclusivité, ventes
+                          réussies, mandats
+                          signés et visites avant
+                          achat.
+
+  EF-51                   Le résultat d'un calcul Besoins métier
+                          de rémunération doit    §§17 à 18
+                          conserver les éléments
+                          réellement utilisés
+                          afin qu'un calcul passé
+                          reste explicable après
+                          une évolution des
+                          règles.
+
+  EF-52                   Lorsqu'aucune           Besoins métier
+                          rémunération n'est due, §§15 à 18
+                          le système doit pouvoir
+                          conserver cette
+                          décision et son motif.
+
+  EF-53                   Les informations        RG-55, RG-56, RG-57
                           nécessaires à un futur
                           traitement analytique
                           ou IA doivent être
@@ -729,18 +781,33 @@ commentaires, visites, avis du chasseur et offres.
 Le parcours financier est séparé volontairement :
 
 ``` text
-OFFRE
-→ ACTE_AUTHENTIQUE
-→ HONORAIRES
-→ COMMISSION
-→ FACTURE_CHASSEUR
-→ PAIEMENT
+MANDAT
+  ↓
+ACTE_AUTHENTIQUE ← OFFRE facultative
+  ↓
+HONORAIRES
+  ↓
+COMMISSION
+  ↓
+FACTURE_CHASSEUR
+  ↓
+PAIEMENT
 ```
+
+Une vente est toujours rattachée au mandat concerné. L'offre reste
+facultative, car le client peut trouver un bien en dehors des offres
+enregistrées dans le système.
+
+L'acte authentique conserve également l'origine de la vente : bien trouvé
+par le chasseur mandaté, directement par le client ou par un autre
+chasseur dans le cadre d'un mandat non exclusif.
 
 Les `HONORAIRES` correspondent aux sommes perçues par l'entreprise.
 
-La `COMMISSION` correspond à la rémunération calculée pour le chasseur à
-partir d'un barème et d'une tranche.
+La `COMMISSION` correspond au résultat du calcul de rémunération du
+chasseur. Elle conserve notamment le droit ou non à rémunération, le
+score de performance, les taux utilisés et le montant final afin que le
+calcul reste explicable dans le temps.
 
 `FACTURE_CHASSEUR` matérialise ensuite la facture émise par le chasseur,
 et `PAIEMENT` le règlement de cette facture.
@@ -1173,30 +1240,34 @@ nécessaire :
 Il s'agit d'une hypothèse de reprise documentée et non de la prétention
 de recréer un historique absent de la source.
 
-### 10.7 Barèmes de transition
+### 10.7 Ancien taux de commission conservé sans interprétation
 
-L'ancien système contient un taux de commission courant par chasseur. Le
-nouveau modèle permet plusieurs barèmes, plusieurs périodes et plusieurs
-tranches.
+L'ancien système contient un taux de commission courant par chasseur,
+alors que le nouveau modèle prévoit des règles plus détaillées : période,
+tranches de montant, ancienneté et performance.
 
-La source ne permet pas de reconstituer l'historique réel de ces
-barèmes.
+La source ne permet pas de retrouver avec certitude le fonctionnement
+complet de ces anciens taux. Ils ne sont donc pas transformés en barèmes
+du nouveau système.
 
-Pour conserver la donnée connue sans inventer un faux historique, la
-reprise crée à partir de la date de référence du `25/07/2026` :
+La règle de reprise est :
 
 ``` text
-6 chasseurs
-→ 6 barèmes de transition
-→ 6 tranches de transition
+ancien taux de commission
+→ conservé dans reprise_controle
+→ aucun barème cible inventé
 ```
+
+Les six valeurs historiques restent consultables comme preuve, mais les
+tables `BAREME_COMMISSION` et `TRANCHE_COMMISSION` restent vides tant
+qu'une règle métier validée n'est pas créée.
 
 ### 10.8 Tables volontairement laissées vides
 
 Les fixtures ne contiennent pas de données fiables permettant de
 reconstruire les biens, vendeurs, présentations, visites, avis, offres,
-actes, notaires, honoraires, commissions calculées, factures ou
-paiements.
+actes, notaires, honoraires, barèmes de rémunération fiables, tranches de
+commission fiables, commissions calculées, factures ou paiements.
 
 Les tables correspondantes restent donc vides.
 
@@ -1224,8 +1295,8 @@ absence de donnée source fiable
   CIBLE mandat                         16
   REPRISE rejets mandat                 2
   REPRISE corrections statut            5
-  CIBLE bareme_commission               6
-  CIBLE tranche_commission              6
+  CIBLE bareme_commission               0
+  CIBLE tranche_commission               0
 
 L'exécution de `reprise-donnees-final.sql` s'est terminée par :
 
@@ -1369,12 +1440,23 @@ Le modèle est accepté si :
 
 Le modèle est accepté si :
 
--   un chasseur peut posséder un barème ;
+-   une vente est rattachée au mandat concerné et conserve son origine ;
+-   une vente peut exister sans offre interne lorsque le bien a été trouvé
+    hors du parcours enregistré ;
+-   la date de début d'activité du chasseur peut être conservée lorsqu'elle
+    est connue, sans être inventée lors d'une reprise historique ;
+-   un chasseur peut posséder plusieurs barèmes successifs ;
 -   un barème peut posséder plusieurs tranches ;
 -   les barèmes peuvent être versionnés dans le temps par leurs dates de
     validité ;
--   la commission calculée conserve le barème logique utilisé via sa
-    tranche ;
+-   le droit à rémunération peut être déterminé à partir du mandat, de sa
+    validité, de son exclusivité et de l'origine de la vente ;
+-   la performance peut être calculée à partir des cinq critères métier
+    prévus ;
+-   le résultat du calcul conserve les informations réellement utilisées,
+    y compris le motif lorsqu'aucune rémunération n'est due ;
+-   une évolution future du barème ne modifie pas l'explication d'un calcul
+    déjà enregistré ;
 -   une commission peut donner lieu à une facture chasseur ;
 -   une facture chasseur peut faire l'objet de plusieurs paiements.
 
@@ -1470,7 +1552,7 @@ Le présent cahier des charges doit être lu conjointement avec :
 La solution cible de Phase 2 repose sur un modèle transactionnel
 PostgreSQL normalisé et structuré autour du cycle métier complet :
 
-`client → demande → versions → affectation → mandat → présentations/visites/avis → offre → acte authentique → honoraires → commission → facture chasseur → paiement`
+`client → demande → versions → affectation → mandat → acquisition (avec ou sans offre interne) → acte authentique → honoraires → commission → facture chasseur → paiement`
 
 Elle corrige les principales limites structurelles de l'ancien système
 tout en conservant une reprise de données traçable.
