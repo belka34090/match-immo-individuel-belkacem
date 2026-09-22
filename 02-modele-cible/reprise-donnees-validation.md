@@ -111,8 +111,8 @@ Les contrôles intégrés au script n'ont donc détecté aucune erreur bloquante
 | CIBLE mandat | 16 |
 | REPRISE rejets mandat | 2 |
 | REPRISE corrections statut | 5 |
-| CIBLE bareme_commission | 6 |
-| CIBLE tranche_commission | 6 |
+| CIBLE bareme_commission | 0 |
+| CIBLE tranche_commission | 0 |
 
 ---
 
@@ -386,39 +386,53 @@ date_fin = date_signature + 6 mois
 
 ## 9. Traitement des anciens taux de commission
 
-L'ancien système contient un seul `taux_commission` courant par chasseur.
+L'ancien système contient un seul `taux_commission` par chasseur.
 
-Le nouveau modèle permet au contraire :
+À première lecture, on pourrait être tenté de transformer directement ces six valeurs en barèmes du nouveau système.
 
-- plusieurs barèmes ;
-- des périodes de validité ;
-- plusieurs tranches de commission.
+Cette solution n'est finalement pas retenue.
 
-La source ne permet pas de reconstituer cet historique.
+La raison est simple : le besoin métier actuel indique que la rémunération dépend de plusieurs éléments :
 
-Pour ne pas perdre les taux réellement présents dans l'ancien SI, la reprise crée donc pour chacun des 6 chasseurs :
+- la période concernée ;
+- le montant de la transaction ;
+- l'ancienneté du chasseur ;
+- sa performance ;
+- plusieurs critères permettant de calculer cette performance.
+
+Or l'ancien système ne conserve qu'un taux unique. Il ne permet pas de savoir avec certitude :
+
+- à quelle période ce taux s'appliquait ;
+- sur quelle base exacte il était calculé ;
+- quelles tranches de montant existaient ;
+- comment l'ancienneté et la performance étaient prises en compte.
+
+Transformer ce taux en véritable barème cible donnerait donc à une donnée incomplète un sens qu'elle ne possède pas dans la source.
+
+La décision retenue est :
 
 ```text
-1 barème historique de transition
-+
-1 tranche
+taux_commission historique
+→ valeur conservée dans la zone de contrôle
+→ aucune transformation en barème cible
 ```
 
-La validité démarre à la date de référence :
+Les six valeurs restent disponibles dans :
 
 ```text
-25/07/2026
+reprise_controle.donnee_source_non_reprise
 ```
 
-Cela donne :
+Elles ne sont donc pas perdues, mais elles ne sont pas utilisées pour fabriquer une règle de rémunération incertaine.
+
+Après la reprise :
 
 ```text
-6 chasseurs
-→ 6 barèmes
-→ 6 tranches
+BAREME_COMMISSION   = 0 ligne
+TRANCHE_COMMISSION  = 0 ligne
 ```
 
-Cette transformation conserve la donnée connue sans inventer un historique de commission inexistant.
+Les futurs barèmes devront être créés à partir de règles métier validées, et non déduits arbitrairement de l'ancien taux unique.
 
 ---
 
@@ -458,11 +472,19 @@ Elle est conservée comme donnée source non reprise.
 
 ### Date de création de l'utilisateur
 
-La date de création du compte n'a pas d'attribut équivalent dans la cible.
+La date de création du compte reste tracée dans la zone de contrôle.
 
-Elle n'est pas réinterprétée comme une date de demande.
+Pour un chasseur, elle n'est pas utilisée comme date de début d'activité professionnelle.
 
-Elle reste tracée dans la zone de contrôle.
+Cette distinction est importante :
+
+```text
+création du compte
+≠
+début réel de l'activité professionnelle
+```
+
+La nouvelle colonne `date_debut_activite` reste donc vide pour les chasseurs historiques lorsque cette information n'est pas connue avec certitude.
 
 ---
 
@@ -474,6 +496,7 @@ Les tables suivantes contiennent `0` ligne après la reprise :
 | --- | ---: |
 | acte_authentique | 0 |
 | avis_chasseur | 0 |
+| bareme_commission | 0 |
 | bien | 0 |
 | commentaire | 0 |
 | commission | 0 |
@@ -484,6 +507,7 @@ Les tables suivantes contiennent `0` ligne après la reprise :
 | offre | 0 |
 | paiement | 0 |
 | presentation | 0 |
+| tranche_commission | 0 |
 | vendeur | 0 |
 | visite | 0 |
 
@@ -501,6 +525,8 @@ Les fixtures officielles ne contiennent aucune donnée permettant de reconstruir
 - des actes authentiques ;
 - des notaires ;
 - des honoraires ;
+- des barèmes de rémunération fiables ;
+- des tranches de commission fiables ;
 - des commissions calculées ;
 - des factures ;
 - ou des paiements.
@@ -552,8 +578,8 @@ CIBLE mandat                16
 REPRISE rejets mandat        2
 REPRISE corrections statut   5
 
-CIBLE bareme_commission      6
-CIBLE tranche_commission     6
+CIBLE bareme_commission      0
+CIBLE tranche_commission     0
 ```
 
 ### Rejets enregistrés
@@ -618,11 +644,12 @@ Elle respecte les principes suivants :
 - traçabilité des hypothèses ;
 - aucune correction arbitraire d'une anomalie non déterministe ;
 - aucune invention de données absentes de la source ;
-- conservation des informations source non directement intégrables dans une zone de contrôle.
+- conservation des informations source non directement intégrables dans une zone de contrôle ;
+- absence de transformation du taux de commission historique en barème cible lorsque son sens complet ne peut pas être démontré.
 
 ### Résumé métier
 
-> L'ancien système contenait 18 mandats. Deux présentaient des incohérences impossibles à corriger de façon certaine et ont été isolés dans un registre de rejet. Seize mandats ont donc été repris dans le nouveau modèle. Parmi les six mandats initialement détectés comme encore actifs après leur durée théorique de six mois, l'un correspond au mandat 9 rejeté pour une autre incohérence ; les cinq autres ont été migrés avec un statut corrigé de `actif` vers `expire`. Toutes ces décisions sont tracées. Les nouvelles tables pour lesquelles aucune donnée historique fiable n'existait ont volontairement été laissées vides.
+> L'ancien système contenait 18 mandats. Deux présentaient des incohérences impossibles à corriger de façon certaine et ont été isolés dans un registre de rejet. Seize mandats ont donc été repris dans le nouveau modèle. Parmi les six mandats initialement détectés comme encore actifs après leur durée théorique de six mois, l'un correspond au mandat 9 rejeté pour une autre incohérence ; les cinq autres ont été migrés avec un statut corrigé de `actif` vers `expire`. Toutes ces décisions sont tracées. Les nouvelles tables pour lesquelles aucune donnée historique fiable n'existait ont volontairement été laissées vides. Les anciens taux de commission sont conservés comme traces historiques, mais ne sont plus transformés en barèmes car la source ne permet pas d'en démontrer le fonctionnement complet.
 
 ---
 
