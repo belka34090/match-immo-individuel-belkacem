@@ -14,7 +14,7 @@ L'objectif n'est donc plus de décrire ce qui existe aujourd'hui, mais de défin
 
 Le parcours métier cible suit principalement cette logique :
 
-**Utilisateur → Demande → Version de demande → Affectation à un chasseur → Mandat → Présentation de biens → Visite → Offre → Acte authentique → Honoraires / Commission / Paiement**
+**Utilisateur → Demande → Version de demande → Affectation à un chasseur → Mandat → Acquisition (avec ou sans offre interne) → Acte authentique → Honoraires → Commission → Facture chasseur → Paiement**
 
 Quelques principes structurants ont été retenus :
 
@@ -111,7 +111,9 @@ Sur les 18 mandats historiques :
 - 16 sont repris dans le système cible ;
 - 2 sont rejetés car ils présentent des incohérences empêchant une migration fiable ;
 - parmi les 6 mandats concernés par l'anomalie A-02, 5 voient leur statut corrigé pendant la reprise ;
-- le sixième correspond au mandat 9, rejeté en raison de l'anomalie chronologique A-03.
+- le sixième correspond au mandat 9, rejeté en raison de l'anomalie chronologique A-03 ;
+- les 6 anciens taux de commission sont conservés comme traces historiques mais ne sont pas transformés en barèmes, car la source ne permet pas de reconstituer leur fonctionnement complet ;
+- aucun barème ni aucune tranche de commission historique n'est donc inventé dans la cible.
 
 ### `reprise-donnees-validation.md`
 
