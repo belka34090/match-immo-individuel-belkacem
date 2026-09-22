@@ -264,8 +264,9 @@ projet.
   EF-33                   Le système doit         RG-33
                           distinguer les
                           honoraires perçus par
-                          l'entreprise de la
-                          commission due au
+                          l'entreprise du
+                          résultat du calcul de
+                          rémunération du
                           chasseur.
 
   EF-34                   Les honoraires doivent  RG-34
