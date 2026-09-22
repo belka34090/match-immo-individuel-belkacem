@@ -202,43 +202,62 @@ Toutes les présentations ne donnent pas nécessairement lieu à une offre.
 
 ## 15. Vente et notaire
 
-Lorsqu'une offre aboutit à une vente, le système doit conserver l'acte authentique.
+Lorsqu'un achat immobilier est finalisé, le système doit conserver l'acte authentique.
 
 Un **acte authentique** est l'acte officiel de vente authentifié par un notaire.
 
-Le système doit identifier :
+La vente peut provenir :
 
-- l'offre ayant abouti ;
+- d'un bien présenté par le chasseur dans le cadre du mandat ;
+- d'un bien trouvé directement par le client en dehors du dispositif ;
+- dans le cas d'un mandat non exclusif, d'une recherche menée avec un autre chasseur.
+
+Cette origine doit être conservée, car elle peut avoir une conséquence directe sur le droit à rémunération du chasseur.
+
+Le système doit notamment identifier :
+
+- le mandat concerné ;
+- l'origine de la vente ;
+- l'offre ayant abouti lorsqu'elle existe dans le système ;
 - le notaire intervenant ;
 - la date de l'acte ;
 - le prix définitif de vente.
 
-Une offre peut ne jamais aboutir à une vente. Lorsqu'elle aboutit, elle correspond à un seul acte authentique dans le modèle retenu.
+Une offre enregistrée dans le système peut ne jamais aboutir à une vente. Inversement, une vente doit pouvoir être tracée même lorsque le bien a été trouvé en dehors des propositions enregistrées par le chasseur.
 
 ## 16. Honoraires
 
-Une vente finalisée génère les honoraires de l'entreprise.
+Lors de la signature de l'acte authentique, l'entreprise perçoit des honoraires en plus du prix d'achat du bien.
 
-Le système doit conserver :
+Ces honoraires comprennent :
 
-- le montant fixe éventuel ;
-- le pourcentage éventuel ;
-- le montant total ;
-- la vente ayant généré ces honoraires.
+- un montant fixe ;
+- un pourcentage du prix d'achat ;
+- le montant total obtenu.
 
-Les honoraires de l'entreprise restent distincts de la commission du chasseur.
+Le notaire collecte ces honoraires pour le compte de l'entreprise lors de la finalisation de la vente.
+
+Les honoraires constituent la base utilisée pour calculer la part revenant au chasseur. La commission du chasseur ne doit donc pas être confondue avec le prix du bien.
+
+Les valeurs du montant fixe et du pourcentage peuvent évoluer. Le système doit donc permettre de savoir quelles règles étaient applicables au moment d'une vente sans modifier rétroactivement les calculs passés.
 
 ## 17. Barèmes de commission
 
-Les règles de rémunération peuvent varier selon :
+La part des honoraires reversée au chasseur dépend d'un barème de rémunération.
 
-- le chasseur ;
-- la période de validité ;
-- les tranches de montant.
+Ce barème varie selon :
 
-Un chasseur peut disposer de plusieurs barèmes au cours du temps.
+- le chasseur concerné ;
+- la période pendant laquelle la règle est valable ;
+- le montant de la transaction ;
+- l'ancienneté du chasseur ;
+- sa performance.
 
-Chaque barème conserve ses dates de validité et comporte une ou plusieurs tranches.
+Un **barème** est simplement une grille de règles permettant de déterminer le taux applicable.
+
+Un chasseur peut donc avoir plusieurs barèmes successifs au cours du temps.
+
+Chaque barème conserve ses dates de validité et comporte une ou plusieurs tranches de montant.
 
 Chaque tranche précise :
 
@@ -246,25 +265,46 @@ Chaque tranche précise :
 - un montant maximal ;
 - un taux de commission.
 
-Les barèmes et leurs tranches doivent rester identifiables afin de garantir la traçabilité des calculs.
+Les valeurs exactes des tranches, des taux et des éventuelles pondérations ne sont pas imposées par le besoin fourni. Elles doivent pouvoir être paramétrées sans être présentées comme des règles métier fixes.
 
 ## 18. Commission du chasseur
 
-Le système doit distinguer les honoraires de l'entreprise de la commission due au chasseur.
+Le système doit d'abord déterminer si le chasseur a droit à une rémunération pour la vente concernée.
 
-Pour chaque commission calculée, il doit être possible d'identifier :
+Les principales situations métier sont les suivantes :
+
+- avec un mandat exclusif encore valide, le chasseur reste rémunéré même si le client trouve lui-même le bien ;
+- avec un mandat non exclusif, la rémunération dépend de l'origine réelle de la transaction ;
+- un mandat arrivé à échéance doit être renouvelé pour continuer à produire ses effets.
+
+Le système doit donc conserver les informations permettant de justifier cette décision.
+
+Lorsqu'une commission est calculée, il doit être possible d'identifier au minimum :
 
 - les honoraires ayant servi de base au calcul ;
 - le chasseur bénéficiaire ;
-- la tranche utilisée ;
+- le barème et la tranche utilisés ;
 - le taux appliqué ;
-- le montant obtenu.
+- le montant obtenu ;
+- la date à laquelle le calcul a été effectué.
 
-Cette traçabilité permet de justifier le calcul de la rémunération.
+La rémunération dépend également de l'ancienneté et de la performance du chasseur.
+
+La performance prévue par le besoin métier repose sur cinq éléments :
+
+1. le délai entre la signature du mandat et l'achat effectif, exprimé en semaines ;
+2. le caractère exclusif ou non du mandat ;
+3. le nombre de ventes réussies ;
+4. le nombre de mandats signés ;
+5. le nombre de visites réalisées avant l'achat, avec l'idée qu'un nombre plus faible de visites traduit un ciblage plus efficace.
+
+Le besoin impose ces cinq éléments, mais ne fixe pas leurs poids ni les valeurs numériques permettant de calculer un score. Ces paramètres devront donc être définis séparément et rester modifiables.
+
+Une fois une rémunération calculée et versée, les éléments ayant servi au calcul doivent être conservés. Ainsi, une modification future d'un barème ne change pas l'explication d'un paiement déjà effectué.
 
 Les indicateurs de performance du chasseur doivent pouvoir être recalculés après le paiement d'une rémunération.
 
-Le renouvellement d'un mandat arrivé à échéance sans achat doit également pouvoir être pris en compte dans le calcul de performance du chasseur.
+Le renouvellement d'un mandat arrivé à échéance sans achat doit également pouvoir être pris en compte dans le suivi de la performance du chasseur.
 
 ## 19. Facturation du chasseur
 
@@ -308,8 +348,8 @@ Le modèle cible doit permettre de garantir notamment :
 - la gestion correcte de l'exclusivité et des renouvellements de mandat ;
 - la cohérence chronologique des événements ;
 - la traçabilité des présentations, commentaires, visites et avis ;
-- la traçabilité des offres et des ventes ;
-- la traçabilité des honoraires, barèmes et commissions ;
+- la traçabilité des offres et des ventes, y compris l'origine de la transaction ;
+- la traçabilité des honoraires, barèmes, critères de performance et commissions ;
 - la traçabilité des factures et paiements ;
 - l'interdiction des montants financiers négatifs ;
 - le contrôle des données obligatoires par le modèle de données ou par les règles applicatives ;
