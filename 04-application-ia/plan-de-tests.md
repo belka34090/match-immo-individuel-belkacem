@@ -171,6 +171,22 @@ Aucun test n'est marqué comme réussi avant son exécution réelle.
 | F07 | modification humaine | recommandation disponible | chasseur modifie la sélection | sélection modifiée avant validation | Décision MODIFIER enregistrée et persistée avant toute validation | ✅ |
 | F08 | parcours principal | demande valide | faisabilité → matching → synthèse → validation | parcours complet terminé sans erreur | Parcours complet API → PostgreSQL exécuté sans erreur jusqu'à la validation humaine | ✅ |
 
+### 9.1 Tests métier complémentaires — rémunération
+
+Ces scénarios couvrent les règles de rémunération clarifiées après la mise à jour du Starter Pack.
+
+Ils sont volontairement séparés des tests déjà exécutés du démonstrateur Phase 4 : le calcul complet de rémunération n'est pas implémenté dans le backend actuel. Ils constituent donc des **tests à implémenter**, et non des preuves d'exécution.
+
+Les montants, taux, pondérations et seuils numériques montrés dans les exemples du Starter Pack ne sont pas recopiés ici comme des règles fixes. Ils restent des paramètres à définir.
+
+| ID | Ce qu'on teste | Given | When | Then | Résultat obtenu | Statut |
+| --- | --- | --- | --- | --- | --- | --- |
+| F-R01 | droit à rémunération avec mandat exclusif | mandat exclusif encore valide et vente trouvée directement par le client | détermination du droit à rémunération | le droit du chasseur reste ouvert | Non exécuté — règle modélisée, calcul métier non implémenté | ⏳ |
+| F-R02 | mandat expiré | mandat arrivé à échéance sans renouvellement avant la date de l'acte | détermination du droit à rémunération | aucun droit à rémunération n'est ouvert et le motif est conservé | Non exécuté — règle modélisée, calcul métier non implémenté | ⏳ |
+| F-R03 | assiette de calcul | prix d'achat et honoraires de l'entreprise connus | calcul de la commission | le taux s'applique aux honoraires et non au prix du bien | Non exécuté — règle modélisée, calcul métier non implémenté | ⏳ |
+| F-R04 | cinq critères de performance | données disponibles sur délai mandat-acte, exclusivité, ventes, mandats et visites | calcul du score de performance | les cinq critères participent au calcul selon les paramètres validés | Non exécuté — règle modélisée, calcul métier non implémenté | ⏳ |
+| F-R05 | traçabilité historique | rémunération déjà calculée puis nouveau barème créé ultérieurement | consultation de l'ancien calcul | montant et éléments de calcul historiques restent inchangés | Non exécuté — structure de traçabilité présente, calcul métier non implémenté | ⏳ |
+
 ---
 
 # 10. Tests fonctionnels — Erreurs et sécurité
