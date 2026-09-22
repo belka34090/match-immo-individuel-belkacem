@@ -16,14 +16,27 @@ pytestmark = pytest.mark.skipif(
 client = TestClient(app)
 
 
+def _version_courante_demande_1() -> int:
+    with SessionLocal() as session:
+        return session.execute(
+            text(
+                """
+                SELECT id_version
+                FROM fil_rouge_cible.version_demande
+                WHERE demande_id = 1
+                  AND est_courante = TRUE
+                """
+            )
+        ).scalar_one()
+
+
 def _nettoyer_validations_test() -> None:
     with SessionLocal() as session:
         session.execute(
             text(
                 """
                 DELETE FROM fil_rouge_cible.validation_humaine
-                WHERE version_demande_id = 19
-                  AND commentaire LIKE 'TEST INTEGRATION %'
+                WHERE commentaire LIKE 'TEST INTEGRATION %'
                 """
             )
         )
@@ -32,6 +45,7 @@ def _nettoyer_validations_test() -> None:
 
 def test_validation_humaine_postgresql_reel() -> None:
     _nettoyer_validations_test()
+    version_courante_id = _version_courante_demande_1()
 
     decisions = [
         ("VALIDER", "TEST INTEGRATION validation"),
@@ -53,7 +67,7 @@ def test_validation_humaine_postgresql_reel() -> None:
 
         body = response.json()
 
-        assert body["version_demande_id"] == 19
+        assert body["version_demande_id"] == version_courante_id
         assert body["validateur_id"] == 1
         assert body["decision"] == decision
         assert body["commentaire"] == commentaire
@@ -64,11 +78,12 @@ def test_validation_humaine_postgresql_reel() -> None:
                 """
                 SELECT decision, commentaire
                 FROM fil_rouge_cible.validation_humaine
-                WHERE version_demande_id = 19
+                WHERE version_demande_id = :version_id
                   AND commentaire LIKE 'TEST INTEGRATION %'
                 ORDER BY id_validation
                 """
-            )
+            ),
+            {"version_id": version_courante_id},
         ).mappings().all()
 
     assert [ligne["decision"] for ligne in lignes] == [
