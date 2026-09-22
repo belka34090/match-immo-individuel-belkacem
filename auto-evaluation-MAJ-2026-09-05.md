@@ -675,3 +675,54 @@ Au 12/09/2026, sont désormais produits et contrôlés :
 - la note stratégique SI.
 
 Le projet entre donc dans une phase de clôture documentaire, de mise à jour du pilotage et de préparation de la soutenance.
+
+---
+
+## 8. Mise à jour de l'auto-évaluation au 22/09/2026
+
+> Ce repère complète l'état du 12/09/2026 sans modifier l'historique précédent.
+
+Depuis le 12/09/2026, le projet a principalement fait l'objet d'une consolidation du modèle de rémunération à partir des règles métier clarifiées dans le Starter Pack, puis d'un contrôle de non-régression.
+
+### Consolidation des preuves
+
+Les évolutions du 22/09/2026 renforcent principalement les preuves déjà acquises :
+
+- **BC05** : le modèle de données, la migration et la reprise distinguent désormais explicitement les données nécessaires au calcul futur de rémunération, la traçabilité du résultat et les données historiques non transformables sans hypothèse ;
+- **BC02** : le cahier des charges technique et les règles métier sont alignés avec les précisions du Starter Pack ;
+- **BC03** : la non-régression du backend a été rejouée après les évolutions de données.
+
+Résultats réellement obtenus le 22/09/2026 :
+
+    suite standard
+    47 passed, 5 skipped in 0.39s
+
+    suite complète avec PostgreSQL réel
+    52 passed in 0.33s
+
+La première tentative de la suite PostgreSQL a révélé l'absence du jeu de démonstration Phase 4 après recréation de la base. Après remise en place de ce jeu de démonstration, les 52 tests passent. Aucun échec résiduel du backend n'est constaté.
+
+Les scénarios de rémunération `F-R01` à `F-R05` ne sont pas comptés comme exécutés : le moteur complet de calcul de rémunération n'est pas implémenté.
+
+Cette exécution locale ne constitue pas une nouvelle exécution de la CI GitHub Actions ; aucune nouvelle réussite CI n'est revendiquée ici.
+
+### Statuts RNCP au 22/09/2026
+
+Aucun changement artificiel de statut n'est appliqué. La synthèse reste :
+
+| Bloc | A | EC | NA |
+| --- | ---: | ---: | ---: |
+| BC05 | 5 | 0 | 0 |
+| BC01 | 6 | 0 | 0 |
+| BC02 | 6 | 2 | 0 |
+| BC03 | 7 | 0 | 0 |
+| Transverses | 4 | 0 | 0 |
+| **Total** | **28** | **2** | **0** |
+
+Les deux éléments encore classés **EC** restent inchangés :
+
+1. **Planification du projet** : le suivi reste actif jusqu'à la clôture ;
+2. **Engagement des parties prenantes** : une preuve réelle d'interaction externe reste nécessaire.
+
+La mise à jour du 22/09/2026 renforce donc les preuves techniques et documentaires sans surévaluer le niveau atteint.
+
