@@ -214,6 +214,28 @@ Un changement est accepté uniquement si les tests précédemment réussis reste
 
 ---
 
+## 11.1 Préparation reproductible des tests PostgreSQL
+
+Après une recréation complète de la base, les tests d'intégration nécessitent le jeu synthétique versionné dans :
+
+    04-application-ia/jeu-demonstration-phase4.sql
+
+Ordre de préparation :
+
+    migration-final.sql
+        ↓
+    reprise-donnees-final.sql
+        ↓
+    evolution-matching.sql
+        ↓
+    jeu-demonstration-phase4.sql
+        ↓
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+
+Les tests d'intégration utilisent désormais les données métier de démonstration plutôt que des identifiants techniques figés. Une nouvelle séquence PostgreSQL peut donc attribuer d'autres identifiants à la version courante ou aux biens sans rendre les assertions invalides.
+
+---
+
 # 12. Rapport d'exécution
 
 ## Exécution intermédiaire — matching
