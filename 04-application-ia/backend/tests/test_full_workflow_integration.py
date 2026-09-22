@@ -23,8 +23,7 @@ def _nettoyer_validation_test() -> None:
             text(
                 """
                 DELETE FROM fil_rouge_cible.validation_humaine
-                WHERE version_demande_id = 19
-                  AND commentaire = 'TEST PARCOURS COMPLET'
+                WHERE commentaire = 'TEST PARCOURS COMPLET'
                 """
             )
         )
@@ -57,7 +56,10 @@ def test_parcours_complet_demande_jusqua_validation_humaine() -> None:
     matching = matching_response.json()
 
     assert matching["nombre_resultats"] == 2
-    assert matching["resultats"][0]["id_bien"] == 2
+    assert (
+        matching["resultats"][0]["adresse"]
+        == "PHASE4_TEST - 12 rue des Lilas"
+    )
 
     assert Decimal(
         str(matching["resultats"][0]["score"])
@@ -88,23 +90,36 @@ def test_parcours_complet_demande_jusqua_validation_humaine() -> None:
     assert validation_response.status_code == 200
 
     validation = validation_response.json()
+    version_courante_id = validation["version_demande_id"]
 
-    assert validation["version_demande_id"] == 19
     assert validation["validateur_id"] == 1
     assert validation["decision"] == "VALIDER"
 
     with SessionLocal() as session:
+        version_attendue = session.execute(
+            text(
+                """
+                SELECT id_version
+                FROM fil_rouge_cible.version_demande
+                WHERE demande_id = 1
+                  AND est_courante = TRUE
+                """
+            )
+        ).scalar_one()
+
         decision_en_base = session.execute(
             text(
                 """
                 SELECT decision
                 FROM fil_rouge_cible.validation_humaine
-                WHERE version_demande_id = 19
+                WHERE version_demande_id = :version_id
                   AND commentaire = 'TEST PARCOURS COMPLET'
                 """
-            )
+            ),
+            {"version_id": version_courante_id},
         ).scalar_one()
 
+    assert version_courante_id == version_attendue
     assert decision_en_base == "VALIDER"
 
     _nettoyer_validation_test()
