@@ -2136,3 +2136,102 @@ preuve :
 Les volumes observés dans `match_immo_olap` constituent une preuve technique
 supplémentaire que le modèle analytique est non seulement conçu mais également
 alimenté dans l'environnement du projet.
+
+---
+
+# 47. Mise à jour du 22/09/2026 — Revalidation du jeu OLTP Phase 3
+
+## 47.1 Objet
+
+Le modèle cible de rémunération a évolué après la création initiale du jeu de
+données synthétiques Phase 3.
+
+Le fichier :
+
+```text
+03-architecture/sql/oltp-jeu-test.sql
+```
+
+a donc été réaligné sur les contraintes actuelles de :
+
+- `ACTE_AUTHENTIQUE` ;
+- `COMMISSION`.
+
+Les actes authentiques renseignent désormais le mandat concerné et l'origine de
+la vente. Les commissions renseignent notamment la date de calcul et le droit à
+rémunération attendu par le schéma courant.
+
+---
+
+## 47.2 Validation sur une base PostgreSQL isolée
+
+Afin de ne pas modifier l'état de la base utilisée par le démonstrateur Phase 4,
+le contrôle a été exécuté dans une base temporaire dédiée.
+
+La chaîne rejouée a été :
+
+```text
+fixtures/PgSQL.sql
+        ↓
+02-modele-cible/migration-final.sql
+        ↓
+02-modele-cible/reprise-donnees-final.sql
+        ↓
+03-architecture/sql/oltp-jeu-test.sql
+```
+
+La reprise a produit les volumes attendus du modèle cible, notamment :
+
+```text
+16 demandes
+16 affectations
+16 versions de demande
+16 mandats
+2 rejets de mandat
+5 corrections de statut
+```
+
+Le jeu OLTP Phase 3 corrigé a ensuite été exécuté sans erreur SQL.
+
+---
+
+## 47.3 Résultat observé
+
+Le contrôle final du script a retourné :
+
+| Table | Lignes |
+| --- | ---: |
+| `bien` | 6 |
+| `presentation` | 4 |
+| `visite` | 3 |
+| `offre` | 3 |
+| `acte_authentique` | 2 |
+| `honoraires` | 2 |
+| `commission` | 2 |
+
+PostgreSQL a confirmé :
+
+```text
+NOTICE: Jeu de test Phase 3 créé avec succès.
+COMMIT
+```
+
+Le script est donc compatible avec le modèle cible de rémunération en vigueur
+au 22/09/2026.
+
+La base temporaire utilisée pour cette validation a ensuite été supprimée. Le
+jeu Phase 3 n'a pas été injecté dans la base courante de la Phase 4, afin de ne
+pas modifier ses résultats de faisabilité et de matching.
+
+---
+
+## 47.4 Portée de la preuve
+
+Cette validation démontre que le jeu synthétique nécessaire à la chaîne
+OLTP → ETL → OLAP peut de nouveau être construit sur une base recréée à partir
+des scripts versionnés du projet.
+
+Elle ne constitue pas une preuve d'implémentation du moteur complet de
+rémunération. Les scénarios de calcul détaillés restent traités séparément dans
+le plan de tests comme évolutions futures.
+

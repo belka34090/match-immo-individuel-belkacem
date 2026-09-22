@@ -552,14 +552,18 @@ BEGIN
     -- Seules les deux offres acceptées deviennent des ventes.
 
     INSERT INTO fil_rouge_cible.acte_authentique (
+        mandat_id,
         offre_id,
         notaire_id,
+        origine_vente,
         date_acte,
         prix_vente
     )
     VALUES (
+        v_mandat_1,
         v_offre_1,
         v_notaire_1,
+        'chasseur',
         '2025-03-20',
         245000.00
     )
@@ -567,14 +571,18 @@ BEGIN
 
 
     INSERT INTO fil_rouge_cible.acte_authentique (
+        mandat_id,
         offre_id,
         notaire_id,
+        origine_vente,
         date_acte,
         prix_vente
     )
     VALUES (
+        v_mandat_2,
         v_offre_2,
         v_notaire_2,
+        'chasseur',
         '2025-04-30',
         415000.00
     )
@@ -689,15 +697,19 @@ BEGIN
         honoraires_id,
         chasseur_id,
         tranche_id,
-        montant_commission,
-        taux_applique
+        date_calcul,
+        droit_remuneration,
+        taux_applique,
+        montant_commission
     )
     VALUES (
         v_honoraires_1,
         v_chasseur_1,
         v_tranche_1,
-        3675.00,
-        50.0000
+        '2025-03-20',
+        TRUE,
+        50.0000,
+        3675.00
     );
 
 
@@ -705,15 +717,19 @@ BEGIN
         honoraires_id,
         chasseur_id,
         tranche_id,
-        montant_commission,
-        taux_applique
+        date_calcul,
+        droit_remuneration,
+        taux_applique,
+        montant_commission
     )
     VALUES (
         v_honoraires_2,
         v_chasseur_2,
         v_tranche_2,
-        6225.00,
-        50.0000
+        '2025-04-30',
+        TRUE,
+        50.0000,
+        6225.00
     );
 
 

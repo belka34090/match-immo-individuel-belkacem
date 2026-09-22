@@ -214,6 +214,28 @@ Un changement est accepté uniquement si les tests précédemment réussis reste
 
 ---
 
+## 11.1 Préparation reproductible des tests PostgreSQL
+
+Après une recréation complète de la base, les tests d'intégration nécessitent le jeu synthétique versionné dans :
+
+    04-application-ia/jeu-demonstration-phase4.sql
+
+Ordre de préparation :
+
+    migration-final.sql
+        ↓
+    reprise-donnees-final.sql
+        ↓
+    evolution-matching.sql
+        ↓
+    jeu-demonstration-phase4.sql
+        ↓
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+
+Les tests d'intégration utilisent désormais les données métier de démonstration plutôt que des identifiants techniques figés. Une nouvelle séquence PostgreSQL peut donc attribuer d'autres identifiants à la version courante ou aux biens sans rendre les assertions invalides.
+
+---
+
 # 12. Rapport d'exécution
 
 ## Exécution intermédiaire — matching
@@ -450,6 +472,30 @@ Le contrôle final valide donc, sur l'état courant du projet :
 - l'absence de régression détectée sur le backend après les évolutions récentes.
 
 Les scénarios de rémunération `F-R01` à `F-R05` restent volontairement non exécutés : le moteur complet de calcul de rémunération n'est pas implémenté dans le backend actuel.
+
+---
+
+## Validation de la reproductibilité — 22/09/2026
+
+Le jeu de démonstration versionné dans `04-application-ia/jeu-demonstration-phase4.sql` a été exécuté sur PostgreSQL réel après sa création.
+
+Résultat de l'injection :
+
+    6 biens PHASE4_TEST recréés
+    identifiants techniques attribués : 7 à 12
+    version courante de la demande 1 : 19
+
+Les identifiants des biens diffèrent donc volontairement de ceux du jeu précédent, qui utilisait les identifiants 1 à 6.
+
+La suite complète a ensuite été rejouée :
+
+    RUN_INTEGRATION_TESTS=1 python -m pytest -q
+
+Résultat réellement obtenu :
+
+    52 passed in 0.38s
+
+Ce contrôle prouve que les tests d'intégration ne dépendent plus des identifiants techniques fixes des biens et que le jeu de démonstration Phase 4 est désormais rejouable à partir d'un état PostgreSQL préparé selon l'ordre documenté.
 
 ---
 
