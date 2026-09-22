@@ -396,3 +396,41 @@ et les futurs services d’intelligence artificielle.
 ```
 
 Cette phase constitue donc le lien entre les données préparées dans les phases précédentes et les futurs usages métier de Match-Immo.
+
+---
+
+## 11. Reproduire le démonstrateur PostgreSQL
+
+Les tests d'intégration PostgreSQL utilisent un petit jeu de données synthétiques dédié à la Phase 4.
+
+Après une recréation complète de la base, l'ordre à respecter est :
+
+```text
+02-modele-cible/migration-final.sql
+        ↓
+02-modele-cible/reprise-donnees-final.sql
+        ↓
+04-application-ia/evolution-matching.sql
+        ↓
+04-application-ia/jeu-demonstration-phase4.sql
+        ↓
+tests d'intégration PostgreSQL
+```
+
+Le fichier `jeu-demonstration-phase4.sql` :
+
+- crée ou remet en état la version de démonstration de la demande `1` ;
+- utilise les secteurs réellement présents après la reprise ;
+- recrée exactement six biens identifiables par le préfixe `PHASE4_TEST` ;
+- peut être rejoué sans dépendre des identifiants techniques générés par PostgreSQL.
+
+Les tests d'intégration ne supposent plus qu'une version porte obligatoirement l'identifiant `19`, ni que les deux meilleurs biens portent obligatoirement les identifiants `2` et `1`.
+
+Le script doit être utilisé sur l'état issu de la migration et de la reprise, avant l'injection d'autres jeux synthétiques contenant des biens. Cette contrainte garantit que les résultats de faisabilité restent déterministes.
+
+Commande de la suite complète depuis `04-application-ia/backend` :
+
+```bash
+RUN_INTEGRATION_TESTS=1 python -m pytest -q
+```
+
