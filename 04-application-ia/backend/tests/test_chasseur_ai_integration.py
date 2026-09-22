@@ -30,7 +30,10 @@ def test_chasseur_ia_avec_postgresql_reel() -> None:
 
     assert body["faisabilite"]["niveau"] == "difficile"
 
-    assert body["matching"][0]["id_bien"] == 2
+    assert (
+        body["matching"][0]["adresse"]
+        == "PHASE4_TEST - 12 rue des Lilas"
+    )
     assert Decimal(
         str(body["matching"][0]["score"])
     ) == Decimal("100.00")
