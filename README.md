@@ -512,16 +512,15 @@ Depuis le jalon du 09/09/2026, la Phase 4 a également produit :
 - note de souveraineté et sécurité IA ;
 - note stratégique SI.
 
-La synthèse d'auto-évaluation au 12/09/2026 est :
+La synthèse d'auto-évaluation actualisée au 05/10/2026 est :
 
-    28 compétences / exigences acquises
-    2 en cours
+    29 compétences / exigences acquises
+    1 en cours
     0 non abordée
 
-Les deux éléments encore ouverts sont :
+Le seul élément encore ouvert est le suivi du planning jusqu'à la clôture du projet.
 
-- le suivi du planning jusqu'à la clôture du projet ;
-- la preuve réelle d'engagement d'une partie prenante externe.
+L'engagement d'une partie prenante est désormais étayé par une revue réelle du dépôt avec le formateur et par le compte rendu `decisions/compte-rendu-revue-formateur-2026-10-05.md`.
 
 Le projet entre donc dans une phase de clôture documentaire et de préparation
 de la soutenance.
