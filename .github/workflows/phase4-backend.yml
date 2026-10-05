@@ -11,6 +11,8 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql+psycopg://ci_user@127.0.0.1:5433/ci_db
 
     defaults:
       run:
