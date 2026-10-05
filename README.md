@@ -92,6 +92,36 @@ décision
 
 ---
 
+## Configuration locale et secrets
+
+Les identifiants de connexion ne sont pas stockés en clair dans le code ou les fichiers Docker Compose.
+
+Pour préparer l'environnement local :
+
+```bash
+cp .env.example .env
+```
+
+Remplacer ensuite les valeurs `CHANGE_ME` dans `.env`. Ce fichier reste local et est ignoré par Git.
+
+Docker Compose charge automatiquement `.env` lorsqu'il est lancé depuis la racine :
+
+```bash
+docker compose up -d
+```
+
+Pour lancer directement le backend ou ses tests depuis le terminal, charger les variables dans la session :
+
+```bash
+set -a
+source .env
+set +a
+```
+
+Le backend exige la variable `DATABASE_URL` et s'arrête explicitement si elle n'est pas définie.
+
+---
+
 ## 3. Phase 1 — Audit de l'existant
 
 Point d'entrée :
