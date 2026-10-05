@@ -3,10 +3,13 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg://match_immo:match_immo@127.0.0.1:5433/match_immo",
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError(
+        "La variable d'environnement DATABASE_URL est obligatoire. "
+        "Voir .env.example à la racine du dépôt."
+    )
 
 
 class Base(DeclarativeBase):
