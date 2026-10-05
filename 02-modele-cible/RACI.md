@@ -92,3 +92,24 @@ La matrice pourra être mise à jour si de nouveaux intervenants réels apparais
 Cette organisation reflète la réalité du projet : il est conduit individuellement tout en restant encadré pédagogiquement.
 
 La matrice permet de démontrer clairement que les responsabilités sont identifiées, que les décisions sont assumées et que les rôles du porteur du projet, de l'encadrement et du jury ne sont pas confondus.
+
+
+---
+
+## 7. Interaction réelle avec le formateur — 05/10/2026
+
+Le rôle **C — Consulté** du formateur n'est plus seulement théorique.
+
+Une revue réelle du dépôt a eu lieu le 05/10/2026. Le formateur a indiqué que la lecture complète était encore en cours, mais que les éléments déjà lus étaient globalement corrects. Il a également formulé des remarques concrètes sur :
+
+- la longueur excessive de certains documents ;
+- la présence d'un mot de passe en clair dans `docker-compose.yml` ;
+- la nécessité d'ajouter davantage de preuves visuelles.
+
+Ces remarques ont entraîné des actions réelles sur le dépôt : externalisation des secrets, ajout de `.env.example`, validation des tests, découpage des documents volumineux et préparation de preuves visuelles.
+
+Le compte rendu correspondant est conservé dans :
+
+`decisions/compte-rendu-revue-formateur-2026-10-05.md`
+
+Cette interaction constitue la preuve que le formateur / encadrant a effectivement été consulté pendant le projet, conformément au rôle défini dans la présente matrice.
