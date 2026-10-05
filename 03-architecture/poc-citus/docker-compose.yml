@@ -4,11 +4,11 @@ services:
     image: citusdata/citus:14.2.0-pg16
     container_name: matchimmo-citus-coordinator
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: matchimmo_citus
+      POSTGRES_USER: ${CITUS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CITUS_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CITUS_POSTGRES_DB}
     ports:
-      - "55432:5432"
+      - "${CITUS_COORDINATOR_PORT:-55432}:5432"
     volumes:
       - coordinator-data:/var/lib/postgresql/data
 
@@ -16,9 +16,9 @@ services:
     image: citusdata/citus:14.2.0-pg16
     container_name: matchimmo-citus-worker1
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: matchimmo_citus
+      POSTGRES_USER: ${CITUS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CITUS_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CITUS_POSTGRES_DB}
     volumes:
       - worker1-data:/var/lib/postgresql/data
 
@@ -26,9 +26,9 @@ services:
     image: citusdata/citus:14.2.0-pg16
     container_name: matchimmo-citus-worker2
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: matchimmo_citus
+      POSTGRES_USER: ${CITUS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CITUS_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CITUS_POSTGRES_DB}
     volumes:
       - worker2-data:/var/lib/postgresql/data
 
