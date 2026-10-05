@@ -726,3 +726,58 @@ Les deux éléments encore classés **EC** restent inchangés :
 
 La mise à jour du 22/09/2026 renforce donc les preuves techniques et documentaires sans surévaluer le niveau atteint.
 
+
+
+---
+
+## 9. Mise à jour de l'auto-évaluation au 05/10/2026
+
+> Cette mise à jour complète l'historique précédent à partir d'une interaction réelle avec le formateur / encadrant.
+
+### 9.1 Engagement des parties prenantes
+
+La compétence **Engagement des parties prenantes** passe de **EC** à **A**.
+
+La preuve ne repose plus uniquement sur le RACI. Une revue réelle du dépôt a eu lieu avec le formateur le 05/10/2026. Elle a produit des retours concrets et des actions traçables :
+
+- demande d'externaliser le mot de passe présent dans `docker-compose.yml` ;
+- recommandation de découper les documents trop longs ;
+- demande d'appuyer davantage certaines preuves avec des captures d'écran ;
+- corrections réellement appliquées dans le dépôt.
+
+Preuves :
+
+- `02-modele-cible/RACI.md` ;
+- `decisions/compte-rendu-revue-formateur-2026-10-05.md` ;
+- commits de correction et workflows GitHub Actions associés.
+
+Le retour du formateur reste une **revue intermédiaire** : sa lecture complète du dépôt n'était pas terminée au moment de l'échange. Cette limite est conservée explicitement et aucune validation finale n'est revendiquée.
+
+### 9.2 Contrôles après correction sécurité
+
+Les modifications de gestion des secrets ont été revalidées le 05/10/2026 :
+
+    suite standard
+    47 passed, 5 skipped in 1.00s
+
+    suite complète avec PostgreSQL réel
+    52 passed in 0.37s
+
+Le workflow GitHub Actions `Phase 4 backend CI`, run `#54`, s'est terminé avec le statut `success`.
+
+Après le découpage des documents volumineux, le workflow run `#66` s'est également terminé avec le statut `success`.
+
+### 9.3 Statuts RNCP au 05/10/2026
+
+| Bloc | A | EC | NA |
+| --- | ---: | ---: | ---: |
+| BC05 | 5 | 0 | 0 |
+| BC01 | 6 | 0 | 0 |
+| BC02 | 7 | 1 | 0 |
+| BC03 | 7 | 0 | 0 |
+| Transverses | 4 | 0 | 0 |
+| **Total** | **29** | **1** | **0** |
+
+Le seul élément encore classé **EC** est la **planification du projet**, dont le suivi reste actif jusqu'à la clôture.
+
+L'ajout de captures d'écran demandé lors de la revue reste une action documentaire à compléter, mais il ne remet pas en cause l'existence désormais démontrée d'une interaction réelle avec une partie prenante.
