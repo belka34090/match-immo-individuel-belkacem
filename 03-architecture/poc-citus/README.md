@@ -115,6 +115,16 @@ Elle a été retenue car :
 
 ## Démarrage
 
+Le POC utilise les variables `CITUS_POSTGRES_*` du fichier `.env` situé à la racine du dépôt.
+
+Si l'environnement local n'est pas encore configuré :
+
+```bash
+cp .env.example .env
+```
+
+Renseigner ensuite les valeurs `CHANGE_ME` dans `.env`. Ce fichier reste local et n'est pas versionné.
+
 Depuis la racine du dépôt :
 
 ```bash
